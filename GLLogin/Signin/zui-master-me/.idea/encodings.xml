@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://E:/myproject_lai/myproject_lai/css/signin.css" charset="UTF-8" />
+    <file url="file://E:/myproject_lai/myproject_lai/src/js/vendor/modernizr-2.8.3.min.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Merchant/adList.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Merchant/content/hat.htm" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Merchant/content/head.htm" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Merchant/css/merchantIndex.css" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Merchant/js/merchantIndex.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Merchant/merchantIndex.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/a.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dist/css/zui-theme.css" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dist/css/zui.min.css" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dist/js/jquery-1.11.0.min.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/frame/framestyle.css" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/frame/ggly/routeList.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/helloworld.html" charset="UTF-8" />
+  </component>
+</project>

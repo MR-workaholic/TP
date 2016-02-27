@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link href="../dist/css/zui.min.css" rel="stylesheet">
+    <link href="../dist/css/zui-theme.css" rel="stylesheet">
+    <style>
+      .weChatAuthen{
+        width: 800px;
+        /*border: 1px solid red;*/
+      }
+      div.weChatAuthen ul{
+        margin-top: 20px;
+        /*border: 1px solid orange;*/
+      }
+      div.weChatAuthen ul li{
+        display: block;
+        height:45px;
+        line-height: 26px;
+        /*border: 1px solid cyan;*/
+      }
+      div.weChatAuthen ul:first-child span{
+        display: inline-block;
+        width: 120px;
+        /*border: 1px solid green;*/
+      }
+      div.weChatAuthen ul:first-child p{
+        float: right;
+        margin-right: 150px;
+        /*border: 1px solid blueviolet;*/
+      }
+      div.weChatAuthen ul li input{
+        margin-left: 20px;
+        /*border: 1px solid yellow;*/
+      }
+      div.weChatAuthen ul:nth-child(2)>li+li span{
+        /*border: 1px solid black;*/
+        display: inline-block;
+        width: 120px;
+        text-align: right;
+      }
+    </style>
+</head>
+<body>
+  <div class="weChatAuthen">
+    <ul class="nav">
+      <li><span>公众号的微信号：</span><input type="text" name="wechatNumber"/></li>
+      <li><span>微信粉丝放行：</span><input type="radio" name="funsRelease" value="no"/><label>否</label>
+        <input type="radio" name="funsRelease" value="yes"/><label>是</label>
+        <p>已经关注您微信公众号的用户可以连接网络直接上网</p></li>
+      <li><span>是否弹认证页：</span><input type="radio" name="playAuthenPage" value="no"/><label>否</label>
+        <input type="radio" name="playAuthenPage" value="yes"/><label>是</label>
+        <p>如果您还设置了除微信以外其他认证方式，请选择“是”</p></li>
+      <li><span>微信内链接登录：</span><input type="checkbox" name="innerLinkLogin"/><label>用于公众号点击上网</label></li>
+      <li><span>启用关注即上网：</span><input type="checkbox" name="twoDimensional"/><label>建议线下准备公众号二维码供用户扫一扫</label></li>
+      <li><span>已有微网站：</span><input type="radio" name="microSet" value="no"/><label>否</label>
+        <input type="radio" name="microSet" value="yes"/><label>是</label><input type="button" name="testURL/Token" value="测试URL/Token"/></li>
+    </ul>
+    <ul class="nav">
+      <li><span>请将以下参数填到微信公众账号后台 填入“开发者中心 ——>服务器配置</span><input type="button" value="打开公众号后台"/></li>
+      <li><span>URL：</span><input type="text" name="URL"/><input type="button" value="复制"/></li>
+      <li><span>Token：</span><input type="text" name="Token"/><input type="button" value="复制"/></li>
+    </ul>
+    <hr/>
+    <div class="oneClickLogin">
+      oneClickLogin
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,36 @@
+[ 2016-01-17T23:03:15+08:00 ] 127.0.0.1 /TP/index.php/showad3/aid/
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001000s ]
+ERR: 无法加载模块:Showad3
+
+[ 2016-01-17T23:03:16+08:00 ] 127.0.0.1 /TP/index.php/showad3/aid/
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001000s ]
+ERR: 无法加载模块:Showad3
+
+[ 2016-01-17T23:04:38+08:00 ] 127.0.0.1 /TP/index.php/showad3/aid/13
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001000s ]
+ERR: 无法加载模块:Showad3
+
+[ 2016-01-17T23:04:38+08:00 ] 127.0.0.1 /TP/index.php/showad3/aid/13
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001000s ]
+ERR: 无法加载模块:Showad3
+
+[ 2016-01-17T23:05:30+08:00 ] 127.0.0.1 /TP/index.php/showad3/aid/13
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001000s ]
+ERR: 无法加载模块:Showad3
+
+[ 2016-01-17T23:05:31+08:00 ] 127.0.0.1 /TP/index.php/showad3/aid/13
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001000s ]
+ERR: 无法加载模块:Showad3
+

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+
+      /*------------带向上箭头框的样式---------------------*/
+      .my-popover {
+        display: block;
+        margin: 11px auto 0 auto;
+        /*border: 1px solid deeppink;*/
+
+        position: relative;
+        top: 0;
+        left: 0;
+        z-index: 1010;
+        /*display: none;*/
+        width: 800px;
+        padding: 1px;
+        text-align: left;
+        white-space: normal;
+        background-color: #fff;
+        -webkit-background-clip: padding-box;
+        background-clip: padding-box;
+        border: 1px solid #ccc;
+        border: 1px solid rgba(0, 0, 0, .2);
+        border-radius: 4px;
+        -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, .2);
+        box-shadow: 0 1px 5px rgba(0, 0, 0, .2);
+      }
+      .my-popover .my-arrow, .my-popover .my-arrow:after {
+        position: absolute;
+        display: block;
+        width: 0;
+        height: 0;
+        border-color: transparent;
+        border-style: solid;
+      }
+
+      .my-popover .my-arrow {
+        border-width: 11px;
+      }
+
+      .my-popover .my-arrow:after {
+        content: "";
+        border-width: 10px;
+      }
+      .my-popover.my-bottom .my-arrow {
+        top: -11px;
+        left: 50%;
+        margin-left: -11px;
+        border-top-width: 0;
+        border-bottom-color: #999;
+        border-bottom-color: rgba(0, 0, 0, .25);
+      }
+
+      .my-popover.my-bottom .my-arrow:after {
+        top: 1px;
+        margin-left: -10px;
+        content: " ";
+        border-top-width: 0;
+        border-bottom-color: #fff;
+      }
+
+    </style>
+</head>
+<body>
+    <div class="my-popover my-bottom">
+      <div class="my-arrow"></div>
+      <h3 class="popover-title">Popover bottom</h3>
+      <div class="popover-content">
+        <p>Sed p.</p>
+      </div>
+    </div>
+
+</body>
+</html>

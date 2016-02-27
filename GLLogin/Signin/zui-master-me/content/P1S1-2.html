@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+	
+
+  <!-- jQuery (ZUI中的Javascript组件依赖于jQuery) -->
+  <script src="../dist/js/jquery-1.11.0.min.js"></script>
+
+	<title></title>
+
+	<style>
+    body{
+      height: 100%;
+    }
+		*{
+			margin: 0;
+      padding:0;
+		}
+
+		.myp1s1middle{
+			width: 100%;
+			/*height:88%;*/
+      height:600px;
+      margin: 0 auto;
+      overflow: hidden;
+      /*border: 1px solid red;*/
+		}
+    .mysp1s1top{
+      width: 100%;
+      height: 90px;
+      padding-top: 20px;
+      padding-left: 13%;
+      overflow: hidden;
+      /*border: 1px solid red;*/
+    }
+    .mysp1s1top button:first-child{
+      border-radius: 30px;
+      float: left;
+    }
+    .mysp1s1top button:last-child{
+      border-radius: 30px;
+      float: left;
+      margin-left: 15%;
+    }
+
+	</style>
+
+
+<script>
+
+  //加载路由列表
+  function routeClick(){
+    $(".myp1s1middle").load("../frame/ggly/routeList.html",function(a,status,c){
+      console.log(status);
+      if(status=="error"){
+        $(".myp1s1middle").text("判断加载失败");}
+    });
+  }
+
+  //加载商家基本信息及地图
+  function basicClick(){
+    $(".myp1s1middle").load("../frame/basicMessage.html",function(a,status,c){
+      console.log(status);
+      if(status=="error"){
+        $(".myp1s1middle").text("判断加载失败");}
+    });
+
+  }
+
+
+</script>
+
+</head>
+<body>
+
+<div class="mysp1s1top">
+  <button class="btn btn-lg " type="button">基本信息</button>
+  <button class="btn btn-lg" type="button">路由列表</button>
+</div>
+
+<div class="myp1s1middle">
+</div>
+<script>
+  $(".myp1s1middle").load("../frame/ggly/routeList.html",function(a,status,c){
+    console.log(status);
+    if(status=="error"){
+      $(".myp1s1middle").text("判断加载失败");
+    }
+  });
+
+  $(".mysp1s1top").find("button:last").click(routeClick);
+  $(".mysp1s1top").find("button:first").click(basicClick);
+</script>
+
+</body>
+</html>
+
+

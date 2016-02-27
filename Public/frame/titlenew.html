@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+	<link href="../dist/css/zui.min.css" rel="stylesheet">
+	<link href="../dist/css/zui-theme.css" rel="stylesheet">
+
+
+<script src="../dist/lib/ieonly/html5shiv.js"></script>
+<script src="../dist/lib/ieonly/respond.js"></script>
+<script src="../dist/lib/ieonly/excanvas.js"></script>
+
+<title></title>
+
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+    }
+    /*.initshow{*/
+      /*background-color:#03D8F7;*/
+    /*}*/
+
+  </style>
+
+
+</head>
+<body >
+
+<div class="example" contenteditable="false" style=" width: 190px;">
+	<nav class="menu" data-toggle="menu" style="width: 190px">
+
+
+
+		<ul class="nav nav-primary" >
+
+			<li class="nav-parent show">
+				<a href="javascript:;" ><i class="icon-user"></i> 商户信息 <i class="icon-chevron-right nav-parent-fold-icon"></i></a>
+				<ul class="nav">
+					<li class="active"><a href="javascript:;">基本信息</a></li>
+					<li><a href="javascript:;">设备列表</a></li>
+				</ul>
+			</li>
+
+			<li><a href="javascript:;"><i class="icon-cogs"></i> 设备设置 </a></li>
+
+			<li class="nav-parent">
+				<a href="javascript:;"><i class="icon-share-alt"></i> 广告设置 <i class="icon-chevron-right nav-parent-fold-icon"></i></a>
+				<ul class="nav">
+					<li><a href="javascript:;">广告列表</a></li>
+					<li><a href="javascript:;">广告编辑</a></li>
+					<li><a href="javascript:;">添加</a></li>
+				</ul>
+			</li>
+
+			<li><a href="javascript:;"><i class="icon-eye-open"></i> 认证设置 </a></li>
+
+
+
+			<li class="nav-parent">
+				<a href="javascript:;"><i class="icon-tasks"></i> 运行统计 <i class="icon-chevron-right nav-parent-fold-icon"></i></a>
+				<ul class="nav">
+					<li><a href="javascript:;"> AP统计</a></li>
+					<li><a href="javascript:;"> 客户统计</a></li>
+					<li><a href="javascript:;"> 商家统计 </a></li>
+				</ul>
+			</li>
+
+			<li><a href="javascript:;"><i class="icon-list-ul"></i> 账号设置 </a></li>
+
+		</ul>
+
+	</nav>
+
+</div>
+
+</body>
+
+<!-- jQuery (ZUI中的Javascript组件依赖于jQuery) -->
+<script src="../dist/js/jquery-1.11.0.min.js"></script>
+<script>
+  $("ul.nav.nav-primary a").attr("draggable","false");
+  var parentLi=$("li.nav-parent.show");
+  function down(objLi){objLi.find("a i.icon-chevron-right.nav-parent-fold-icon").removeClass("icon-chevron-right,nav-parent-fold-icon").addClass("icon-rotate-90");}  //icon的图标变为向下
+  down(parentLi);       //初始化：商户信息的icon
+
+  //点击a
+  $("a").on("click",function(){
+      var objli=$(this).closest("li");
+
+    //如果有子列表
+      if(objli.hasClass("nav-parent")){
+        //如果子列表已显示
+        if(objli.hasClass("show")){
+          $(this).find("i.icon-rotate-90").addClass("icon-chevron-right,nav-parent-fold-icon").removeClass("icon-rotate-90");//icon的图标为向右
+          objli.removeClass("show");
+          $("li.active").removeClass("active");
+        }
+        //子列表未显示
+        else{
+          down(objli);
+          objli.addClass("show");
+        }
+      }
+      //点击的是没有子列表的li
+      else{
+        $("li.active").removeClass("active");
+        objli.addClass("active");
+      }
+  })
+</script>
+
+
+<!-- ZUI Javascript组件 -->
+
+<!--<script src="../dist/js/zui.min.js"></script>-->
+</html>

@@ -1,0 +1,110 @@
+<?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+      .theme-authen{
+        /*border: 1px solid red;*/
+        width: 800px;
+        margin: 0 auto;
+        padding-left: 20px;
+        padding-right: 20px;
+        overflow: hidden;
+      }
+      div.theme-authen ul li{
+        /*border: 1px solid green;*/
+        margin-bottom: 40px;
+      }
+      div.theme-authen ul+div{
+        /*border: 1px solid yellow;*/
+        float: right;
+        margin-bottom: 80px;
+      }
+      div.theme-authen ul+div input{
+        margin-left: 20px;
+      }
+      div.theme-authen textarea{
+        resize: none;
+      }
+    </style>
+    
+    <script>
+    	function updataauthmes()
+    	{
+    		var phoneguide  = jq('#phoneguide').val();
+    		var wechatguide = jq('#wechatguide').val();
+    		var tbtnbgcol   = jq('#hidden-input3').val();
+    		var tbtntxtcol  = jq('#hidden-input4').val();
+  	
+    		ThinkAjax.send("<?php echo U('Adset/updataauthmes');?>", "ajax=1&adbid=<?php echo ($adbid); ?>&phoneguide="+phoneguide+"&wechatguide="+wechatguide+"&tbtnbgcol="+tbtnbgcol+"&tbtntxtcol="+tbtntxtcol, '', '');
+    		
+    	}
+    </script>
+</head>
+<body>
+<div class="theme-authen">
+  <ul>
+    <li><h3>
+        关于认证页</h3><span>用户在该页面输入认证信息，认证通过后方能上网。</span>
+    </li>
+    <li><h3>手机登录步骤说明
+    </h3><span>
+      对手机的登录步骤进行说明，用"&lt;br /&gt;"换行。
+    </span><br/><textarea name="phoneguide" id='phoneguide' rows="3" cols="80"><?php echo ($phoneguide); ?></textarea>
+    </li>
+    <li><h3>
+      微信登录步骤说明</h3><span>
+      对微信的登录步骤进行说明，用"&lt;br /&gt;"换行。</span><br/><textarea cols="80" rows="3" name="wechatguide" id='wechatguide' ><?php echo ($wechatguide); ?></textarea>
+    </li>
+    <!--<li><h3>-->
+      <!--QQ帐号登录步骤说明</h3><span>-->
+      <!--对帐号的登录步骤进行说明，用"&lt;br /&gt;"换行。</span><textarea cols="50" rows="3" name="wLoginExplain">-->
+      <!--请输入QQ用户名和密码。</textarea>-->
+    <!--</li>-->
+    <li><h3>按钮样式
+    </h3><span>
+      对登录等按钮的样式进行设置。
+    </span><br/>
+    <label>按钮背景颜色：</label>
+    	<input type="hidden" id="hidden-input3" class="demo"  value="<?php echo ($tbtnbgcol); ?>">
+    <br/>
+    <label>按钮字体颜色：</label>
+    	<input type="hidden" id="hidden-input4" class="demo"  value="<?php echo ($tbtntxtcol); ?>"/>
+    </li>
+  </ul>
+  <div>
+	  <input type="button" class="btn" name="confirmTheme-authen" onclick='updataauthmes()' value="保存"/>
+	  
+  </div>
+</div>
+<script>
+  //颜色选择器代码
+  jq('.demo').each( function() {
+    
+    jq(this).minicolors({
+      control: jq(this).attr('data-control') || 'hue',
+      defaultValue: jq(this).attr('data-defaultValue') || '',
+      inline: jq(this).attr('data-inline') === 'true',
+      letterCase: jq(this).attr('data-letterCase') || 'lowercase',
+      opacity: jq(this).attr('data-opacity'),
+      position: jq(this).attr('data-position') || 'bottom left',
+      change: function(hex, opacity) {
+//        log是获取的颜色值
+        var log;
+        try {
+          log = hex ? hex : 'transparent';
+          if( opacity ) log += ', ' + opacity;
+          console.log(log);
+          jq(this).val(log);
+          
+          
+        } catch(e) {}
+      },
+      theme: 'default'
+    });
+
+  });
+</script>
+</body>
+</html>

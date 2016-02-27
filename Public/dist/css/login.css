@@ -1,0 +1,178 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+/*--------------------------------------------top--------------------------------------------------------------*/
+.my_top {
+    max-width:98%;
+    min-width: 1000px;
+    height:6px;
+    margin: 0 auto;
+    background-color:#1AB7D8;
+}
+/*--------------------------------------------header--------------------------------------------------------------*/
+.my_header {
+    width: 980px;
+    height: 100px;
+    margin: 0 auto;
+}
+.my_header img{
+    float: left;
+    margin-top: 10px;
+}
+.my_header .header_menu{
+    float: right;
+    margin-top:36px ;
+}
+.my_header .header_menu span{
+    margin-left: 20px;
+    margin-right: 20px;
+    color: #aaaaaa;
+    font-size: 21px;
+}
+
+/*--------------------------------------------container--------------------------------------------------------------*/
+.my_container {
+    max-width: 98%;
+    min-width:1000px;
+    height: 720px;
+    background-color: #F9F7F8;
+    margin: 0 auto;
+    padding-top: 90px;
+}
+/*--------------------------------------------container main--------------------------------------------------------------*/
+.my_container .my_main {
+    width: 980px;
+    /*margin-top: 90px;*/
+    margin: 0 auto;
+    overflow: hidden;
+}
+.my_container .my_main img{
+    float: left;
+}
+/*--------------------------------------------container main login--------------------------------------------------------------*/
+.my_container .my_main .my_login {
+    width: 344px;
+    border: 1px solid #D7D7D7;
+    background-color: #ffffff;
+    float: left;
+    margin-top: 3px;
+    margin-left: 113px;
+    font-size: 13px;
+}
+.my_container .my_main .my_login ul{
+    overflow: hidden;
+    margin-bottom: 13px;
+    cursor: pointer;
+}
+.my_container .my_main .my_login li{
+    float: left;
+    width: 170px;
+    height: 46px;
+    text-align: center;
+    line-height: 46px;
+    font-weight: bold;
+    color: #848484;
+    /*border: 1px solid #D7D7D7;*/
+    border: 1px solid white;
+    /*background-color: white;*/
+}
+/*--------------------------------------------container mian login form--------------------------------------------------------------*/
+.my_container .my_main .my_login  .my_form_div,.form_tip{
+    /*border:1px solid red;*/
+    margin: 0 38px 0 38px;
+}
+.my_from_p{
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+.my_container .my_main .my_login div img{
+    float: left;
+}
+.my_container .my_main .my_login div input{
+    display:block;
+    width: 213px;
+    height: 29px;
+    float: left;
+    padding-left: 10px;
+    vertical-align: middle;
+}
+.my_container .my_main .my_login  .form_tip{
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+.my_container .my_main .my_login  .form_tip span{
+    float: left;
+}
+.my_container .my_main .my_login  .form_tip label{
+    float: right;
+}
+.my_container .form_login{
+    width: 260px;
+    height: 33px;
+    float: left;
+    margin: 0 41px  26px 41px;
+    display: inline;
+    /*margin-right: 41px;*/
+    /*margin-bottom: 26px;*/
+    /*text-align: center;*/
+    color: white;
+    font-size: 15px;
+    line-height: 29px;
+    cursor: pointer;
+    /*border: 1px solid red;*/
+    background-color: #8CC34B;
+}
+.right{
+    border-bottom: 1px solid #cccccc;
+    border-left: 1px solid #cccccc;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

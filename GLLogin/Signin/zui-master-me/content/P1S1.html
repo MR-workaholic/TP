@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+	<link href="../dist/css/zui.min.css" rel="stylesheet">
+	<link href="../dist/css/zui-theme.css" rel="stylesheet">
+
+
+	<!--[if lt IE 9]>
+	<script src="../dist/lib/ieonly/html5shiv.js"></script>
+	<script src="../dist/lib/ieonly/respond.js"></script>
+	<script src="../dist/lib/ieonly/excanvas.js"></script>
+	<![endif]-->
+
+  <!-- jQuery (ZUI中的Javascript组件依赖于jQuery) -->
+  <script src="../dist/js/jquery-1.11.0.min.js"></script>
+  <!-- ZUI Javascript组件 -->
+  <!--<script src="../dist/js/zui.min.js"></script>-->
+  <!--<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=8PvM7DYxxWm25zHO8v0mE3IZ"></script>-->
+	<title></title>
+
+	<style>
+    body{
+      height: 100%;
+    }
+		*{
+			margin: 0;
+      padding:0;
+		}
+
+		.myp1s1middle{
+			width: 100%;
+			/*height:88%;*/
+      height:600px;
+      margin: 0 auto;
+      overflow: hidden;
+      /*border: 1px solid red;*/
+		}
+    .mysp1s1top{
+      width: 100%;
+      height: 12%;
+      padding-top: 2%;
+      padding-bottom: 2%;
+      padding-left: 13%;
+      overflow: hidden;
+    }
+    .mysp1s1top button:first-child{
+      border-radius: 30px;
+      float: left;
+    }
+    .mysp1s1top button:last-child{
+      border-radius: 30px;
+      float: left;
+      margin-left: 15%;
+    }
+
+	</style>
+
+
+<script>
+
+  function routeClick(){
+    $(".myp1s1middle").load("../frame/ggly/routeList.html",function(a,status,c){
+      console.log(status);
+      if(status=="error"){
+        $(".myp1s1middle").text("判断加载失败");}
+    });
+  }
+  function basicClick(){
+    $(".myp1s1middle").load("../frame/basicMessage.html",function(a,status,c){
+      console.log(status);
+      if(status=="error"){
+        $(".myp1s1middle").text("判断加载失败");}
+    });
+//    $("body").load("../Merchant/merchantIndex.html",function(a,status,c){
+//      console.log(status);
+//      if(status=="error"){
+//        $("body").text("判断加载失败");}
+//    });
+  }
+  $(document).ready(function(){
+    $(".myp1s1middle").load("../frame/basicMessage.html",function(a,status,c){
+      console.log(status);
+      if(status=="error"){
+        $(".myp1s1middle").text("判断加载失败");
+      }
+    });
+
+      $(".mysp1s1top").find("button:last").click(routeClick);
+      $(".mysp1s1top").find("button:first").click(basicClick);
+  });
+
+</script>
+
+</head>
+<body>
+
+<div class="mysp1s1top">
+  <button class="btn btn-lg btn-success" type="button">基本信息</button>
+  <button class="btn btn-lg" type="button">路由列表</button>
+</div>
+
+<div class="myp1s1middle">
+<!--<iframe src="../frame/basicMessage.html" frameborder="0" scrolling="no" width="100%" height="90%"></iframe>-->
+</div>
+
+
+</body>
+</html>
+
+

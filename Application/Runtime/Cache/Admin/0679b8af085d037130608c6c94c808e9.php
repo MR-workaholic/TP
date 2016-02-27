@@ -1,0 +1,307 @@
+<?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+   
+    <style>
+      .equipmentStatic{
+        width: 800px;
+        margin: 0 auto;
+        /*border: 1px solid red;*/
+      }
+      div.equipmentStatic h3,div.equipmentStatic p{
+        margin-left: 20px;
+        margin-right: 20px;
+      }
+      div.equipmentStatic>div{
+        margin: 20px;
+        /*border: 1px solid orange;*/
+      }
+      div.equipment span{
+        font-size: 15px;
+      }
+      .pieStatic{
+        overflow: hidden;
+      }
+      .myPie1,.myPie2{
+        float: left;
+        margin:10px 90px 10px 90px;
+        /*border: 1px solid yellow;*/
+        text-align: center;
+      }
+      .pieStatic,.lineStatic{
+        padding: 10px;
+        border: 2px solid #f5f5f5;
+        border-radius: 4px;
+        -webkit-box-shadow: 0 1px 15px rgba(0, 0, 0, .05);
+        box-shadow: 0 1px 15px rgba(0, 0, 0, .05)
+      }
+      .myLine1,.myLine2{
+        padding: 20px;
+      }
+      div.lineStatic h3{
+        margin-top: 50px;
+      }
+      div.lineStatic ul{
+        margin-top: 40px;
+        margin-left: 20px;
+        margin-bottom: 40px;
+        /*border: 1px solid green;*/
+      }
+      div.lineStatic ul li{
+        margin-right: 20px;
+      }
+      div.lineStatic ul span{
+        margin-left: 50px;
+        line-height: 35px;
+        background-color: #f1f1f1;
+        border-radius: 5px;
+        padding: 5px;
+      }
+    </style>
+    
+    <script type="text/javascript">
+    
+    var select_value = 0;
+    
+    function updateTodaystat()
+    {
+    	ThinkAjax.send("<?php echo U('Statistics/handlepro');?>","ajax=1&date=0&dev="+select_value, completeupdatestat,'');
+    }
+    
+    function updateYesterdaystat()
+    {
+    	ThinkAjax.send("<?php echo U('Statistics/handlepro');?>","ajax=1&date=1&dev="+select_value, completeupdatestat,'');
+    }
+    
+    function updateWeekstat()
+    {
+    	ThinkAjax.send("<?php echo U('Statistics/handlepro');?>","ajax=1&date=2&dev="+select_value, completeupdatestat,'');
+    }
+    
+    function updateMonthstat()
+    {
+    	ThinkAjax.send("<?php echo U('Statistics/handlepro');?>","ajax=1&date=3&dev="+select_value, completeupdatestat,'');
+    }
+    
+ function completeupdatestat(data, status){
+    	
+    	var datasetsFlow = new Array();
+		var datasetsUser = new Array();
+    	
+    	for (var i=0; i<status; i++)
+		{
+		
+		var color1 = "rgb("+GetRandomNum(0,255)+","+GetRandomNum(0,255)+","+GetRandomNum(0,255)+")";
+		var color2 = "rgb("+GetRandomNum(0,255)+","+GetRandomNum(0,255)+","+GetRandomNum(0,255)+")";
+						
+		 datasetsFlow[i] = {
+			        // 数据集名称，会在图例中显示
+			        label: data['data'][i]['dname'],
+			        // 颜色主题，可以是'#fff'、'rgb(255,0,0)'、'rgba(255,0,0,0.85)'、'red' 或 ZUI配色表中的颜色名称
+			        // 或者指定为 'random' 来使用一个随机的颜色主题
+			        color: "red",
+			        //也可以不指定颜色主题，使用下面的值来分别应用颜色设置，这些值会覆盖color生成的主题颜色设置
+			        fillColor: color1,
+			        strokeColor: color1,
+			        pointColor: color1,
+			        pointStrokeColor: "white",
+			        pointHighlightFill: "black",
+			        pointHighlightStroke: "black",
+			        // 数据集
+			        data: data['bigdataflow'][i]
+			      };
+		 
+		 datasetsUser[i] = {
+			        // 数据集名称，会在图例中显示
+			        label: data['data'][i]['dname'],
+			        // 颜色主题，可以是'#fff'、'rgb(255,0,0)'、'rgba(255,0,0,0.85)'、'red' 或 ZUI配色表中的颜色名称
+			        // 或者指定为 'random' 来使用一个随机的颜色主题
+			        color: "red",
+			        //也可以不指定颜色主题，使用下面的值来分别应用颜色设置，这些值会覆盖color生成的主题颜色设置
+			        fillColor: color2,
+			        strokeColor: color2,
+			        pointColor: color2,
+			        pointStrokeColor: "white",
+			        pointHighlightFill: "black",
+			        pointHighlightStroke: "black",
+			        // 数据集
+			        data: data['bigdatauser'][i]
+			      };
+		 
+		}
+    	
+    	 //设备流量时间拆线图
+		  var APflow = {
+		    // labels 数据包含依次在X轴上显示的文本标签
+		    labels: labels,
+		    datasets: datasetsFlow,
+		  };
+		 
+		 //用户数时间拆线图
+		  var APuser = {
+		    // labels 数据包含依次在X轴上显示的文本标签
+		    labels: labels,
+		    datasets: datasetsUser,
+		  };
+		 
+		  //创建拆线图
+		  
+		 
+		 
+		  
+		  var myLinechart1 = jq("#myLine1").lineChart(APflow, options2);
+		  var myLinechart2 = jq("#myLine2").lineChart(APuser, options2);
+		
+    	
+    	
+    }
+    
+    </script>
+    
+</head>
+<body>
+
+<div class="equipmentStatic">
+
+  <div class="equipment" id="equipment">
+    <span>请选择您要统计的设备：</span>
+    <select>
+      <option selected="selected">全部设备</option>
+      <option>设备1</option>
+    </select>
+  </div>
+  
+  <div class="pieStatic">
+    <h3>设备统计</h3>
+    <p>对设备的型号和固件版本进行统计。</p>
+    <div class="myPie1">
+      <canvas id="myPie1" width="180" height="180"></canvas>
+      <p>按型号统计</p>
+    </div>
+    <div class="myPie2">
+      <canvas id="myPie2" width="180" height="180"></canvas>
+      <p>按固件版本统计</p>
+    </div>
+  </div>
+  
+  <div class="lineStatic">
+    <ul class="nav nav-pills">
+      <li><a href="javascript:void(0);" onClick="updateTodaystat()">今天</a></li>
+      <li><a href="javascript:void(0);" onClick="updateYesterdaystat()">昨天</a></li>
+      <li><a href="javascript:void(0);" onClick="updateWeekstat()">近一周</a></li>
+      <li><a href="javascript:void(0);" onClick="updateMonthstat()">近一个月</a></li>
+      <li><span>今天是以小时为单位，从0点开始算起的小时数</span></li>
+    </ul>
+    <h3>设备流量统计</h3>
+    <p>对设备流量进行统计。（X轴为时间，Y轴为流量，不同折线表示不同设备型号）</p>
+    <div class="myLine1">
+      <canvas id="myLine1" width="700" height="300"></canvas>
+    </div>
+    <h3>设备接入用户数统计</h3>
+    <p>对设备接入用户（MAC地址）数进行统计。（X轴为时间，Y轴为用户人数，折线表示不同设备型号）</p>
+    <div class="myLine2">
+      <canvas id="myLine2" width="700" height="300"></canvas>
+    </div>
+  </div>
+  
+</div>
+
+<script type="text/javascript">
+
+  ThinkAjax.send("<?php echo U('Statistics/APStatisticsmescalling');?>", "ajax=1", completeAPStatisticsmescalling, '');
+  
+  function completeAPStatisticsmescalling(data, status){
+	  
+	  if(status == 0)
+		  {
+		    $('equipment').innerHTML = " <h4>您还未购置属于您自己的广告路由设备</h4>";
+		  	jq('.pieStatic').hide();
+		  	jq('.lineStatic').hide();
+		  }else{
+			  
+			 // var datasetsFlow = new Array();
+			 // var datasetsUser = new Array();
+			  
+			  
+			  var equipmentcon = " <span>请选择您要统计的设备：</span><select  onchange=\"showAPStatisticsmes(this.value);\" >";
+			  
+			  equipmentcon += "<option value=\"0\">全部设备</option>";
+			  
+			  for (var i=0; i<status; i++)
+				  {
+				  equipmentcon += "<option value=\""+data['data'][i]['did']+"\">"+data['data'][i]['dname']+"</option>";
+				  
+				  }
+			  
+			  equipmentcon += "</select>";
+			  
+			  $('equipment').innerHTML = equipmentcon;
+			  
+			  //创建饼状图
+			 
+			  /*
+			  for(var item in arr){
+				  alert(arr[item]);
+				  alert(item);
+				  }
+			  */
+				  
+			  var i = 0;
+			  var devicetypeData = new Array();
+			    
+			  for(var item in data['type']){
+				  
+				   devicetypeData[i] = 
+					  {
+						  value: data['type'][item],
+                          color: "#c9e"+GetRandomNum(0,9)+GetRandomNum(0,9)+GetRandomNum(0,9), // 使用颜色名称
+                          label: item 
+					  }
+				  
+				  i++;
+				  
+			  }
+			  
+			//  alert(devicetypeData);
+	
+			 var myPieChart1 = jq("#myPie1").pieChart(devicetypeData, options1);
+			 
+			  i = 0;
+			  var firmwareVersionData = new Array();
+			  for(var item in data['version']){
+				  
+				  firmwareVersionData[i] = 
+					  {
+						  value: data['version'][item],
+                          color: "#f"+GetRandomNum(0,9)+GetRandomNum(0,9)+GetRandomNum(0,9)+"a"+GetRandomNum(0,9), // 使用颜色名称
+                          label: item 
+					  }
+				  
+				  i++;
+				  
+			  }
+	
+			  var myPieChart2 = jq("#myPie2").pieChart(firmwareVersionData, options1);
+			 
+			  showAPStatisticsmes('0');
+			 
+	
+		  }
+	  
+	  
+	  
+	  
+  }
+  
+  function showAPStatisticsmes(value)
+  {
+	  select_value = value;
+	  ThinkAjax.send("<?php echo U('Statistics/handlepro');?>","ajax=1&date=0&dev="+value,completeupdatestat,'');
+  }
+
+</script>
+
+</body>
+</html>

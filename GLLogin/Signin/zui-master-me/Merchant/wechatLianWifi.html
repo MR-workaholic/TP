@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link href="../dist/css/zui.min.css" rel="stylesheet">
+    <link href="../dist/css/zui-theme.css" rel="stylesheet">
+    <style>
+      .wechatLianWifi{
+        width: 800px;
+        border: 1px solid red;
+      }
+      div.wechatLianWifi ul{
+        margin-top: 20px;
+      }
+      div.wechatLianWifi ul li{
+        /*border: 1px solid orange;*/
+        height: 45px;
+        line-height: 25px;
+      }
+      div.wechatLianWifi ul li span{
+        display: inline-block;
+        /*border: 1px solid yellow;*/
+        width: 100px;
+        text-align: right;
+      }
+      div.wechatLianWifi ul li a{
+        width: 90px;
+        float: right;
+        margin-right: 100px;
+        text-align: center;
+      }
+    </style>
+</head>
+<body>
+<div class="wechatLianWifi">
+  <ul class="nav">
+    <li>请先按照“微信Wi-Fi设置教程”步骤，进入 打开公众号后台 完成微信设置<a href="javascript:">设置教程</a></li>
+    <li><span>SSID：</span><input type="text" name="SSID"/></li>
+    <li><span>shopId：</span><input type="text" name="shopId"/></li>
+    <li><span>appId：</span><input type="text" name="appId"/></li>
+    <li><span>secretKey：</span><input type="text" name="secretKey"/></li>
+    <li>提示：appID、shopID、secretkey均来源于“微信公众平台--微信连Wi-Fi--设备管理--查看开发者凭证”。</li>
+  </ul>
+  <hr/>
+  <div class="oneClickLogin">
+    oneClickLogin
+  </div>
+</div>
+</body>
+</html>

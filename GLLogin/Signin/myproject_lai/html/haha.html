@@ -1,0 +1,360 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>TreeBear统一管理系统</title>
+    <link rel="stylesheet" type="text/css" href="http://cs0.witown.com/css/bootstrap.css?v=7.3.24">
+    <link rel="stylesheet" type="text/css" href="http://cs0.witown.com/css/buttons.css?v=7.3.24">
+    <link rel="stylesheet" type="text/css" href="http://cs5.witown.com/css/common.css?v=7.3.24">
+    <link rel="stylesheet" type="text/css" href="http://cs1.witown.com/css/treebear.css?v=7.3.24">
+    <link rel="stylesheet" href="http://cs1.witown.com/js/validform/css/style.css?v=7.3.24" type="text/css" media="all" />
+    <link rel="stylesheet" type="text/css" href="http://cs0.witown.com/js/nav/nav.css?v=7.3.24">
+    <script src="http://cs0.witown.com/js/jquery.min.js?v=7.3.24"></script>
+    <script src="http://cs2.witown.com/js/bootstrap.js?v=7.3.24"></script>
+    <script src="http://cs3.witown.com/js/jquery.common.js?v=7.3.24"></script>
+    <script src="http://cs1.witown.com/js/nav/jquery.nav.min.js?v=7.3.24"></script>
+    <script src="http://cs0.witown.com/js/validform/js/validform.min.js?v=7.3.24"></script>
+    <script type="text/javascript">
+        var j=$.noConflict();
+
+        function logOut(){
+            window.location = "/user/logout.htm";
+        }
+    </script>
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?d97e318c978bb748a2224319917a13e1";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+    <style>
+        body {
+            background: #f9f8f8;
+        }
+    </style>
+    <meta name="_csrf" content=""/>
+    <!-- default header name is X-CSRF-TOKEN -->
+    <meta name="_csrf_header" content="xToken"/>
+    <script>
+        //页面存在多个版本的jquery, $,j,$命名空间下均添加ajaxSend事件
+        //为什么还要document.ready()? -> 现有挺多页面的jQuery是写在head下面的...
+        //想用的时候就声明一个jquery, 够任性, 我喜欢
+        if(typeof(j)=="function"&&(j(document) instanceof $)){
+            var token = j("meta[name='_csrf']").attr("content");
+            var header = j("meta[name='_csrf_header']").attr("content");
+            j(document).ajaxSend(function(e, xhr, options) {
+                xhr.setRequestHeader(header, token);
+            });
+            j(function(){
+                var token = j("meta[name='_csrf']").attr("content");
+                var header = j("meta[name='_csrf_header']").attr("content");
+                j(document).ajaxSend(function(e, xhr, options) {
+                    xhr.setRequestHeader(header, token);
+                });
+            });
+        }
+        if(typeof($)=="function"&&($(document) instanceof $)){
+            var token = $("meta[name='_csrf']").attr("content");
+            var header = $("meta[name='_csrf_header']").attr("content");
+            $(document).ajaxSend(function(e, xhr, options) {
+                xhr.setRequestHeader(header, token);
+            });
+            $(function(){
+                var token = $("meta[name='_csrf']").attr("content");
+                var header = $("meta[name='_csrf_header']").attr("content");
+                $(document).ajaxSend(function(e, xhr, options) {
+                    xhr.setRequestHeader(header, token);
+                });
+            });
+        }
+        if(typeof($)=="function"&&($(document) instanceof $)){
+            var token = $("meta[name='_csrf']").attr("content");
+            var header = $("meta[name='_csrf_header']").attr("content");
+            $(document).ajaxSend(function(e, xhr, options) {
+                xhr.setRequestHeader(header, token);
+            });
+            $(function(){
+                var token = $("meta[name='_csrf']").attr("content");
+                var header = $("meta[name='_csrf_header']").attr("content");
+                $(document).ajaxSend(function(e, xhr, options) {
+                    xhr.setRequestHeader(header, token);
+                });
+            });
+        }
+
+
+    </script>
+</head>
+<body>
+<div style="display:none;" id="hostname">svr_web4</div>
+<div class="section">
+    <div class="hd-box">
+        <div class="hd-line"></div>
+        <div class="hd-box">
+            <div class="content clearfix">
+                <div class="login fr">
+                    <a href='http://sso.treebear.cn/user/ssologin.htm?sid=treebear' class="fl">登录云后台</a><span class="fl"></span>
+                    <a href="http://www.treebear.cn/user/register.htm?sid=treebear&traceLog=treebear" class="fl">注册</a>
+                </div>
+                <div class="nav-box fl">
+                    <div class="logo fl">
+                        <a href="#"><img src="http://cs5.witown.com/home/site/images/logo.png" ></a>
+                    </div>
+                    <div class="nav font16 fr">
+                        <ul class="clearfix">
+                            <li><a href="http://www.treebear.cn" target="_blank">树熊Wi-Fi</a></li>
+                            <li><a href="http://help.treebear.cn" target="_blank">帮助中心</a></li>
+                        </ul>
+                    </div>
+                </div><!--nav end-->
+            </div>
+        </div>
+    </div><!--/header-->
+
+    <script src="http://cs2.witown.com/js/sha256.js?v=7.3.24"></script>
+    <script src="http://cs2.witown.com/js/jquery.cookie.js?v=7.3.24"></script>
+
+    <div class="loginBB content">
+        <div class="l-img fl">
+
+            <a target="_blank" href="http://zj.189.cn/zhuanti/kdslyq?channel=shuxiong">
+                <img src="http://cs3.witown.com/upload/20151010/merchant/6b45d/3753b/6b45d3753b5647408365f3f273c1cad2.jpg">
+            </a>
+
+        </div>
+
+
+        <div id="login_tabbox" class="fr clearfix font13">
+            <input type="hidden" name="selecttab" id="selecttab" value="1"/>
+            <ul class="login_tabs font14" id="login_tabs">
+                <li><a href="javascript:void(0)" id="useNormal">普通方式登录</a></li>
+                <li>
+                    <a href="javascript:void(0)" id="useBbs">论坛账号登录</a>
+                </li>
+            </ul>
+            <ul class="login_tab_conbox" id="login_tab_conbox">
+                <li class="login_tab_con loginB" id="login_normal">
+                    <form id="loginform" name="loginForm" action="/user/s_login.htm" method="post" autocomplete="off">
+                        <input type="hidden" name="passwd" id="passwd" value=""/>
+                        <input type="hidden" name="gotourl" id="toUrl" value="http%3A%2F%2Fwww.treebear.cn%2Fag%2Fguide%2Fshop_device_detail.htm%3FmerchantId%3D8a2086ea4f72d8ae014f870fd6560514"/>
+                        <input type="hidden" name="sid" value="treebear"/>
+                        <div class="top">
+                            <div id="msgdemo" class="fl hide">
+                                <div class="error"></div>
+                                <span id="errorInfo"></span>
+                            </div>
+                        </div>
+                        <p class="font14">用户名：</p>
+                        <div class="nameIcon"></div>
+                        <input name="userName" type="text" id="loginName" class="form-control input14-login1" placeholder="手机号/邮箱/代理商账号/广告主">
+                        <p class="font14 mt10">密码：</p>
+                        <div class="passIcon"></div>
+                        <input name="pwd" type="password" id="pwd" class="form-control input14-login1" maxlength="20" placeholder="请输入您的账户密码">
+                        <div class="fl">
+                            <label><a href="/user/findPwd.htm">忘记密码？</a></label>
+                        </div>
+                        <p class="font13 fr" style="margin-top:15px">
+
+
+                            <a href="/user/register.htm?sid=treebear&traceLog=treebear" class="fl">免费注册</a>
+                        </p>
+                        <input id="loginBtn" type="button" class="button button-rounded button-flat-action btn-block btn18-login" value="登&nbsp;&nbsp;录" />
+                        <!--普通方式登录-->
+                        <input type="hidden" id="xToken" name="xToken" value=""/>
+                    </form>
+
+                </li>
+
+                <li class="login_tab_con loginB" id="login_bbs">
+                    <form id="bbsloginform" name="bbsloginForm" action="/user/bbs_login.htm" method="post" autocomplete="off">
+                        <input type="hidden" name="gotourl" id="toUrl" value="http%3A%2F%2Fwww.treebear.cn%2Fag%2Fguide%2Fshop_device_detail.htm%3FmerchantId%3D8a2086ea4f72d8ae014f870fd6560514"/>
+                        <input type="hidden" name="sid" value="treebear"/>
+                        <div class="top">
+                            <div id="msgdemo_bbs" class="fl hide">
+                                <!--<div class="error"></div>eee-->
+                            </div>
+                        </div>
+                        <p class="font14">论坛帐号：</p>
+                        <div class="nameIcon"></div>
+                        <input type="text" id="loginName_bbs" name="userName" class="form-control input14-login1" placeholder="论坛帐号">
+                        <p class="font14 mt10">密码：</p>
+                        <div class="passIcon"></div>
+                        <input name="passwd" type="password" id="loginPass_bbs" class="form-control input14-login1" maxlength="20" placeholder="请输入您的账户密码">
+                        <div class="fl">
+                            <label><a href="/user/findPwd.htm">忘记密码？</a></label>
+                        </div>
+                        <p class="font13 fr" style="margin-top:15px">
+
+
+                            <a href="/user/register.htm?sid=treebear" class="fl">免费注册</a>
+
+
+                        </p>
+                        <input id="loginBtn_bbs" type="button" class="button button-rounded button-flat-action btn-block btn18-login" value="登&nbsp;&nbsp;录" />
+                        <input type="hidden" id="xToken" name="xToken" value=""/>
+                    </form>
+                </li>
+            </ul>
+        </div>
+        <!-- <div class="loginB fr clearfix font13">
+        	<div class="top">
+                <div id="msgdemo" class="fl hide">
+                	<!--<div class="error"></div>eee
+                </div>
+            </div>
+            <div id="login_normal">
+                <p class="font14">用户名：<span class="fr font12" style="*margin-top:-22px"><a href="javascript:void(0)" id="useBbs">使用论坛帐号登录</a></span></p>
+                <div class="nameIcon"></div>
+                <input name="" type="text" id="loginName" class="form-control input14-login1" placeholder="手机号/邮箱/代理商账号">
+                <p class="font14 mt10">密码：</p>
+                <div class="passIcon"></div>
+                <input name="" type="password" id="loginPass" class="form-control input14-login1" maxlength="20" placeholder="请输入您的账户密码">
+                <div class="fl">
+                  <label><a href="/user/findPwd.htm">忘记密码？</a></label>
+                </div>
+                <p class="font13 fr" style="margin-top:15px">
+		   				    					<a href="http://www.treebear.cn/user/register.htm?sid=treebear" class="fl">免费注册</a>
+
+		</p>
+                <input id="loginBtn" type="button" class="button button-rounded button-flat-action btn-block btn18-login" value="登&nbsp;&nbsp;录" />
+            </div>
+            <!--普通方式登录
+            <div id="login_bbs" class="hide">
+                <p class="font14">论坛帐号：<span class="fr font12" style="*margin-top:-22px"><a href="javascript:void(0)" id="useNormal"><span class="fl">使用普通方式登录</span><span class="lock_icon fr"></span></a></span></p>
+                <div class="nameIcon"></div>
+                <input name="" type="text" id="loginName_bbs" class="form-control input14-login1" placeholder="论坛帐号">
+                <p class="font14 mt10">密码：</p>
+                <div class="passIcon"></div>
+                <input name="" type="password" id="loginPass_bbs" class="form-control input14-login1" maxlength="20" placeholder="请输入您的账户密码">
+                <div class="fl">
+                  <label><a href="/user/findPwd.htm">忘记密码？</a></label>
+                </div>
+                <p class="font13 fr" style="margin-top:15px">
+   				    					<a href="http://www.treebear.cn/user/register.htm?sid=treebear" class="fl">免费注册</a>
+    				</p>
+                <input id="loginBtn_bbs" type="button" class="button button-rounded button-flat-action btn-block btn18-login" value="登&nbsp;&nbsp;录" />
+            </div>
+            <!--论坛帐号登录
+        </div>
+
+    </div><!--/login-->
+    </div>
+</div>
+<script type="text/javascript">
+
+
+    $(function(){
+        $.jqtab = function(tabtit,tab_conbox,shijian) {
+            $(tab_conbox).find("li").hide();
+            $(tabtit).find("li:first").addClass("thistab").show();
+            $(tab_conbox).find("li:first").show();
+
+            $(tabtit).find("li").bind(shijian,function(){
+                $(this).addClass("thistab").siblings("li").removeClass("thistab");
+                var activeindex = $(tabtit).find("li").index(this);
+                $(tab_conbox).children().eq(activeindex).show().siblings().hide();
+                return false;
+            });
+
+        };
+        /*调用方法如下：*/
+        $.jqtab("#login_tabs","#login_tab_conbox","click");
+
+
+
+        $("#loginBtn").click(function(){
+            if($("#loginName").val()==""){
+                $("#msgdemo").show().html("<div class='null'></div>请输入登录账户");//错误调用error
+                $("#loginName").focus();
+                $("#loginName").addClass("input_error");
+            }
+            else if($("#loginPass").val()==""){
+                $("#msgdemo").show().html("<div class='null'></div>请输入登录密码");
+                $("#loginPass").focus();
+                $("#loginPass").addClass("input_error");
+            }
+            else{
+                var digest = CryptoJS.SHA256($("#pwd").val());
+                $('#passwd').val(digest);
+                $('#pwd').val('');
+                document.loginForm.submit();
+            }
+        });
+
+        $("#useBbs").click(function(){
+            $("#selecttab").val('2');
+        });
+        $("#useNormal").click(function(){
+            $("#selecttab").val('1');
+        });
+
+        $("#loginBtn_bbs").click(function(){
+            if($("#loginName_bbs").val()==""){
+                $("#msgdemo").show().html("<div class='null'></div>请输入登录账户");//错误调用error
+                $("#loginName").focus();
+                $("#loginName").addClass("input_error");
+            }
+            else if($("#loginPass_bbs").val()==""){
+                $("#msgdemo").show().html("<div class='null'></div>请输入登录密码");
+                $("#loginPass_bbs").focus();
+                $("#loginPass_bbs").addClass("input_error");
+            }
+            else{
+                document.bbsloginForm.submit();
+            }
+        })
+    })
+
+    document.onkeydown=function(event)
+    {
+        e = event ? event :(window.event ? window.event : null);
+        if(e.keyCode==13){
+            var selected = $("#selecttab").val();
+            if (selected=='1'){
+                $("#loginBtn").click();
+            }else{
+                $("#loginBtn_bbs").click();
+            }
+
+        }
+    }
+
+    function activeUser(){
+        para = 'id=xToken'+'&sign=$sign';
+        j.ajax({
+            type : "POST",
+            url:"/json/user/activeUser.htm",
+            dateType:"json",
+            data:para,
+            success : function(data){
+                data = eval('(' + data + ')');
+                if(data.status=='Y'){
+                    j('#errorInfo').html('');
+                    j('#msgdemo').hide();
+                    alert(data.msg);
+                }else{
+                    j('#errorInfo').html(data.msg);
+                    j('#msgdemo').show();
+                }
+            },error:function(data){
+                alert('error');
+            }
+        });
+    }
+</script>
+
+
+</div>
+<div class="footer center font12">
+    <p><a href="http://help.treebear.cn" target="_blank">帮助中心</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+        <a href="http://bbs.treebear.cn" target="_blank">论坛讨论</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+        <a href="http://bbs.treebear.cn/forum-56-1.html" target="_blank">问题反馈</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+        <a href="http://www.treebear.cn/open/app_list.htm" target="_blank">开放平台</a>&nbsp;&nbsp;</p>
+    <p><a href="http://www.treebear.cn" target="_blank">杭州树熊网络有限公司</a> WiTOWN © 2014 版本:7.3.24</p>
+</div>
+</body>
+</html>

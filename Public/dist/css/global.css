@@ -1,0 +1,48 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+a{
+    font-size: 15px;
+    text-decoration: none;
+    color: #777;
+    font-weight: bold;
+}
+ul{
+    list-style-type: none;
+}
+.font_15{
+    text-decoration: none;
+    color: #90C74B;
+    font-size: 15px;
+}
+p{
+    font-size: 13px;
+    color: #787878;
+}
+body{
+}
+.font_13{
+    color: #8EC448;
+    font-size: 13px;
+    font-weight: normal;
+}
+.div_null{
+    clear: both;
+}
+.hover{
+    background-color:#F9F7F8;
+}
+.tab_clicked {
+    border-top:3px solid #1AB7D8;
+    border-bottom: 1px solid white;
+    height: 45px;
+    line-height: 45px;
+}
+.tab_unclicked {
+    border:1px solid #C8C8C8;
+    background-color: #F0F0F0;
+}
+.liborder{
+    border-left:1px solid #C8C8C8;
+}

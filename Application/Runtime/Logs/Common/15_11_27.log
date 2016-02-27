@@ -1,0 +1,30 @@
+[ 2015-11-27T14:58:03+08:00 ] 127.0.0.1 /TP/index.php/__PUBLIC__/merchant/img/brand.png
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001000s ]
+ERR: 无法加载模块:__PUBLIC__
+
+[ 2015-11-27T14:58:04+08:00 ] 127.0.0.1 /TP/index.php/__PUBLIC__/merchant/img/brand.png
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001000s ]
+ERR: 无法加载模块:__PUBLIC__
+
+[ 2015-11-27T15:40:14+08:00 ] 127.0.0.1 /TP/index.php/Public/merchant/img/brand.png
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.002001s ]
+ERR: 无法加载模块:Public
+
+[ 2015-11-27T15:40:27+08:00 ] 127.0.0.1 /TP/index.php/Public/merchant/img/brand.png
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.001000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.002000s ]
+ERR: 无法加载模块:Public
+
+[ 2015-11-27T15:40:27+08:00 ] 127.0.0.1 /TP/index.php/Public/merchant/img/brand.png
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001000s ]
+ERR: 无法加载模块:Public
+

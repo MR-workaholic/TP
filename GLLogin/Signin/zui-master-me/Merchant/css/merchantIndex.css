@@ -1,0 +1,123 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+body
+{
+  margin: 0;
+  padding: 0;
+}
+#myhat
+{ max-width:1280px;
+  min-width:992px;
+  width: 100%;
+  height: 35px;
+  background-color: #f5f5f5;
+  margin: 0 auto;
+  position: fixed;
+  top: 0;
+  z-index: 1100;
+  /*border: 1px solid blue;*/
+}
+#mywhole
+{
+  max-width:1280px;
+  min-width:992px;
+  height: 100%;
+  margin:0 auto;
+}
+#myhead
+{
+  max-width:1280px;
+  min-width:992px;
+  width: 100%;
+  height: 50px;
+  /*border: 1px solid blue;*/
+  background-color: #00BDD5;
+  margin: 0 auto;
+  position: fixed;
+  top: 35px;
+  z-index: 1100;
+}
+#mymiddle
+{
+  margin: 20px auto;
+  max-width:1280px;
+  min-width:992px;
+  width: 100%;
+
+}
+#mymiddletitle{
+  max-width:1280px;
+  min-width:992px;
+  width: 100%;
+  position: fixed;
+  top: 85px;
+  height: 60px;
+  background-color: #f5f5f5;
+  z-index: 1100;
+  /*border: 1px solid orange;*/
+}
+
+#mymiddlecontent{
+  max-width:1280px;
+  min-width:992px;
+  width: 100%;
+  position: relative;
+  height: 2000px;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  /*border: 1px solid yellow;*/
+  border-top: 1px solid  #ECEBEB;
+  border-right: 1px solid  #ECEBEB;
+  border-bottom: 1px solid  #ECEBEB;
+  padding-top: 20px;
+  padding-left: 0;
+  margin: 0 auto;
+}
+#mytitle
+{
+  max-width: 217px;
+  min-width: 169px;
+  width: 17%;
+  position: fixed;
+  top: 145px;
+  height:100%;
+  border-right: 1px solid #ECEBEB;
+  border-left: 1px solid #ECEBEB;
+  z-index: 1100;
+  /*border: 1px solid green;*/
+  float: left;
+  background-color: #FFFFFF;
+}
+
+#mycontent
+{
+  max-width: 1063px;
+  min-width: 823px;
+  width:83%;
+  height:100%;
+  float: left;
+  position:absolute;
+  left: 17%;
+  top: 145px;
+  overflow: hidden;
+  /*border: 1px solid blue;*/
+}
+
+div#mytitle ul.nav.nav-primary a.active,div#mytitle ul.nav.nav-primary a:focus{
+  font-size: 13px;
+}
+#mytail
+{
+  max-width:1280px;
+  min-width:992px;
+  width: 100%;
+  height: 50px;
+  margin: 0 auto;
+  position:fixed;
+  bottom: 0;
+  background-color: #FFFFFF;
+  border-top: 1px solid #ECEBEB;
+  z-index: 1100;
+}

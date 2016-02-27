@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false">
+    <file url="file://$PROJECT_DIR$/css/global.css" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/css/login.css" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/css/signin.css" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dist/js/plugins.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/html/haha.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/html/heading.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/html/index.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/html/login.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/html/menu.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/html/navbar.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/html/signin.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/js/jquery.min.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/js/my_login.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/js/signin.js" charset="UTF-8" />
+  </component>
+</project>

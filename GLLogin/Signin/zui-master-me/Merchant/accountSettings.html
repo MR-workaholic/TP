@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+      .accountSet{
+        width: 800px;
+        height: 800px;
+        /*border: 1px solid rgba(0,0,0,.5);*/
+        margin: 0 auto;
+        box-shadow: 0 1px 9px rgba(0,0,0,.1);
+        -webkit-box-shadow: 0 1px 9px rgba(0,0,0,.1);
+        padding: 20px;
+      }
+      div.accountSet li{
+        height: 40px;
+        /*border: 1px solid yellow;*/
+        line-height: 28px;
+      }
+      div.accountSet ul label{
+        width: 90px;
+        /*border: 1px solid orange;*/
+      }
+      div.accountSet ul input{
+        margin-right: 20px;
+      }
+    </style>
+    
+    <script type="text/javascript">
+    
+    	var value;
+    
+    	function changeName()
+    	{
+    	 	//value = jq("#name").attr("value");
+    	 	value = jq("#name").val();
+    		ThinkAjax.send("{:U('Account/changeName')}", 'ajax=1&name='+value, completechangeName, '');
+    	}
+    	
+    	function completechangeName(data, status)
+    	{
+    		if(status == 0)
+    			{
+    				alert('该用户名已经被注册了');
+    			}else{
+    				jq('#usernamediv').empty();
+	               	jq('#usernamediv').html('<h1 class="mymiddletitle1" id ="username">'+data['name']+'</h1>');
+  			   	
+    			}
+    	}
+    	
+    	function changetel(){
+    		jq('.telver').show();
+    		jq('.email').hide();
+    		value = jq("#mobilephone").val();
+    		ThinkAjax.send("{:U('Account/changeTel')}", 'ajax=1&mobilephone='+value, completechangetel, '');
+    	}
+    	
+    	function completechangetel(data, status){
+    		if(status == 0)
+    			{
+    				alert('手机号码不准确');
+    			}else
+    				{
+    				alert('验证码是'+data);
+    				}
+    	}
+    	
+    	function telver()
+    	{
+    		value = jq("#mobilephone").val();
+    		var telver = jq("#telver").val();
+    		ThinkAjax.send("{:U('Account/telver')}", 'ajax=1&mobilephone='+value+'&telver='+telver, completetelver, 'info2');
+        	
+    		
+    	}
+    	
+    	function completetelver(data, status)
+    	{
+    		if(status == 0)
+    			{
+    				alert('验证码错误，请重新发送验证码');
+    			}else{
+    				jq('.telver').hide();
+    	    		jq('.email').show();
+    	    		$('mobilephone').value = data['mobilephone'];
+    			}
+    		
+    	}
+    	
+    	function changeemail(){
+    		
+    		value = jq("#email").val();
+    		ThinkAjax.sendForm("emailchange","{:U('Account/changeemail')}", '', 'info2');
+        	
+    		
+    	}
+    
+    
+    </script>
+    
+</head>
+<body>
+  <div class="accountSet">
+    <h2>账户信息设置</h2>
+    <ul class="nav">
+      <li>
+	      <label>账号名：</label>
+	      <input type="text" id="name" name="name" />
+	      <input class="btn" type="button"  onClick="changeName();" value="修改"/>
+      </li>
+      
+      <li>
+	      <label>所属代理商：</label>
+	      <span>代理商A</span>
+      </li>
+      
+      <li>
+      	<label>电话：</label>
+      	<input type="text" id="mobilephone" name="mobilephone" />
+      	<input class="btn" type="button" onClick="changetel()" value="发送验证码，修改绑定"/>
+      	<label id='info1'></label>
+      </li>
+      
+      <div class="telver">
+      	<li>
+      		<label>验证码：</label>
+      		<input type="text" id="telver" name="telver" />
+      		<input class="btn" type="button" id="telverbtn" onClick="telver()" value="确定"/>
+      		
+      	</li>
+      </div>
+      
+      <form id="emailchange">
+	      <div class="email">
+	      <li>
+	      	<label>邮箱：</label>
+	      	<input type="text" id="email" name="email" />
+	      	
+	      	<input type="hidden" id="password" name="password" />
+	      	<input type="hidden" id="pwconfirm" name="pwconfirm" />
+	      	<input type="hidden" id="name1" name="username" />
+	      	<input type="hidden" id="ajax" name="ajax" value=1 />
+	      	<input class="btn" type="button" id="modifyMail" onClick="changeemail()" value="修改绑定"/>
+	      	<label id='info2'></label>
+	      </li>
+	      </div>
+      </form>
+    </ul>
+  </div>
+  
+  <script type="text/javascript">
+  		
+  		ThinkAjax.send("{:U('Account/accountmescalling')}", 'ajax=1', completeaccountmescalling, '');
+  		
+  		 jq('.telver').hide();
+  		 jq('.email').show();
+  		
+  		
+  		function  completeaccountmescalling(data, status)
+  		{
+  			
+  			
+  			$('name').value = data['name']; 
+  			$('name1').value = data['name1']; 
+  			$('mobilephone').value = data['mobilephone']; 
+  			$('email').value = data['email'];
+  			$('password').value = data['password']; 
+  			$('pwconfirm').value = data['password']; 
+  		}
+  
+  </script>
+</body>
+</html>
