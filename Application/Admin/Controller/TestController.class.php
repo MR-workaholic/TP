@@ -104,12 +104,9 @@ class TestController extends Controller {
 		header("Content-Type:text/html;charset=UTF-8");
 		$call = A('Publiccode');
 		
-		//获取服务接口与key
-// 		$client = $call->return_client();
-// 		$appkey = $call->return_appkey();
 		
-		$phone = 12345678912;
-		$role = 'hello';
+		$phone = 13265478956;
+		$role = '普通商家';
 		
 		/*
 		 * 可以使用json校验工具来检测
@@ -121,13 +118,6 @@ class TestController extends Controller {
 		
 		$json = json_encode($json);
 		
-// 		$json = '{"op": "query", "where":"where Role<>\'管理员\'", "order":"order by BId desc"}';
-// 		$param = array('appkey' => $appkey, 'json' => $json,);
-// 		$result = $client->Account($param);
-// 		$jsonResult = json_decode($result->AccountResult);
-// 		var_dump($jsonResult);
-		
-// 		$jsonResult = $call->object_array($jsonResult);
 
 		$jsonResult = $call->AccountHandle($json);
 		var_dump($jsonResult);
@@ -140,7 +130,7 @@ class TestController extends Controller {
 	}
 	
 	/*
-	 * 账号更新测试，不通过
+	 * 账号更新测试 pass
 	 */
 	
 	public function xqtest_updata()
@@ -149,16 +139,14 @@ class TestController extends Controller {
 		header("Content-Type:text/html;charset=UTF-8");
 		$call = A('Publiccode');
 		
-		//获取服务接口与key
-		$client = $call->return_client();
-		$appkey = $call->return_appkey();
 		
 		//构造json参数
-		$phone = 12345678912;
-		$role = 'hello';
+		$phone = 12345678901;
+		$role = '普通商家';
+		$name = '商家1';
 		$json = array(
 				"op" => "query",
-				"where" => "where Role = '{$role}' and Phone = '{$phone}'",
+				"where" => "where Role = '{$role}' and Phone = '{$phone}' and Name = '{$name}'",
 		);
 		$json = json_encode($json);
 		var_dump($json);
@@ -171,24 +159,10 @@ class TestController extends Controller {
 		
 		
 		//构造新的json参数
-// 		$jsonResult['rows'][0]['BId'] = 0;
-// 		$jsonResult['rows'][0]['Name'] = '商家AA';
-// 		$jsonResult['rows'][0]['LoginName'] = 'sjaa';
-// 		$jsonResult['rows'][0]['Phone'] = 13265478956;
-// 		$jsonResult['rows'][0]['Num'] = 'SJ003';
-		$jsonResult['rows'][0]['Address'] = '广州市天河区某大厦';
+
+		$jsonResult['rows'][0]['Address'] = '广州市天河区哈哈大厦';
 		$jsonResult['rows'][0]['Role'] = '普通商家';
-// 		$jsonResult['rows'][0]['Weixin'] = 'sj001';
-// 		$jsonResult['rows'][0]['IndexPage'] = 'www.baidu.com\mon\widgets\Alert';
-		unset($jsonResult['rows'][0]['AgentName']);
-		unset($jsonResult['rows'][0]['CreateTime']);
-		unset($jsonResult['rows'][0]['Auth']);
-		unset($jsonResult['rows'][0]['Weixin']);
-		unset($jsonResult['rows'][0]['IsHidePhone']);
-		unset($jsonResult['rows'][0]['AdminModify']);
-		unset($jsonResult['rows'][0]['IndexPage']);
-		unset($jsonResult['rows'][0]['MsgCount']);
-		unset($jsonResult['rows'][0]['AgentId']);
+
 		
 		$json1 = array(
 				'op' => 'save',
@@ -198,11 +172,8 @@ class TestController extends Controller {
 		$json1 = json_encode($json1);	
 		var_dump($json1);
 		
-// 		$jsonResult1 = $call->AccountHandle($json1);
-		$param1 = array('appkey' => $appkey, 'json' => $json1,);
-		$result1 = $client->Account($param1);
- 		$jsonResult1 = json_decode($result1->AccountResult);
-		var_dump($result1);
+		$jsonResult1 = $call->AccountHandle($json1);
+		var_dump($jsonResult1);
 		
 	}
 	
@@ -217,9 +188,6 @@ class TestController extends Controller {
 		header("Content-Type:text/html;charset=UTF-8");
 		$call = A('Publiccode');
 		
-		//获取服务接口与key
-		$client = $call->return_client();
-		$appkey = $call->return_appkey();
 		
 		//构造json参数
 		$phone = 10254698745;
@@ -235,6 +203,34 @@ class TestController extends Controller {
 		//执行账户查询,返回数组
 		$jsonResult = $call->AccountHandle($json);
 		var_dump($jsonResult);
+		
+	}
+	
+	/*
+	 * 账户添加测试 pass
+	 */
+	
+	public function xqtest_add()
+	{
+		header("Content-Type:text/html;charset=UTF-8");
+		$call = A('Publiccode');
+		
+		$newRole['BId'] = 0;
+		$newRole['Name'] = '商家AA';
+		$newRole['LoginName'] = 'sjaa';
+		$newRole['Phone'] = 13265478956;
+		$newRole['Num'] = 'SJ003';
+		
+		$json1 = array(
+				'op' => 'save',
+				'obj' => $newRole
+					
+		);
+		$json1 = json_encode($json1);
+		var_dump($json1);
+		
+		$jsonResult1 = $call->AccountHandle($json1);
+		var_dump($jsonResult1);
 		
 	}
 	
@@ -263,7 +259,7 @@ class TestController extends Controller {
 	}
 	
 	/*
-	 * 设备添加测试
+	 * 设备添加更新测试pass
 	 */
 	
 	public function dev_update(){
@@ -281,7 +277,7 @@ class TestController extends Controller {
 		
 		$result = $call->RouterHandle($json);
 		
-		$result['rows'][0]['Mac'] = '10236548796520120';
+		$result['rows'][0]['Mac'] = '00:03:7F:11:20:B0';
 		
 		//下面的元素不用删除也可以更新成功
 		unset($result['rows'][0]['AgentName']);
@@ -317,7 +313,7 @@ class TestController extends Controller {
 		header("Content-Type:text/html;charset=UTF-8");
 		$call = A('Publiccode');
 		
-		$RouterMac = '12345678901234567';
+		$RouterMac = '00:03:7F:11:20:B0';
 		$json = array(
 				"op" => "getSetting",
 				"RouterMac" => $RouterMac
@@ -327,13 +323,56 @@ class TestController extends Controller {
 		
 		var_dump($json);
 		
-		$result = $call->RouterHandle($json);
+		$result = $call->RouterHandle($json); //打印RouterHandle函数里面的$result值，结果如下
+											  //object(stdClass)[8]  public 'RouterResult' => string 'wrsdb.Model.RouterSetting' (length=25)
+		
+		var_dump($result);
+	}
+	
+	/*
+	 * 上网用户查询测试pass
+	 */
+	
+	public function client_query()
+	{
+		header("Content-Type:text/html;charset=UTF-8");
+		$call = A('Publiccode');
+		
+		$BusinessName = '商家1';
+		$json = array(
+				"op" => "query",
+				"where" => "where BusinessName = '{$BusinessName}'",
+		);
+		
+		$json = json_encode($json);
+		var_dump($json);
+		
+		$result = $call->ClientHandle($json);
 		
 		var_dump($result);
 		
 	}
 	
-	
+	/*
+	 * 上网用户信息查询测试pass
+	 */
+	public function client_record_query()
+	{
+		header("Content-Type:text/html;charset=UTF-8");
+		$call = A('Publiccode');
+		
+		$ClientName = 13580518842;
+		$json = array(
+				"op" => "query",
+				"where" => "where ClientName = {$ClientName}",
+		);
+		
+		$json = json_encode($json);
+		
+		$result = $call->ClientRecordHandle($json);
+		var_dump($result);
+		
+	}
 	
 	
 	public  function ajaxcalling(){
