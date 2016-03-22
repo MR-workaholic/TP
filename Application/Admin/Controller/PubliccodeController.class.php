@@ -240,7 +240,7 @@ class PubliccodeController extends Controller {
 		//传递参数，返回结果
 		$param = array('appkey' => $appkey, 'json' => $json,);
 		$result = $client->Account($param);
-		$jsonResult = json_decode($result->AccountResult);
+		$jsonResult = json_decode($result->AccountResult);  //注意是$result->AccountResult
 		$jsonResult = $this->object_array($jsonResult);
 		return $jsonResult;
 	}
@@ -257,10 +257,44 @@ class PubliccodeController extends Controller {
 		//传递参数，返回结果
 		$param = array('appkey' => $appkey, 'json' => $json,);
 		$result = $client->Router($param);
-		$jsonResult = json_decode($result->RouterResult);
+		$jsonResult = json_decode($result->RouterResult);  //注意是$result->RouterResult
 		$jsonResult = $this->object_array($jsonResult);
 		return $jsonResult;
 	}
+	/*
+	 * 	上网用户终端操作
+	 */
+	
+	public function ClientHandle($json)
+	{
+		//获取服务接口与key
+		$client = $this->return_client();
+		$appkey = $this->return_appkey();
+		//传递参数，返回结果
+		$param = array('appkey' => $appkey, 'json' => $json,);
+		$result = $client->Client($param);
+		$jsonResult = json_decode($result->ClientResult);  //注意是ClientResult
+		$jsonResult = $this->object_array($jsonResult);
+		return $jsonResult;
+	}
+	
+	/*
+	 *	上网用户信息记录
+	 */
+	public function ClientRecordHandle($json)
+	{
+		//获取服务接口与key
+		$client = $this->return_client();
+		$appkey = $this->return_appkey();
+		//传递参数，返回结果
+		$param = array('appkey' => $appkey, 'json' => $json,);
+		$result = $client->ClientRecord($param);
+		$jsonResult = json_decode($result->ClientRecordResult);
+		$jsonResult = $this->object_array($jsonResult);
+		return  $jsonResult;
+	}
+	
+	
 	
 	/**
 	 * 系统邮件发送函数
