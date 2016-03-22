@@ -25,6 +25,7 @@ return array(
 				'REPLY_NAME'  => '', //回复名称（留空则为发件人名称）
 		),
 		
-		'Hosts' => '192.168.1.92/Project001',
+// 		'Hosts' => '192.168.1.92/Project001',    //局域网内wamp上线测试使用
+		'Hosts' => 'Project001.com',	//虚拟主机wamp离线测试使用
 		
 );
