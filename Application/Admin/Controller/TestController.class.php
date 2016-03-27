@@ -271,19 +271,60 @@ class TestController extends Controller {
 		header("Content-Type:text/html;charset=UTF-8");
 		$call = A('Publiccode');
 		
-		$BusinessId = 3;
+// 		$BusinessId = 3;
+// 		$json = array(
+// 				"op" => "query",
+// 				"where" => "where BusinessId = {$BusinessId}",
+// 		);
+		
+// 		$json = json_encode($json);
+		
+// 		$result = $call->RouterHandle($json);
+		
+// 		var_dump($result);
+		
+// 		echo $result['rows'][0]['Mac'];
+
+		//构造用户查询json参数
 		$json = array(
 				"op" => "query",
-				"where" => "where BusinessId = {$BusinessId}",
+				"where" => "where Num = 37",
 		);
-		
 		$json = json_encode($json);
 		
-		$result = $call->RouterHandle($json);
+		//执行账户查询,返回数组
+		$jsonResult = $call->AccountHandle($json);
+			
+			
+		//构造设备查询语句
+		$json1 = array(
+				"op" => "query",
+				"where" => "where BusinessId = {$jsonResult['rows'][0]['BId']} and State <> '停用'",
+		);
+			
+		$json1 = json_encode($json1);
+			
+		$result = $call->RouterHandle($json1);
 		
 		var_dump($result);
 		
-		echo $result['rows'][0]['Mac'];
+		foreach ($result['rows'] as $k=>$v)
+		{
+			$devmes[$k]['dname'] = 'dname'.$k;//$v[''];
+			$devmes[$k]['dtype'] = $v['FirmwareVer'];
+			$devmes[$k]['dssid'] = 'dssid'.$k;//$v[''];
+			$devmes[$k]['dstate'] = $v['State'];
+			$devmes[$k]['donlinenum'] = $v['OnlineCount'];
+			$devmes[$k]['dmac'] = $v['Mac'];
+			$devmes[$k]['dplmac'] = 'dplmac'.$k;//$v[''];
+			$devmes[$k]['dplcbandwidth'] = 'dplcbandwidth'.$k;//$v[''];
+			$devmes[$k]['dplcnetworkname'] = 'dplcnetworkname'.$k;//$v[''];
+		
+		}
+			
+		var_dump($devmes);	
+			
+	//	echo $result['rows'][0]['Mac'];
 	}
 	
 	/*

@@ -21,21 +21,96 @@ class DevicelistController extends Controller {
 		$call = A('Publiccode');
 		$uid = $call->check_valid_user();
 		
-		$handle = M('devicelist');
-		$condition['uid'] = $uid;
-		$result = $handle->where($condition)->select();
+		$database = C('Database');
+		$webservice = C('Webservice');
+		$msgsource = C('MsgSource');
 		
-		if(!$result)
+		if ($msgsource == $database)
 		{
-			$response['status'] = 0;
-		}else {
-			$response['status'] = count($result,0);
+			$handle = M('devicelist');
+			$condition['uid'] = $uid;
+			$result = $handle->where($condition)->select();	
+			
+			if(!$result)
+			{
+				$response['status'] = 0;
+			}else {
+				$response['status'] = count($result,0);
+			}
+			
+			$response['data'] = $result;
+			$response['info'] = $_POST['whichbutton'];
+			$response['type'] = 'JSON';
+			$this->ajaxReturn($response,'JSON');
+			
+		}else 
+		{
+			
+			//为了返回BID
+	
+			//构造用户查询json参数
+			$json = array(
+					"op" => "query",
+					"where" => "where Num = {$uid}",
+			);
+			$json = json_encode($json);
+				
+			//执行账户查询,返回数组
+			$jsonResult = $call->AccountHandle($json);
+			
+			
+			//构造设备查询语句
+			$json1 = array(
+					"op" => "query",
+					"where" => "where BusinessId = {$jsonResult['rows'][0]['BId']} and State <> '停用'",
+			);
+			
+			$json1 = json_encode($json1);
+			
+			$result = $call->RouterHandle($json1);
+			
+			if (!$result || $result['total'] == 0)
+			{
+				$response['status'] = 0;
+				//$response['data'] = $result;
+				$response['info'] = $_POST['whichbutton'];
+				$response['type'] = 'JSON';
+				$this->ajaxReturn($response,'JSON');
+				
+			}else {
+				
+				foreach ($result['rows'] as $k=>$v)
+				{
+					 $devmes[$k]['dname'] = 'dname'.$k;//$v[''];
+					 $devmes[$k]['dtype'] = $v['FirmwareVer'];
+					 $devmes[$k]['dssid'] = 'dssid'.$k;//$v[''];
+					 $devmes[$k]['dstate'] = $v['State'];
+					 $devmes[$k]['donlinenum'] = $v['OnlineCount'];
+					 $devmes[$k]['dmac'] = $v['Mac'];
+					 $devmes[$k]['dplmac'] = 'dplmac'.$k;//$v[''];
+					 $devmes[$k]['dplcbandwidth'] = 'dplcbandwidth'.$k;//$v[''];
+					 $devmes[$k]['dplcnetworkname'] = 'dplcnetworkname'.$k;//$v[''];
+
+				}
+				
+				$response['status'] = $result['total'];
+				$response['data'] = $devmes;
+				$response['info'] = $_POST['whichbutton'];
+				$response['type'] = 'JSON';
+				$this->ajaxReturn($response,'JSON');
+				
+			}
+			
+			
+			
+			
+			
+			
 		}
 		
-		$response['data'] = $result;
-		$response['info'] = $_POST['whichbutton'];
-		$response['type'] = 'JSON';
-		$this->ajaxReturn($response,'JSON');
+		
+		
+		
 		
 	}
 	
