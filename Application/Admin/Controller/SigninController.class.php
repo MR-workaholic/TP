@@ -84,40 +84,17 @@ class SigninController extends Controller {
 		$call = A('Publiccode');
 		$hosts = C('Hosts');
 		
-		
-// 		if(!($call->check_mobilephone($mobilephone)))
-// 		{
-// 			$this->error('请输入正确的十一位手机号码');
-// 		}
-// 		elseif ($telverify == 0 || $telverify != $_SESSION[$mobilephone]) {
-// 			$this->error('请输入正确的验证码');
-// 		}
-// 		elseif (strlen($password)<5 || strlen($password)>21)
-// 		{
-// 			$this->error('密码长度不对');
-// 		}
-// 		elseif ($password != $pwconfirm)
-// 		{
-// 			$this->error('两次输入的密码必输一致');
-// 		}else{
-			
-// 		if ($telverify == $_SESSION[$mobilephone]) {
 			
 			
 
 			if ($Telsignin->create())  //利用模型的自动检测功能
 			{
 				
-				$uid = $Telsignin->add() ;
+				$uid = $Telsignin->add();
 				
 				unset($_SESSION[$mobilephone]);//不绑定验证码，验证已经通过
 				
-// 				$result = $Telsignin->add();
-// 				if($result) {
-// 					$password = sha1($password);
-// 					$target->mobilephone=$mobilephone;
-// 					$Telsignin->where($target)->setField('password', $password);//修改某字段的数值
-					//以电话名创建文件夹并放在session中，然后登陆进去主页面中
+				//以电话名创建文件夹并放在session中，然后登陆进去主页面中
 				
 					$_SESSION['uid'] = $uid;
 					
@@ -129,11 +106,10 @@ class SigninController extends Controller {
 	   						'uid' => $uid,
 	   					);
 	   	
-	   					$call->saveshop($updata_information,0);
+	   				$call->saveshop($updata_information,0);
+	   					
 						
-//						copy('./Public/GLProject/load/sqbrand.png', './Application/Admin/UserFile/'.$_SESSION['uid'].'/sqbrand.png');  //估计需要检测是什么格式的图片文件
-// 						copy('./Public/jQuery-webcam-master/load/0.jpg', './Application/Home/UserFile/'.$dirname.'/1.jpg');
-						$this->success('注册成功！请记住密码 '.$mobilephone, 'http://'.$hosts.'/TP/index.php/admin/Merchant/show');//之后改为跳转到主页
+					$this->success('注册成功！请记住密码 '.$mobilephone.'网络接口账号号是'.$websresult, 'http://'.$hosts.'/TP/index.php/admin/Merchant/show');//之后改为跳转到主页
 					}else{
 						
 						$this->error('请联系代理商后，重新注册！ ', 'http://'.$hosts.'/TP/index.php/admin/signin/showsignupview');
@@ -141,17 +117,10 @@ class SigninController extends Controller {
 					}
 					
 					
-// 				}else{
-					
-// 					$this->error('注册错误！ ', 'http://project001.com/TP/index.php/admin/signin/showsignupview');	
-// 				}
 			}else{
 				
 				$this->error($Telsignin->getError());
 				}
-// 		}else{
-// 			$this->error('请输入正确的验证码');
-// 		}
 
 		
 	}

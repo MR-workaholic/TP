@@ -1,4 +1,5 @@
 <?php
+
 return array(
 	//'配置项'=>'配置值'
 	'VIEW_PATH'=>'./GLLogin/',
@@ -27,5 +28,9 @@ return array(
 		
 // 		'Hosts' => '192.168.1.92/Project001',    //局域网内wamp上线测试使用
 		'Hosts' => 'Project001.com',	//虚拟主机wamp离线测试使用
+		
+		'Database' => 0,
+		'Webservice' => 1,
+		'MsgSource' => 1,   //赋值为0表示信息数据从数据库获取，赋值为1表示从网络接口中获取数据
 		
 );

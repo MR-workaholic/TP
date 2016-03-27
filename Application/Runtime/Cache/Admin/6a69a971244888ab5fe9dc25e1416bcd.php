@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <title>注册页面</title>
    
-    <link  rel="stylesheet" type="text/css" href="/Project001/TP/Public/dist/css/signin.css">
-    <link  rel="stylesheet" type="text/css" href="/Project001/TP/Public/dist/css/global.css">
-    <link  rel="stylesheet" type="text/css" href="/Project001/TP/Public/dist/css/login.css">
+    <link  rel="stylesheet" type="text/css" href="/TP/Public/dist/css/signin.css">
+    <link  rel="stylesheet" type="text/css" href="/TP/Public/dist/css/global.css">
+    <link  rel="stylesheet" type="text/css" href="/TP/Public/dist/css/login.css">
     
-    <script src="/Project001/TP/Public/dist/js/jquery-1.11.0.min.js"></script>
-    <script src="/Project001/TP/Public/dist/js/signin.js"></script>
-    <script src="/Project001/TP/Public/dist/js/jquery.webcam.min.js"></script>
+    <script src="/TP/Public/dist/js/jquery-1.11.0.min.js"></script>
+    <script src="/TP/Public/dist/js/signin.js"></script>
+    <script src="/TP/Public/dist/js/jquery.webcam.min.js"></script>
    
     
     
@@ -22,7 +22,7 @@
 <body>
     <div class="my_top"></div>
     <div class="my_header">
-        <img src="/Project001/TP/Public/images/login-logo.png">
+        <img src="/TP/Public/images/login-logo.png">
         <div class="header_menu">
             <a href="#">关于我们</a><span>|</span>
            

@@ -215,17 +215,45 @@ class TestController extends Controller {
 		header("Content-Type:text/html;charset=UTF-8");
 		$call = A('Publiccode');
 		
+// 		$newRole['BId'] = 0;
+// 		$newRole['Name'] = '商家AA';
+// 		$newRole['LoginName'] = 'sjaa';
+// 		$newRole['Phone'] = 13265478956;
+// 		$newRole['Num'] = 'SJ003';
+		
+// 		$json1 = array(
+// 				'op' => 'save',
+// 				'obj' => $newRole
+					
+// 		);
+
+		$updata_information = array(   //仅仅需要填写需要修改的字段
+				'uid' => 26,
+		);
+
+		$Form1 = M('telsignin');
+		
+		$resultForForm1 = $Form1->where($updata_information)->find();
+		
 		$newRole['BId'] = 0;
-		$newRole['Name'] = '商家AA';
-		$newRole['LoginName'] = 'sjaa';
-		$newRole['Phone'] = 13265478956;
-		$newRole['Num'] = 'SJ003';
+		$newRole['LoginName'] = $resultForForm1['name'];
+		$newRole['Password'] = '123456';
+		$newRole['State'] = '正常';
+		$newRole['Name'] = '例如：山泉公馆';
+		$newRole['Phone'] = $resultForForm1['mobilephone'];
+		$newRole['Role'] = '普通商家';
+		$newRole['Num'] = $resultForForm1['uid'];
+		$newRole['Contact'] = "例如：李小明";
+		$newRole['Address'] = "例如：林乐路25号中怡城市花园A栋2楼（近中信广场）";
+		$newRole['AdminModify'] = "是";
+		
 		
 		$json1 = array(
 				'op' => 'save',
 				'obj' => $newRole
 					
 		);
+		
 		$json1 = json_encode($json1);
 		var_dump($json1);
 		

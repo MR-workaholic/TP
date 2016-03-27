@@ -108,36 +108,73 @@ class PubliccodeController extends Controller {
 	 * 保存商家信息
 	 */
 	public function  saveshop($updata_information, $mode=0){
-		$Form = M('shop');
 		
-		$shop = array(
-				'uid' => 0,
-				'shopname' => "例如：山泉公馆",
-				'shopphone' => "例如：020-38216208;020-38216468",
-				'shopstyle' => "例如：餐饮中餐",
-				'shopwebsite' => "例如：guanlian.com/shop/47rs",
-				'shopremark' => " ",
-				'shopman' => "例如：李小明",
-				'shopsite' => "例如：林乐路25号中怡城市花园A栋2楼（近中信广场）",
-				'shoplongitude' => 113.336899,
-				'shoplatitude' => 23.14892,
+		$database = C('Database');
+		$webservice = C('Webservice');
+		$msgsource = C('MsgSource');
 		
-		);
+		if ($msgsource == $database)
+		{
+			$Form = M('shop');
+			$shop = array(
+					'uid' => 0,
+					'shopname' => "例如：山泉公馆",
+					'shopphone' => "例如：020-38216208;020-38216468",
+					'shopstyle' => "例如：餐饮中餐",
+					'shopwebsite' => "例如：guanlian.com/shop/47rs",
+					'shopremark' => " ",
+					'shopman' => "例如：李小明",
+					'shopsite' => "例如：林乐路25号中怡城市花园A栋2楼（近中信广场）",
+					'shoplongitude' => 113.336899,
+					'shoplatitude' => 23.14892,
+			
+			);
+			
+			foreach ($updata_information as $k => $v)
+			{
+				$shop[$k] = $v;
+			}
+			
+			if(!$mode)
+			{
+				$Form->add($shop);
+			}else {
+				$result=$Form->save($shop);
+				echo $result;
+			}
+			
+		}else {
+			
+			$Form1 = M('telsignin');
+			
+			$resultForForm1 = $Form1->where($updata_information)->find();
+			
+			$newRole['BId'] = 0;
+			$newRole['LoginName'] = $resultForForm1['name'];
+			$newRole['Password'] = 'test11';//$resultForForm1['password'];
+			$newRole['State'] = '正常';
+			$newRole['Name'] = '例如：山泉公馆';
+			$newRole['Phone'] = $resultForForm1['mobilephone'];
+			$newRole['Role'] = '普通商家';
+			$newRole['Num'] = $resultForForm1['uid'];
+			$newRole['Contact'] = "例如：李小明";
+			$newRole['Address'] = "例如：林乐路25号中怡城市花园A栋2楼（近中信广场）";
+			$newRole['AdminModify'] = "是";
+			
+			
+			$json1 = array(
+					'op' => 'save',
+					'obj' => $newRole
+						
+			);
+			$json1 = json_encode($json1);
+			//var_dump($json1);
+			
+			$jsonResult1 = $this->AccountHandle($json1);
+			
+			
+		}
 		
- 		foreach ($updata_information as $k => $v)
- 		{
- 			$shop[$k] = $v;
- 		}
- 		
- 		//var_dump($shop);
- 		
- 		if(!$mode)
- 		{
-		 $Form->add($shop);
- 		}else {
- 		 $result=$Form->save($shop);
- 		 echo $result;
- 		}
 	}
 	
 	/*
@@ -146,10 +183,47 @@ class PubliccodeController extends Controller {
 	
 	public  function get_shop(){
 		
+			$database = C('Database');
+			$webservice = C('Webservice');
+			$msgsource = C('MsgSource');
+			
 			$uid = $this->check_valid_user();
-			$handle = M('shop');
-			$condition['uid']=$uid;
-			$result = $handle->where($condition)->find();
+			
+			if ($msgsource == $database)
+			{
+				
+				$handle = M('shop');
+				$condition['uid']=$uid;
+				$result = $handle->where($condition)->find();
+				
+			}else{
+				
+				$json = array(
+						"op" => "query",
+						"where" => "where Num = {$uid}",
+				);
+					
+				//构造查询json
+				$json = json_encode($json);
+					
+					
+				$jsonResult = $this->AccountHandle($json);
+				
+					
+				$result['shopname']      = $jsonResult['rows'][0]['Name'];
+				$result['shopphone']     = '例如：020-38216208;020-38216468';//$jsonResult['rows'][0][''];
+				$result['shopwebsite']   = '例如：guanlian.com/shop/47rs';//$jsonResult['rows'][0][''];
+				$result['shopremark']    = '暂时没有备注';//$jsonResult['rows'][0][''];
+				$result['shopman']       = $jsonResult['rows'][0]['Contact'];
+				$result['shopsite']      = $jsonResult['rows'][0]['Address'];
+				$result['shoplongitude'] = 113.33395;//$jsonResult['rows'][0][''];
+				$result['shoplatitude']  = 23.149136;//$jsonResult['rows'][0][''];
+				$result['sid']           = $jsonResult['rows'][0]['BId'];
+				$result['shopstyle']     = '餐饮业';//$jsonResult['rows'][0][''];
+				
+			}
+		
+			
 			
 			return $result;
 		

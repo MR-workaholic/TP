@@ -93,6 +93,7 @@ class MerchantController extends Controller {
 		
 		$call = A('Publiccode');
 		$call->check_valid_user();
+		
 	
 		$shop = $call->get_shop();
 				
@@ -112,13 +113,74 @@ class MerchantController extends Controller {
 	{
 		$call = A('Publiccode');
 		
-		$Form = D('shop');
+		$database = C('Database');
+		$webservice = C('Webservice');
+		$msgsource = C('MsgSource');
 		
-		if ($Form->create())
+		if ($msgsource == $database)
 		{
-			$result = $Form->save();
+			$Form = D('shop');
 			
-			if ($result)
+			if ($Form->create())
+			{
+				$result = $Form->save();
+					
+				if ($result)
+				{
+					$shop = $call->get_shop();
+					$response['data'] = $shop;
+					$response['info'] = '更新成功';
+					$response['status'] = 1;
+					$response['type'] = 'JSON';
+					$this->ajaxReturn($response,'JSON');
+					// 				echo "success";
+				}else {
+					$response['info'] = " 更新失败  ".$Form->getError();
+					$response['status'] = 0;
+					$response['type'] = 'JSON';
+					$this->ajaxReturn($response,'JSON');
+				}
+			}
+			
+		}else {
+			
+			$uid = $call->check_valid_user();
+			
+			
+			//构造用户查询json参数
+			$json = array(
+					"op" => "query",
+					"where" => "where Num = {$uid}",
+			);
+			$json = json_encode($json);
+			
+			//执行账户查询,返回数组
+			$jsonResult = $call->AccountHandle($json);
+
+			//构造用户更新json参数
+			
+			$jsonResult['rows'][0]['Name'] = I('post.shopname');
+// 			$jsonResult['rows'][0]['Name'] = I('post.shopphone');
+// 			$jsonResult['rows'][0]['Name'] = I('post.shopstyle');
+// 			$jsonResult['rows'][0]['Name'] = I('post.shopwebsite');
+// 			$jsonResult['rows'][0]['Name'] = I('post.shopremark');
+			$jsonResult['rows'][0]['Contact'] = I('post.shopman');
+			$jsonResult['rows'][0]['Address'] = I('post.shopsite');
+// 			$jsonResult['rows'][0]['Name'] = I('post.shoplongitude');
+// 			$jsonResult['rows'][0]['Name'] = I('post.shoplatitude');
+			
+			
+			$json1 = array(
+					'op' => 'save',
+					'obj' => $jsonResult['rows'][0]
+						
+			);
+			$json1 = json_encode($json1);
+			
+			
+			$jsonResult1 = $call->AccountHandle($json1);
+			
+			if ($jsonResult1)
 			{
 				$shop = $call->get_shop();
 				$response['data'] = $shop;
@@ -126,14 +188,20 @@ class MerchantController extends Controller {
 				$response['status'] = 1;
 				$response['type'] = 'JSON';
 				$this->ajaxReturn($response,'JSON');
-// 				echo "success";
+				// 				echo "success";
 			}else {
-				$response['info'] = " 更新失败  ".$Form->getError();
+				$response['info'] = " 更新失败  ";
 				$response['status'] = 0;
 				$response['type'] = 'JSON';
 				$this->ajaxReturn($response,'JSON');
 			}
+			
+			
+			
+			
 		}
+		
+		
 	}
 	
 	
@@ -171,14 +239,20 @@ class MerchantController extends Controller {
 		$call = A('Publiccode');
 		$call->check_valid_user();
 		
+		
+		
 		session_start();
 		
 		unset($_SESSION['uid']);
+		
 		
 		$result_dest = session_destroy();
 		
 		if ($result_dest)
 		{
+			$hosts = C('Hosts');
+			$this->assign('hosts', $hosts);
+			
 			$this->display('./GLLogin/Signin/myproject_lai/html/login.html');
 		}
 		else {
