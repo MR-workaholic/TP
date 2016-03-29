@@ -331,7 +331,9 @@ class PubliccodeController extends Controller {
 		//传递参数，返回结果
 		$param = array('appkey' => $appkey, 'json' => $json,);
 		$result = $client->Router($param);
+		var_dump($result);
 		$jsonResult = json_decode($result->RouterResult);  //注意是$result->RouterResult
+		
 		$jsonResult = $this->object_array($jsonResult);
 		return $jsonResult;
 	}

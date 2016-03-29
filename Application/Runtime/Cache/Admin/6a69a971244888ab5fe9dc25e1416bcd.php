@@ -64,6 +64,7 @@
                 	<li><span>确认密码：</span><input type="password" name="pwconfirm"  maxlength="20" placeholder="请输入确认密码"></li>
                 	<li><input class="register" type="submit" value="注册"></li>
                 	<li><input class="style" type="hidden" name="mobilephone" value="<?php echo ($mobilephone); ?>"></li>
+                	<li><input class="style" type="hidden" name="type" value="<?php echo ($type); ?>"></li>
               </FORM>
               
             </ul>
@@ -76,6 +77,7 @@
                 	<li><span>登录密码：</span><input type="password" name="password"  maxlength="20" placeholder="请输入6－20位的字符"></li>
                 	<li><span>确认密码：</span><input type="password" name="pwconfirm"  maxlength="20" placeholder="请输入确认密码"></li> 
                 	<li><input class="register" type="submit" value="注册"></li>
+                	<li><input class="style" type="hidden" name="type" value="<?php echo ($type); ?>"></li>
                 </form>
             </ul>
           

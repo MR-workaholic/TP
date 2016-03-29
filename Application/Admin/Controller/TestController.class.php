@@ -382,7 +382,7 @@ class TestController extends Controller {
 		header("Content-Type:text/html;charset=UTF-8");
 		$call = A('Publiccode');
 		
-		$RouterMac = '00:03:7F:11:20:B0';
+		$RouterMac = '00:03:7F:11:28:B0';
 		$json = array(
 				"op" => "getSetting",
 				"RouterMac" => $RouterMac

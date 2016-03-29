@@ -14,13 +14,14 @@ class SigninController extends Controller {
 // 	}
 
 	
-	
+	//商家账户注册入口
 	public function showsignupview($mobilephone=0)
 	{
 		$hosts = C('Hosts');
 		
 		$this->assign('mobilephone',$mobilephone);  //绑定到html的$mobilephone中
 		$this->assign('hosts', $hosts);
+		$this->assign('type', '商家');
 		$this->display('./GLLogin/Signin/myproject_lai/html/signin.html');
 	}
 	
@@ -83,6 +84,7 @@ class SigninController extends Controller {
 		$mobilephone = I('post.mobilephone');
 		$call = A('Publiccode');
 		$hosts = C('Hosts');
+		$type = I('post.type');
 		
 			
 			
@@ -108,8 +110,21 @@ class SigninController extends Controller {
 	   	
 	   				$call->saveshop($updata_information,0);
 	   					
-						
-					$this->success('注册成功！请记住密码 '.$mobilephone.'网络接口账号号是'.$websresult, 'http://'.$hosts.'/TP/index.php/admin/Merchant/show');//之后改为跳转到主页
+					switch ($type)
+					{
+						case '商家':
+							$this->success('注册成功！请记住密码 '.$mobilephone, 'http://'.$hosts.'/TP/index.php/admin/Merchant/show');//之后改为跳转到主页
+							break;
+						case '代理商':
+							$this->success('注册成功！请记住密码 '.$mobilephone, 'http://'.$hosts.'/TP/index.php/admin/Merchant/show');//之后改为跳转到主页
+							break;
+						case '管理员':
+							$this->success('注册成功！请记住密码 '.$mobilephone, 'http://'.$hosts.'/TP/index.php/admin/Merchant/show');//之后改为跳转到主页
+							break;
+						default:
+							$this->error('账号类型错误', 'http://'.$hosts.'/TP/index.php/admin/signin/showsignupview');			
+					}	
+					
 					}else{
 						
 						$this->error('请联系代理商后，重新注册！ ', 'http://'.$hosts.'/TP/index.php/admin/signin/showsignupview');
@@ -120,6 +135,7 @@ class SigninController extends Controller {
 			}else{
 				
 				$this->error($Telsignin->getError());
+				
 				}
 
 		
@@ -220,6 +236,7 @@ class SigninController extends Controller {
 				$data['email'] = $result['email'];
 				$data['name'] = $result['username'];
 				$data['password'] = $result['password'];
+				$data['type'] = $result['type'];
 				
 				$uid = $Telsignin->add($data);
 				

@@ -21,29 +21,82 @@ class RoutesetController extends Controller {
 		$call = A('Publiccode');
 		$uid = $call->check_valid_user();
 		
-		$handle = M('devicelist');
-		$condition['uid'] = $uid;
-		$result = $handle->where($condition)->select();
-		$num = count($result,0);
+		$database = C('Database');
+		$webservice = C('Webservice');
+		$msgsource = C('MsgSource');
 		
-		if(!$result)
+		if ($msgsource == $database)
 		{
-			$response['status'] = 0;
-		}else {
-			$response['status'] = $num;
+			$handle = M('devicelist');
+			$condition['uid'] = $uid;
+			$result = $handle->where($condition)->select();
+			$num = count($result,0);
 			
-			for ($i=0; $i < $num; $i++)
+			if(!$result)
 			{
-			$data[$i]['dname'] = $result[$i]['dname'];
+				$response['status'] = 0;
+			}else {
+				$response['status'] = $num;
+					
+				for ($i=0; $i < $num; $i++)
+				{
+				$data[$i]['dname'] = $result[$i]['dname'];
+				}
+					
+				$response['data'] = $data;
 			}
 			
-			$response['data'] = $data;
+			
+				$response['info'] = '';
+				$response['type'] = 'JSON';
+				$this->ajaxReturn($response,'JSON');
+			
+		}else {
+			
+			//为了返回BID
+			
+			//构造用户查询json参数
+			$json = array(
+					"op" => "query",
+					"where" => "where Num = {$uid}",
+			);
+			$json = json_encode($json);
+			
+			//执行账户查询,返回数组
+			$jsonResult = $call->AccountHandle($json);
+				
+				
+			//构造设备查询语句
+			$json1 = array(
+					"op" => "query",
+					"where" => "where BusinessId = {$jsonResult['rows'][0]['BId']} and State <> '停用'",
+			);
+				
+			$json1 = json_encode($json1);
+				
+			$result = $call->RouterHandle($json1);
+			
+			if (!$result || $result['total'] == 0)
+			{
+				$response['status'] = 0;
+			}else {
+				
+				$response['status'] = $result['total'];
+				foreach ($result['rows'] as $k=>$v)
+				{
+					$data[$k]['dname'] = $v['Mac'];
+				}
+				$response['data'] = $data;
+				
+			}
+			
+			$response['info'] = '';
+			$response['type'] = 'JSON';
+			$this->ajaxReturn($response,'JSON');
+			
 		}
 		
 		
-		$response['info'] = '';
-		$response['type'] = 'JSON';
-		$this->ajaxReturn($response,'JSON');
 		
 		
 		
@@ -93,26 +146,50 @@ class RoutesetController extends Controller {
 		$call = A('Publiccode');
 		$uid = $call->check_valid_user();
 		
-		$handle = M('devicelist');
-		$condition['uid'] = $uid;
-		$condition['dname'] = $whichrou;
+		$database = C('Database');
+		$webservice = C('Webservice');
+		$msgsource = C('MsgSource');
 		
-		$did = $handle->where($condition)->getField('did');
-		$dssid = $handle->where($condition)->getField('dssid');
-		$version = $handle->where($condition)->getField('version');
+		if ($msgsource == $database)
+		{
+			$handle = M('devicelist');
+			$condition['uid'] = $uid;
+			$condition['dname'] = $whichrou;
+			
+			$did = $handle->where($condition)->getField('did');
+			$dssid = $handle->where($condition)->getField('dssid');
+			$version = $handle->where($condition)->getField('version');
+			
+			$handle1 = M('devset');
+			$condition1['did'] = $did;
+			$result = $handle1->where($condition1)->find();
+			$result['dssid'] = $dssid;
+			$result['version'] = $version;
+			
+			
+			$response['status'] = 1;
+			$response['data'] = $result;
+			$response['info'] = '';
+			$response['type'] = 'JSON';
+			$this->ajaxReturn($response,'JSON');
+			
+		}else{
+			
+			//构造用户查询json参数
+			$json = array(
+					"op" => "getSetting",
+					"RouterMac" => $whichrou,
+			);
+			$json = json_encode($json);
+				
+			//执行账户查询,返回数组
+			$jsonResult = $call->RouterHandle($json);
+			
+			
+			
+		}
 		
-		$handle1 = M('devset');
-		$condition1['did'] = $did;
-		$result = $handle1->where($condition1)->find();
-		$result['dssid'] = $dssid;
-		$result['version'] = $version;
 		
-		
-		$response['status'] = 1;
-		$response['data'] = $result;
-		$response['info'] = '';
-		$response['type'] = 'JSON';
-		$this->ajaxReturn($response,'JSON');
 		
 	}
 	/*
