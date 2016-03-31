@@ -37,7 +37,6 @@
     		var tbtnbgcol   = jq('#hidden-input3').val();
     		var tbtntxtcol  = jq('#hidden-input4').val();
     		
-    		alert(tbtnbgcol);
 
     		
     		ThinkAjax.send("<?php echo U('Adset/updataauthmes');?>", "ajax=1&adbid=<?php echo ($adbid); ?>&phoneguide="+phoneguide+"&wechatguide="+wechatguide+"&tbtnbgcol="+tbtnbgcol+"&tbtntxtcol="+tbtntxtcol, '', '');

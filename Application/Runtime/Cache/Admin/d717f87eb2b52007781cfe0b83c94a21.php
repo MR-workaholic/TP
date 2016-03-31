@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link type="text/css" rel="stylesheet" href="/Project001/TP/Public/dist/css/zui.min.css">
-    <script src="/Project001/TP/Public/dist/js/jquery-1.11.0.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="/TP/Public/dist/css/zui.min.css">
+    <script src="/TP/Public/dist/js/jquery-1.11.0.min.js"></script>
     <style>
 		
  div.mobile-my-authen i{
