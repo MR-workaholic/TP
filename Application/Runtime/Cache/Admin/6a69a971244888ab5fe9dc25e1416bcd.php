@@ -45,7 +45,8 @@
             	  <FORM method="post" action="<?php echo U('Signin/telverify');?>">
                 	<span>手机号码：</span>
                 	<input type="tel" name="mobilephone"  placeholder="手机号为普通登录方式的账号">
-                	<input  class="sentVerify" type="submit" value="发送验证码">             	
+                	<input  class="sentVerify" type="submit" value="发送验证码">
+                	<input class="style" type="hidden" name="type" value="<?php echo ($type); ?>">             	
                   </FORM>
               	</li>
                  <?php else: ?>
@@ -54,6 +55,7 @@
                 	<span>手机号码：</span>
                 	<input type="tel"  name="mobilephone"  value="<?php echo ($mobilephone); ?>">
                 	<input  class="sentVerify" type="submit" value="发送验证码">
+                	<input class="style" type="hidden" name="type" value="<?php echo ($type); ?>">
                   </FORM>
                   </li><?php endif; ?>
               

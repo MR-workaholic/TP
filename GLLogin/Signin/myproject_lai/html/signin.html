@@ -46,7 +46,8 @@
             	  <FORM method="post" action="{:U('Signin/telverify')}">
                 	<span>手机号码：</span>
                 	<input type="tel" name="mobilephone"  placeholder="手机号为普通登录方式的账号">
-                	<input  class="sentVerify" type="submit" value="发送验证码">             	
+                	<input  class="sentVerify" type="submit" value="发送验证码">
+                	<input class="style" type="hidden" name="type" value="{$type}">             	
                   </FORM>
               	</li>
                  <else/>
@@ -55,6 +56,7 @@
                 	<span>手机号码：</span>
                 	<input type="tel"  name="mobilephone"  value="{$mobilephone}">
                 	<input  class="sentVerify" type="submit" value="发送验证码">
+                	<input class="style" type="hidden" name="type" value="{$type}">
                   </FORM>
                   </li>   
                </eq>

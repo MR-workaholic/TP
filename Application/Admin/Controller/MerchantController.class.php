@@ -14,6 +14,22 @@ class MerchantController extends Controller {
 		$this->display('./GLLogin/Signin/zui-master-me/Merchant/merchantIndex.html');
 	}
 	
+	public function showAgent()
+	{
+		$call = A('Publiccode');
+		$call->check_valid_user();
+		$this->display('./GLLogin/Signin/zui-master-me/Agent/agentIndex.html');
+	}
+	
+	public function showAdmin()
+	{
+		$call = A('Publiccode');
+		$call->check_valid_user();
+		$this->display('./GLLogin/Signin/zui-master-me/Admin/adminIndex.html');
+	}
+	
+	
+	
 	public function showIndex()
 	{
 		$call = A('Publiccode');

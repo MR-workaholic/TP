@@ -49,14 +49,14 @@ class LoginController extends Controller {
 					//$this->success('登陆成功','http://'.$hosts.'/TP/index.php/admin/Merchant/show');//跳转到主页
 					switch ($result['type'])
 					{
-						case '商家':
+						case '普通商家':
 							$this->success('登陆成功', 'http://'.$hosts.'/TP/index.php/admin/Merchant/show');//之后改为跳转到主页
 							break;
 						case '代理商':
-							$this->success('登陆成功 ', 'http://'.$hosts.'/TP/index.php/admin/Merchant/show');//之后改为跳转到主页
+							$this->success('登陆成功 ', 'http://'.$hosts.'/TP/index.php/admin/Merchant/showAgent');//之后改为跳转到主页
 							break;
 						case '管理员':
-							$this->success('登陆成功', 'http://'.$hosts.'/TP/index.php/admin/Merchant/show');//之后改为跳转到主页
+							$this->success('登陆成功', 'http://'.$hosts.'/TP/index.php/admin/Merchant/showAdmin');//之后改为跳转到主页
 							break;
 						default:
 							$this->error('账号类型错误', 'http://'.$hosts.'/TP/index.php/admin/signin/showloginview');
@@ -92,14 +92,14 @@ class LoginController extends Controller {
 					//$this->success('登陆成功','http://'.$hosts.'/TP/index.php/admin/Merchant/show');//跳转到主页
 					switch ($result['type'])
 					{
-						case '商家':
+						case '普通商家':
 							$this->success('登陆成功', 'http://'.$hosts.'/TP/index.php/admin/Merchant/show');//之后改为跳转到主页
 							break;
 						case '代理商':
-							$this->success('登陆成功 ', 'http://'.$hosts.'/TP/index.php/admin/Merchant/show');//之后改为跳转到主页
+							$this->success('登陆成功 ', 'http://'.$hosts.'/TP/index.php/admin/Merchant/showAgent');//之后改为跳转到主页
 							break;
 						case '管理员':
-							$this->success('登陆成功', 'http://'.$hosts.'/TP/index.php/admin/Merchant/show');//之后改为跳转到主页
+							$this->success('登陆成功', 'http://'.$hosts.'/TP/index.php/admin/Merchant/showAdmin');//之后改为跳转到主页
 							break;
 						default:
 							$this->error('账号类型错误', 'http://'.$hosts.'/TP/index.php/admin/signin/showloginview');
@@ -138,14 +138,14 @@ class LoginController extends Controller {
 				//$this->success('登陆成功','http://'.$hosts.'/TP/index.php/admin/Merchant/show');//跳转到主页
 				switch ($result['type'])
 				{
-					case '商家':
+					case '普通商家':
 						$this->success('登陆成功', 'http://'.$hosts.'/TP/index.php/admin/Merchant/show');//之后改为跳转到主页
 						break;
 					case '代理商':
-						$this->success('登陆成功 ', 'http://'.$hosts.'/TP/index.php/admin/Merchant/show');//之后改为跳转到主页
+						$this->success('登陆成功 ', 'http://'.$hosts.'/TP/index.php/admin/Merchant/showAgent');//之后改为跳转到主页
 						break;
 					case '管理员':
-						$this->success('登陆成功', 'http://'.$hosts.'/TP/index.php/admin/Merchant/show');//之后改为跳转到主页
+						$this->success('登陆成功', 'http://'.$hosts.'/TP/index.php/admin/Merchant/showAdmin');//之后改为跳转到主页
 						break;
 					default:
 						$this->error('账号类型错误', 'http://'.$hosts.'/TP/index.php/admin/signin/showloginview');

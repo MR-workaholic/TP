@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>云管理平台－管理员</title>
+
+  <script src="__PUBLIC__/dist/js/jquery-1.11.0.min.js"></script>
+  <script src="__PUBLIC__/dist/js/chart.min.js"></script>
+  <script src="__PUBLIC__/dist/js/image-file-visible.js"></script>
+  <script src="__PUBLIC__/dist/js/ajaxfileupload.js"></script>
+  <script src="__PUBLIC__/dist/js/jquery.minicolors.js"></script>
+
+
+
+  <link href="__PUBLIC__/dist/css/zui.min.css" rel="stylesheet">
+  <link href="__PUBLIC__/dist/css/zui-theme.css" rel="stylesheet">
+  <link href="__PUBLIC__/merchant/css/merchantIndex.css" rel="stylesheet" type="text/css">
+  <link href="__PUBLIC__/dist/css/jquery.minicolors.css" rel="stylesheet" type="text/css">
+  
+<script src="__PUBLIC__/dist/js/bootstrap-paginator.js" type="text/javascript"></script>
+     <link rel="stylesheet" href="__PUBLIC__/dist/css/qunit-1.11.0.css">
+    <link rel="stylesheet" href="__PUBLIC__/dist/css/bootstrapv3.css">
+
+
+
+
+    <!-- --> 
+	<load href="__PUBLIC__/AjaxJs/Base.js" />
+	<load href="__PUBLIC__/AjaxJs/prototype.js" />
+	<load href="__PUBLIC__/AjaxJs/mootools.js" />
+	<load href="__PUBLIC__/AjaxJs/Ajax/ThinkAjax.js" />
+	<load href="__PUBLIC__/AjaxJs/Form/CheckForm.js" />
+
+</head>
+<body >
+<div class="virtual_body">
+ <div id="mywhole">
+
+    <div id="myhat" >
+
+    </div>
+
+    <div id="myhead">
+
+    </div>
+
+    <div id="mymiddle">
+
+      <div id="mymiddletitle">
+      </div>
+
+      <div id="mymiddlecontent">
+
+        <div id="mytitle">
+          <div class="example" contenteditable="false" style="max-width: 217px;min-width: 169px;width: 100%;">
+            <nav class="menu" data-toggle="menu" style="width: 100%;border-right-color: white;">
+
+              <ul class="nav nav-primary" >
+                <li><a href="javascript:void(0);" onclick="clickAgents()"><i class="icon-home"></i> 代理商列表</a></li>
+                <li><a href="javascript:void(0);" onclick="clickDevices()"><i class="icon-home"></i> 设备列表</a></li>
+                <li><a href="javascript:void(0);" onclick="clickStatistics()"><i class="icon-list-ul"></i> 统计数据 </a></li>
+
+              </ul>
+
+            </nav>
+
+          </div>
+        </div>
+
+        <div id="mycontent"></div>
+      </div>
+    </div>
+
+    <div id="mytail">
+      <p style="margin-top:12px;text-align:center;font-size: 13px;color: #aaa;">
+        ©2015 nuomi.com 京公网安备11010802014106号  互联网药品信息服务资格证编号（京-经营性-2011-0009） 营业执照信息
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- ZUI  Javascript组件 -->
+<!--<script src="../dist/js/zui.min.js"></script>-->
+<script>
+  /**
+   * Created by Administrator on 2015/10/27.
+   */
+   var jq = jQuery.noConflict();
+   var routelistStatus = 0;
+    
+   var hat="hatshow";
+   var head="__PUBLIC__/frame/head.html";
+   var middletitle="middletitleshow";
+  // var middletitle="__PUBLIC__/frame/middletitle.html";
+   var mycontent="../Admin/showAgentList";
+   
+   function GetRandomNum(Min,Max)
+   {   
+   	var Range = Max - Min;   
+   	var Rand = Math.random();  //产生0到1之间的随机数 
+   	return(Min + Math.round(Rand * Range));  //round函数：四舍五入  
+   }   
+
+  //加载
+    function hatLoad(){
+      jq("#myhat").load(hat,function(a,status,c){
+        console.log(status);
+        if(status=="error"){
+          jq("#myhat").text("判断加载失败");
+        }
+      });
+    }
+    function headLoad(){
+      jq("#myhead").load(head,function(a,status,c){
+        console.log(status);
+        if(status=="error"){
+          jq("#myhead").text("判断加载失败");
+        }
+      });
+    }
+    function middletitleLoad(){
+      jq("#mymiddletitle").load(middletitle,function(a,status,c){
+        console.log(status);
+        if(status=="error"){
+          jq("#mymiddletitle").text("判断加载失败");
+        }
+      });
+    }
+    function contentLoad(){
+      jq("#mycontent").load(mycontent,function(a,status,c){
+        jq(".virtual_body").scrollTop(0);
+        console.log(status);
+        if(status=="error"){
+          jq("#mycontent").text("判断加载失败");
+        }
+      });
+
+    }
+
+    hatLoad();
+    headLoad();
+    middletitleLoad();
+    contentLoad();
+    menuStyle();
+
+  //menu菜单样式
+    function menuStyle(){
+      jq("ul.nav.nav-primary a").attr("draggable","false");
+      var parentLi=jq("li.nav-parent.show");
+      function down(objLi){objLi.find("a i.icon-chevron-right.nav-parent-fold-icon").removeClass("icon-chevron-right,nav-parent-fold-icon").addClass("icon-rotate-90");}  //icon的图标变为向下
+      down(parentLi);       //初始化：商户信息的icon
+
+      //点击a
+      jq("a").on("click",function(){
+        var objli=jq(this).closest("li");
+
+        //如果点击的有子列表的"li"
+        if(objli.hasClass("nav-parent")){
+          //如果子列表已显示，点击是想要关闭子列表
+          if(objli.hasClass("show")){
+            jq(this).find("i.icon-rotate-90").addClass("icon-chevron-right,nav-parent-fold-icon").removeClass("icon-rotate-90");//icon的图标为向右
+            objli.removeClass("show");
+            jq("li.active").removeClass("active");
+          }
+          //子列表未显示,点击是想要开启子列表
+          else{
+//            关闭其它已经展开的子列表
+            jq("li.show").find("i.icon-rotate-90").addClass("icon-chevron-right,nav-parent-fold-icon").removeClass("icon-rotate-90");//icon的图标为向右
+            jq("li.show").removeClass("show");
+            jq("li.active").removeClass("active");
+            down(objli);
+            objli.addClass("show");
+          }
+        }
+        //点击的是没有子列表的li
+        else{
+          if(objli.parents("li").hasClass("show")){
+            jq("li.active").removeClass("active");
+            objli.addClass("active");
+          }
+          else{
+            jq("li.show").find("i.icon-rotate-90").addClass("icon-chevron-right,nav-parent-fold-icon").removeClass("icon-rotate-90");//icon的图标为向右
+            jq("li.show").removeClass("show");
+            jq("li.active").removeClass("active");
+            objli.addClass("active");
+          }
+        }
+      })
+    }
+
+
+  //菜单监听事件
+      //点击了代理商信息
+      function clickAgents(){
+    	  if(  routelistStatus != 0)
+    	  {
+    	  	 	clearInterval(routelistStatus);
+    	  		routelistStatus = 0;
+    	  	  
+    	  	  }
+        mycontent="../Admin/showAgentList";
+        contentLoad();
+      }
+ //点击了设备列表信息
+      function clickDevices(){
+    	  if(  routelistStatus != 0)
+    	  {
+    	  	 	clearInterval(routelistStatus);
+    	  		routelistStatus = 0;
+    	  	  
+    	  	  }
+        mycontent="../Admin/showDeviceList";
+        contentLoad();
+      }
+
+
+
+      //      点击了“统计数据”
+      function clickStatistics(){
+    	  if(  routelistStatus != 0)
+    	  {
+    	  	 	clearInterval(routelistStatus);
+    	  		routelistStatus = 0;
+    	  	  
+    	  	  }
+        mycontent="../Admin/showStatisticInfo";
+        contentLoad();
+      }
+
+</script>
+
+</body>
+</html>

@@ -21,8 +21,31 @@ class SigninController extends Controller {
 		
 		$this->assign('mobilephone',$mobilephone);  //绑定到html的$mobilephone中
 		$this->assign('hosts', $hosts);
-		$this->assign('type', '商家');
+		$this->assign('type', '普通商家');
 		$this->display('./GLLogin/Signin/myproject_lai/html/signin.html');
+	}
+	
+	//代理商账户注册入口
+	public function showagentsignupview($mobilephone=0)
+	{
+		$hosts = C('Hosts');
+		
+		$this->assign('mobilephone',$mobilephone);  //绑定到html的$mobilephone中
+		$this->assign('hosts', $hosts);
+		$this->assign('type', '代理商');
+		$this->display('./GLLogin/Signin/myproject_lai/html/signin.html');
+		
+	}
+	//管理员账户注册入口
+	public function showadminsignupview($mobilephone=0)
+	{
+		$hosts = C('Hosts');
+		
+		$this->assign('mobilephone',$mobilephone);  //绑定到html的$mobilephone中
+		$this->assign('hosts', $hosts);
+		$this->assign('type', '管理员');
+		$this->display('./GLLogin/Signin/myproject_lai/html/signin.html');
+		
 	}
 	
 	public function showloginview()
@@ -32,12 +55,15 @@ class SigninController extends Controller {
 		$this->display('./GLLogin/Signin/myproject_lai/html/login.html');
 	}
 	
+	
+	
 	/*
 	 *  检测注册的手机的准确性与是否已经注册，返回验证码到网页上
 	 */
 	public  function telverify()
 	{
 		$mobilephone = I('post.mobilephone');
+		$type = I('post.type');
 		$call = A('Publiccode');
 		$hosts = C('Hosts');
 		
@@ -63,7 +89,21 @@ class SigninController extends Controller {
 // 		$str =   getrandstr();
 		$_SESSION[$mobilephone] = $rands;
 		
-		$this->success('请输入验证码：'.$rands,'http://'.$hosts.'/TP/index.php/admin/signin/showsignupview/mobilephone/'.$mobilephone);
+		switch ($type)
+		{
+			case '普通商家':
+				$this->success('请输入验证码：'.$rands,'http://'.$hosts.'/TP/index.php/admin/signin/showsignupview/mobilephone/'.$mobilephone);
+				break;
+			case '代理商':
+				$this->success('请输入验证码：'.$rands,'http://'.$hosts.'/TP/index.php/admin/signin/showagentsignupview/mobilephone/'.$mobilephone);
+				break;
+			case '管理员':
+				$this->success('请输入验证码：'.$rands,'http://'.$hosts.'/TP/index.php/admin/signin/showadminsignupview/mobilephone/'.$mobilephone);
+				break;
+			default:
+				$this->error('类型错误');
+		}
+		
 	   }
 	   elseif($result) {
 	   	$this->error('该用户已经注册');
@@ -108,18 +148,18 @@ class SigninController extends Controller {
 	   						'uid' => $uid,
 	   					);
 	   	
-	   				$call->saveshop($updata_information,0);
+	   				$call->saveshop($updata_information, $type, 0);
 	   					
 					switch ($type)
 					{
-						case '商家':
+						case '普通商家':
 							$this->success('注册成功！请记住密码 '.$mobilephone, 'http://'.$hosts.'/TP/index.php/admin/Merchant/show');//之后改为跳转到主页
 							break;
 						case '代理商':
-							$this->success('注册成功！请记住密码 '.$mobilephone, 'http://'.$hosts.'/TP/index.php/admin/Merchant/show');//之后改为跳转到主页
+							$this->success('注册成功！请记住密码 '.$mobilephone, 'http://'.$hosts.'/TP/index.php/admin/Merchant/showAgent');//之后改为跳转到主页
 							break;
 						case '管理员':
-							$this->success('注册成功！请记住密码 '.$mobilephone, 'http://'.$hosts.'/TP/index.php/admin/Merchant/show');//之后改为跳转到主页
+							$this->success('注册成功！请记住密码 '.$mobilephone, 'http://'.$hosts.'/TP/index.php/admin/Merchant/showAdmin');//之后改为跳转到主页
 							break;
 						default:
 							$this->error('账号类型错误', 'http://'.$hosts.'/TP/index.php/admin/signin/showsignupview');			

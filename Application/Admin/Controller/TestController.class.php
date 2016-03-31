@@ -105,15 +105,16 @@ class TestController extends Controller {
 		$call = A('Publiccode');
 		
 		
-		$phone = 13265478956;
-		$role = '普通商家';
+// 		$phone = 13265478956;
+// 		$role = '普通商家';
+		$Num = 'test0003';
 		
 		/*
 		 * 可以使用json校验工具来检测
 		 */
 		$json = array(
 				"op" => "query",
-				"where" => "where Role = '{$role}' and Phone = {$phone}",
+				"where" => "where Num = '{$Num}'",
 		);
 		
 		$json = json_encode($json);
@@ -271,58 +272,58 @@ class TestController extends Controller {
 		header("Content-Type:text/html;charset=UTF-8");
 		$call = A('Publiccode');
 		
-// 		$BusinessId = 3;
-// 		$json = array(
-// 				"op" => "query",
-// 				"where" => "where BusinessId = {$BusinessId}",
-// 		);
-		
-// 		$json = json_encode($json);
-		
-// 		$result = $call->RouterHandle($json);
-		
-// 		var_dump($result);
-		
-// 		echo $result['rows'][0]['Mac'];
-
-		//构造用户查询json参数
+		$BusinessId = 3;
 		$json = array(
 				"op" => "query",
-				"where" => "where Num = 37",
+				"where" => "where AgentId = 12",
 		);
+		
 		$json = json_encode($json);
 		
-		//执行账户查询,返回数组
-		$jsonResult = $call->AccountHandle($json);
-			
-			
-		//构造设备查询语句
-		$json1 = array(
-				"op" => "query",
-				"where" => "where BusinessId = {$jsonResult['rows'][0]['BId']} and State <> '停用'",
-		);
-			
-		$json1 = json_encode($json1);
-			
-		$result = $call->RouterHandle($json1);
+		$result = $call->RouterHandle($json);
 		
 		var_dump($result);
 		
-		foreach ($result['rows'] as $k=>$v)
-		{
-			$devmes[$k]['dname'] = 'dname'.$k;//$v[''];
-			$devmes[$k]['dtype'] = $v['FirmwareVer'];
-			$devmes[$k]['dssid'] = 'dssid'.$k;//$v[''];
-			$devmes[$k]['dstate'] = $v['State'];
-			$devmes[$k]['donlinenum'] = $v['OnlineCount'];
-			$devmes[$k]['dmac'] = $v['Mac'];
-			$devmes[$k]['dplmac'] = 'dplmac'.$k;//$v[''];
-			$devmes[$k]['dplcbandwidth'] = 'dplcbandwidth'.$k;//$v[''];
-			$devmes[$k]['dplcnetworkname'] = 'dplcnetworkname'.$k;//$v[''];
+		echo $result['rows'][0]['Mac'];
+
+// 		//构造用户查询json参数
+// 		$json = array(
+// 				"op" => "query",
+// 				"where" => "where Num = 37",
+// 		);
+// 		$json = json_encode($json);
 		
-		}
+// 		//执行账户查询,返回数组
+// 		$jsonResult = $call->AccountHandle($json);
 			
-		var_dump($devmes);	
+			
+// 		//构造设备查询语句
+// 		$json1 = array(
+// 				"op" => "query",
+// 				"where" => "where BusinessId = {$jsonResult['rows'][0]['BId']} and State <> '停用'",
+// 		);
+			
+// 		$json1 = json_encode($json1);
+			
+// 		$result = $call->RouterHandle($json1);
+		
+// 		var_dump($result);
+		
+// 		foreach ($result['rows'] as $k=>$v)
+// 		{
+// 			$devmes[$k]['dname'] = 'dname'.$k;//$v[''];
+// 			$devmes[$k]['dtype'] = $v['FirmwareVer'];
+// 			$devmes[$k]['dssid'] = 'dssid'.$k;//$v[''];
+// 			$devmes[$k]['dstate'] = $v['State'];
+// 			$devmes[$k]['donlinenum'] = $v['OnlineCount'];
+// 			$devmes[$k]['dmac'] = $v['Mac'];
+// 			$devmes[$k]['dplmac'] = 'dplmac'.$k;//$v[''];
+// 			$devmes[$k]['dplcbandwidth'] = 'dplcbandwidth'.$k;//$v[''];
+// 			$devmes[$k]['dplcnetworkname'] = 'dplcnetworkname'.$k;//$v[''];
+		
+// 		}
+			
+// 		var_dump($devmes);	
 			
 	//	echo $result['rows'][0]['Mac'];
 	}
@@ -339,36 +340,45 @@ class TestController extends Controller {
 		$BusinessId = 3;
 		$json = array(
 				"op" => "query",
-				"where" => "where BusinessId = {$BusinessId}",
+				"where" => "where AgentId = 12",
 		);
 		
 		$json = json_encode($json);
 		
 		$result = $call->RouterHandle($json);
 		
-		$result['rows'][0]['Mac'] = '00:03:7F:11:20:B0';
+	//	$result['rows'][0]['Mac'] = '00:03:7F:11:20:B0';
 		
 		//下面的元素不用删除也可以更新成功
-		unset($result['rows'][0]['AgentName']);
-		unset($result['rows'][0]['BusinessName']);
-		unset($result['rows'][0]['FirmwareVer']);
-		unset($result['rows'][0]['State']);
-		unset($result['rows'][0]['OnlineCount']);
-		unset($result['rows'][0]['ReceiveData']);
-		unset($result['rows'][0]['SendData']);
+	//	unset($result['rows'][0]['AgentName']);
+// 		unset($result['rows'][0]['BusinessName']);
+// 		unset($result['rows'][0]['BusinessId']);
+// 		unset($result['rows'][0]['FirmwareVer']);
+// 		unset($result['rows'][0]['State']);
+// 		unset($result['rows'][0]['OnlineCount']);
+// 		unset($result['rows'][0]['ReceiveData']);
+// 		unset($result['rows'][0]['SendData']);
 // 		unset($result['rows'][0]['AgentId']);   删除AgentId可以更新成功
 // 		unset($result['rows'][0]['SN']);   删除SN不可以更新成功
 		
-		$json1 = array(
-				"op" => "save",
-				"obj" => $result['rows'][0]
-		);
 		
-		$json1 = json_encode($json1);
+		for($i=1; $i<5; $i++)
+		{
+			unset($result['rows'][$i]['BusinessName']);
+			unset($result['rows'][$i]['BusinessId']);
+			$json1 = array(
+					"op" => "save",
+					"obj" => $result['rows'][$i]
+			);
+			
+			$json1 = json_encode($json1);
+			
+			var_dump($json1);
+			
+			$result1 = $call->RouterHandle($json1);
+			
+		}
 		
-		var_dump($json1);
-		
-		$result1 = $call->RouterHandle($json1);
 		var_dump($result1);
 		
 	}

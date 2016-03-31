@@ -107,7 +107,7 @@ class PubliccodeController extends Controller {
 	/*
 	 * 保存商家信息
 	 */
-	public function  saveshop($updata_information, $mode=0){
+	public function  saveshop($updata_information, $type, $mode=0){
 		
 		$database = C('Database');
 		$webservice = C('Webservice');
@@ -155,7 +155,7 @@ class PubliccodeController extends Controller {
 			$newRole['State'] = '正常';
 			$newRole['Name'] = '例如：山泉公馆';
 			$newRole['Phone'] = $resultForForm1['mobilephone'];
-			$newRole['Role'] = '普通商家';
+			$newRole['Role'] = "{$type}";
 			$newRole['Num'] = $resultForForm1['uid'];
 			$newRole['Contact'] = "例如：李小明";
 			$newRole['Address'] = "例如：林乐路25号中怡城市花园A栋2楼（近中信广场）";
@@ -331,7 +331,7 @@ class PubliccodeController extends Controller {
 		//传递参数，返回结果
 		$param = array('appkey' => $appkey, 'json' => $json,);
 		$result = $client->Router($param);
-		var_dump($result);
+// 		var_dump($result);
 		$jsonResult = json_decode($result->RouterResult);  //注意是$result->RouterResult
 		
 		$jsonResult = $this->object_array($jsonResult);
