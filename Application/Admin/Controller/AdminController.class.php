@@ -110,13 +110,16 @@ class AdminController extends Controller {
 	    $response['type'] = 'JSON';
 	    $this->ajaxReturn($response,'JSON');
 	}
+	
 	//搜索一个商家的信息
 	public function searchAgentList(){
 	    $call = A('Publiccode');
 	    $agentKeyword = I('post.agentKeyword');
+	    $key = I('post.key');
+	    
 	    $json = array(
 	        "op" => "query",
-	        "where" => "where Num = '{$agentKeyword}' OR Name='{$agentKeyword}'",
+	        "where" => "where {$key} = '{$agentKeyword}'",
 	    );
 	    $json = json_encode($json);
 	    $result = $call->AccountHandle($json);
@@ -155,6 +158,7 @@ class AdminController extends Controller {
 
 	    
 	    $response['data']['agentsList'] = $data;
+	    $response['data']['totalPage'] = 1;
 	    if($result == ""){
 	        $response['status'] = 0;
 	        $response['info'] = '查询失败';
@@ -164,6 +168,39 @@ class AdminController extends Controller {
 	    }
 	    $response['type'] = 'JSON';
 	    $this->ajaxReturn($response,'JSON');
+	}
+	
+	
+	//获取搜索的路由列表
+	public function searchRouterList(){
+		
+		$key = I('post.key');
+		$routerKeyword = I('post.routerKeyword');
+		$pageSize = I('post.PageSize');
+		$pageNum = I('post.PageNum');
+		$call = A('Publiccode');
+		
+		$json = array(
+			'op' => 'query',
+			'where' => "where {$key} = '{$routerKeyword}'",
+			'rows' => $pageSize,
+			'page' => $pageNum
+		);
+		
+		$json = json_encode($json);
+		
+		$result = $call->RouterHandle($json);
+		
+		$response['data']['routerMsg'] = $result['rows'];
+		$response['data']['totalPage'] = ceil($result['total']/$pageSize);
+		$response['data']['isSearch'] = 1;
+		$response['status'] = 1;
+		$response['info'] = '';
+		$response['type'] = 'JSON';
+		$this->ajaxReturn($response,'JSON');
+		
+		
+		
 	}
 	
 	
@@ -192,6 +229,7 @@ class AdminController extends Controller {
 	    $response['type'] = 'JSON';
 	    $this->ajaxReturn($response,'JSON');
 	}
+	
 	//获取路由列表
 	public function getrRouterList(){
 	    $pageSize=I('post.PageSize');
@@ -207,8 +245,10 @@ class AdminController extends Controller {
 	    $json = json_encode($json);
 	
 	    $result = $call->RouterHandle($json);
+	    
 	    $response['data']['routerMsg'] = $result['rows'];
 	    $response['data']['totalPage'] = ceil($result['total']/$pageSize);
+	    $response['data']['isSearch'] = 0;
 	    $response['status'] = 1;
 	    $response['info'] = '';
 	    $response['totoalRow'] = $result['total'];
@@ -250,20 +290,30 @@ class AdminController extends Controller {
 	    
 	    $call = A('Publiccode');
 	    $agentKeyword = I('post.agentKeyword');
+	    $key = I('post.key');
+	    
 	    $json = array(
 	        "op" => "query",
-	        "where" => "where Num = '{$agentKeyword}' OR Name='{$agentKeyword}'",
+	        "where" => "where {$key} = '{$agentKeyword}'",
 	    );
 	    $json = json_encode($json);
 	    $result = $call->AccountHandle($json);
 	    
-	    $data[0]['agentId']=$result['rows'][0]['Num'];
-	    $data[0]['agentName']=$result['rows'][0]['Name'];
+	    $data[0]['agentId'] = $result['rows'][0]['Num'];
+	    $data[0]['agentName'] = $result['rows'][0]['Name'];
 	    $response['data']['AgentList'] = $data;
+	    $response['data']['totalPage'] = 1;
 	    $response['status'] = 1;
 	    $response['info'] = '';
 	    $response['type'] = 'JSON';
 	    $this->ajaxReturn($response,'JSON');
 	}
+	
+	
+	
+	
+	
+	
+	
 }
 

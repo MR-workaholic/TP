@@ -58,42 +58,39 @@
             <nav class="menu" data-toggle="menu" style="width: 100%;border-right-color: white;">
 
               <ul class="nav nav-primary" >
-                <li class="active"><a href="javascript:void(0);" onclick="clickIndex()"><i class="icon-home"></i> 首页</a></li>
+              
+                <li class="active"><a href="javascript:void(0);" onclick="clickIndex()" style="font-size:13px"><i class="icon-home"></i> 首页</a></li>
 
                 <li class="nav-parent">
-                  <a href="javascript:;" ><i class="icon-user"></i> 代理商信息 <i class="icon-chevron-right nav-parent-fold-icon"></i></a>
+                  <a href="javascript:;" style="font-size:13px"><i class="icon-user"></i> 代理商信息 <i class="icon-chevron-right nav-parent-fold-icon"></i></a>
                   <ul class="nav">
-                    <li><a href="javascript:void (0);" onclick="clickAgentBasic()">基本信息</a></li>
-                    <li><a href="javascript:void(0);" onclick="clickMerchaList()">设备列表</a></li>
+                    <li><a href="javascript:void (0);" onclick="clickAgentBasic()" style="font-size:13px">基本信息</a></li>
+                    <li><a href="javascript:void(0);" onclick="clickMerchaList()" style="font-size:13px">设备列表</a></li>
                   </ul>
                 </li>
 
 
+               <li><a href="javascript:void (0);" onclick="clickUserList()" style="font-size:13px"><i class="icon-share-alt"></i> 商家列表</a></li>
+                 
+               
+
                 <li class="nav-parent">
-                  <a href="javascript:;"><i class="icon-share-alt"></i> 商家列表 <i class="icon-chevron-right nav-parent-fold-icon"></i></a>
+                  <a href="javascript:;" style="font-size:13px"><i class="icon-newspaper-o"></i> 广告设置 <i class="icon-chevron-right nav-parent-fold-icon"></i></a>
                   <ul class="nav">
-                    <li><a href="javascript:void (0);" onclick="clickUserList()">商家列表</a></li>
-                    <li><a href="javascript:void(0);" onclick="clickUserAdd()">添加</a></li>
+                    <li><a href="javascript:void (0);" onclick="clickADList()" style="font-size:13px">广告列表</a></li>
+                  	<li><a href="javascript:;" onclick="clickADthemeAdd()" style="font-size:13px">添加</a></li>
                   </ul>
                 </li>
 
                 <li class="nav-parent">
-                  <a href="javascript:;"><i class="icon-newspaper-o"></i> 广告设置 <i class="icon-chevron-right nav-parent-fold-icon"></i></a>
+                  <a href="javascript:;" style="font-size:13px"><i class="icon-bar-chart-alt"></i> 运行统计 <i class="icon-chevron-right nav-parent-fold-icon"></i></a>
                   <ul class="nav">
-                    <li><a href="javascript:void (0);" onclick="clickADList()">广告列表</a></li>
-                  	<li><a href="javascript:;" onclick="clickADthemeAdd()" >添加</a></li>
+                    <li><a href="javascript:void(0);" onclick="clickStaticSummary()" style="font-size:13px"> 统计概况</a></li>
+                    <li><a href="javascript:void (0);" onclick="clickMerchantStatic()" style="font-size:13px"> 商户统计情况</a></li>
                   </ul>
                 </li>
 
-                <li class="nav-parent">
-                  <a href="javascript:;"><i class="icon-bar-chart-alt"></i> 运行统计 <i class="icon-chevron-right nav-parent-fold-icon"></i></a>
-                  <ul class="nav">
-                    <li><a href="javascript:void(0);" onclick="clickStaticSummary()"> 统计概况</a></li>
-                    <li><a href="javascript:void (0);" onclick="clickMerchantStatic()"> 商户统计情况</a></li>
-                  </ul>
-                </li>
-
-                <li><a href="javascript:void(0);" onclick="clickAccountSet()"><i class="icon-list-ul"></i> 账号设置 </a></li>
+                <li><a href="javascript:void(0);" onclick="clickAccountSet()" style="font-size:13px"><i class="icon-list-ul"></i> 账号设置 </a></li>
 
               </ul>
 

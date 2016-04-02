@@ -58,9 +58,9 @@
             <nav class="menu" data-toggle="menu" style="width: 100%;border-right-color: white;">
 
               <ul class="nav nav-primary" >
-                <li><a href="javascript:void(0);" onclick="clickAgents()"><i class="icon-home"></i> 代理商列表</a></li>
-                <li><a href="javascript:void(0);" onclick="clickDevices()"><i class="icon-home"></i> 设备列表</a></li>
-                <li><a href="javascript:void(0);" onclick="clickStatistics()"><i class="icon-list-ul"></i> 统计数据 </a></li>
+                <li class="active"><a href="javascript:;" onclick="clickAgents()" style="font-size:13px"><i class="icon-list-alt"></i> 代理商列表</a></li>
+                <li><a href="javascript:void(0);" onclick="clickDevices()" style="font-size:13px"><i class="icon-list-ul"></i> 设备列表</a></li>
+                <li><a href="javascript:void(0);" onclick="clickStatistics()" style="font-size:13px"><i class="icon-bar-chart-alt"></i> 统计数据 </a></li>
 
               </ul>
 

@@ -47,20 +47,7 @@ class LoginController extends Controller {
 					
 					$_SESSION['uid'] = $result['uid'];
 					//$this->success('登陆成功','http://'.$hosts.'/TP/index.php/admin/Merchant/show');//跳转到主页
-					switch ($result['type'])
-					{
-						case '普通商家':
-							$this->success('登陆成功', 'http://'.$hosts.'/TP/index.php/admin/Merchant/show');//之后改为跳转到主页
-							break;
-						case '代理商':
-							$this->success('登陆成功 ', 'http://'.$hosts.'/TP/index.php/admin/Merchant/showAgent');//之后改为跳转到主页
-							break;
-						case '管理员':
-							$this->success('登陆成功', 'http://'.$hosts.'/TP/index.php/admin/Merchant/showAdmin');//之后改为跳转到主页
-							break;
-						default:
-							$this->error('账号类型错误', 'http://'.$hosts.'/TP/index.php/admin/signin/showloginview');
-					}
+					$this->loginIn($result['type'], $hosts);
 					
 				}
 				else {
@@ -90,20 +77,7 @@ class LoginController extends Controller {
 					
 					$_SESSION['uid'] = $result['uid'];
 					//$this->success('登陆成功','http://'.$hosts.'/TP/index.php/admin/Merchant/show');//跳转到主页
-					switch ($result['type'])
-					{
-						case '普通商家':
-							$this->success('登陆成功', 'http://'.$hosts.'/TP/index.php/admin/Merchant/show');//之后改为跳转到主页
-							break;
-						case '代理商':
-							$this->success('登陆成功 ', 'http://'.$hosts.'/TP/index.php/admin/Merchant/showAgent');//之后改为跳转到主页
-							break;
-						case '管理员':
-							$this->success('登陆成功', 'http://'.$hosts.'/TP/index.php/admin/Merchant/showAdmin');//之后改为跳转到主页
-							break;
-						default:
-							$this->error('账号类型错误', 'http://'.$hosts.'/TP/index.php/admin/signin/showloginview');
-					}
+					$this->loginIn($result['type'], $hosts);
 
 						
 				}
@@ -136,20 +110,7 @@ class LoginController extends Controller {
 					
 				$_SESSION['uid'] = $result['uid'];
 				//$this->success('登陆成功','http://'.$hosts.'/TP/index.php/admin/Merchant/show');//跳转到主页
-				switch ($result['type'])
-				{
-					case '普通商家':
-						$this->success('登陆成功', 'http://'.$hosts.'/TP/index.php/admin/Merchant/show');//之后改为跳转到主页
-						break;
-					case '代理商':
-						$this->success('登陆成功 ', 'http://'.$hosts.'/TP/index.php/admin/Merchant/showAgent');//之后改为跳转到主页
-						break;
-					case '管理员':
-						$this->success('登陆成功', 'http://'.$hosts.'/TP/index.php/admin/Merchant/showAdmin');//之后改为跳转到主页
-						break;
-					default:
-						$this->error('账号类型错误', 'http://'.$hosts.'/TP/index.php/admin/signin/showloginview');
-				}
+				$this->loginIn($result['type'], $hosts);
 					
 			}
 			else {
@@ -161,6 +122,30 @@ class LoginController extends Controller {
 		
 		
 			}
+			
+			
+	function loginIn($type, $hosts)
+	{
+		
+		switch ($type)
+		{
+			case '普通商家':
+				$_SESSION['type'] = $type;
+				$this->success('登陆成功', 'http://'.$hosts.'/TP/index.php/admin/Merchant/show');//之后改为跳转到主页
+				break;
+			case '代理商':
+				$_SESSION['type'] = $type;
+				$this->success('登陆成功 ', 'http://'.$hosts.'/TP/index.php/admin/Merchant/showAgent');//之后改为跳转到主页
+				break;
+			case '管理员':
+				$_SESSION['type'] = $type;
+				$this->success('登陆成功', 'http://'.$hosts.'/TP/index.php/admin/Merchant/showAdmin');//之后改为跳转到主页
+				break;
+			default:
+				$this->error('账号类型错误', 'http://'.$hosts.'/TP/index.php/admin/signin/showloginview');
+		}
+
+	}
 		
 		
 	}

@@ -33,14 +33,19 @@
     div.example table.table.table-bordered{
       max-width: 900px;
       min-width: 800px;
-      margin: 0 auto;
+      margin: 10px auto;
       text-align: center;
     }
 
   </style>
   <script>
+  
+   
 //构造分页器
 	function genPaginator(data,status){
+	
+	
+	
 		var options = {
 		        size:"small",
 		        bootstrapMajorVersion:3,
@@ -61,7 +66,15 @@
 	                    return page;
 	                }
 	            },onPageClicked: function (event, originalEvent, type, page) { //异步换页
-	            	ThinkAjax.send("<?php echo U('AgentMessage/getrRouterList');?>",'ajax=1&PageSize=6&PageNum='+page,completeRouterList,'');
+	            	
+	            	if(data['isSearch'] == 0)
+	            		{
+	            			ThinkAjax.send("<?php echo U('AgentMessage/getRouterList');?>",'ajax=1&PageSize=6&PageNum='+page,completeRouterList,'');
+	            		}else{
+	            			$('PageNum').value = page;
+            				ThinkAjax.sendForm('searchRouter', "<?php echo U('AgentMessage/searchRouterList');?>", completeRouterList, '');
+	            		}
+	            	
 	            },
 		    };
 		
@@ -122,6 +135,34 @@
 
 <div class="example">
     <h3>您的设备列表</h3>
+    
+    <form id='searchRouter'> 
+       <div class="input-group">
+       	
+            <span class="input-group-addon">查询内容：</span>
+            <select class="form-control" name="key">
+              <option value="Num">设备名称</option>
+              <option value="Name">设备型号</option>
+              <option value="State">在线状态</option>
+              <option value="Mac">路由MAC</option>
+              <option value="BusinessName">商家名</option>
+            </select>
+            <span class="input-group-addon fix-border fix-padding"></span>
+            
+            <span class="input-group-addon">查询关键字：</span>
+            <span class="input-group-addon fix-border fix-padding"></span>
+            
+            <input type="text" class="form-control" placeholder="填写完整关键字" name="routerKeyword">
+            <input type="hidden" class="form-control" name="ajax" value="1">
+            <input type="hidden" class="form-control" name="PageSize" value="10">
+            <input type="hidden" class="form-control" name="PageNum" value="1" id="PageNum">
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default" onclick="searchRouter()" >搜索</button>
+            </span>
+     
+        </div>
+       </form>
+    
     <table id="routers" class="table table-bordered basic">
       <thead>
       <tr>
@@ -154,8 +195,12 @@
 <script  language="JavaScript">
       
 //开始构造分页插件
- ThinkAjax.send("<?php echo U('AgentMessage/getrRouterList');?>",'ajax=1&PageNum=1&PageSize=6',genPaginator,'');
+ ThinkAjax.send("<?php echo U('AgentMessage/getRouterList');?>",'ajax=1&PageNum=1&PageSize=6',genPaginator,'');
 
+ function searchRouter()
+ {
+	 ThinkAjax.sendForm("searchRouter", "<?php echo U('AgentMessage/searchRouterList');?>", genPaginator, '');
+ }
 
 
 </script>

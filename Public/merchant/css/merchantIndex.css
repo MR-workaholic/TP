@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
 }
-/*-----------改动（2015/12/11）by晓青-----------------*/
+/*-----------鏀瑰姩锛�015/12/11锛塨y鏅撻潚-----------------*/
 html,body{
   width: 100%;
   height: 100%;
@@ -15,7 +15,7 @@ html,body{
   overflow-y: scroll;
   overflow-x: auto;
 }
-/*-----------改动（2015/12/11）by晓青------------------------*/
+/*-----------鏀瑰姩锛�015/12/11锛塨y鏅撻潚------------------------*/
 
 
 #myhat
@@ -119,6 +119,10 @@ html,body{
 div#mytitle ul.nav.nav-primary a.active,div#mytitle ul.nav.nav-primary a:focus{
   font-size: 13px;
 }
+
+
+
+
 #mytail
 {
   max-width:1280px;

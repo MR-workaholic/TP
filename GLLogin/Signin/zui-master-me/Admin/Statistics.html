@@ -38,6 +38,8 @@
 <body>
 <div class="example">
   <div class="container">
+  
+  <!--  
     <div class="row">
       <div class="col-sm-2 col-md-2 col-lg-2">
         <label class="control-label">搜索：</label>
@@ -49,6 +51,31 @@
         <input type="button" class="btn btn-toolbar else" value="搜索" onclick="searchAgent()"/>
       </div>
     </div>
+     -->
+     
+      <form id='statisticsTarget'> 
+       <div class="input-group">
+       	
+            <span class="input-group-addon">查询内容：</span>
+            <select class="form-control" name="key">
+              <option value="Num">代理商ID</option>
+              <option value="Name">代理商名称</option>
+            </select>
+            <span class="input-group-addon fix-border fix-padding"></span>
+            
+            <span class="input-group-addon">查询关键字：</span>
+            <span class="input-group-addon fix-border fix-padding"></span>
+            
+            <input type="text" class="form-control" placeholder="填写关键字" name="agentKeyword">
+            <input type="hidden" class="form-control" name="ajax" value="1">
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default" onclick="searchTarget()" >搜索</button>
+            </span>
+     
+        </div>
+      </form>
+     
+     
   </div>
   <br />
   <p>选择代理商：</p>
@@ -101,6 +128,7 @@
 </div>
 <!--<script src="../../dist/js/jquery-1.11.0.min.js"></script>-->
 <script>
+
 ThinkAjax.send("{:U('Admin/getAgentList4Static')}",'ajax=1&PageSize=3&PageNum=1', genPaginator,'');
 
 function genPaginator(data,status){
@@ -135,8 +163,8 @@ function genPaginator(data,status){
 }
 
 function completeAgentsList4Statistic(data,status){
-	 var table = document.getElementById("agentsList");
-	 var newtbodies="";
+    var table = document.getElementById("agentsList");
+	var newtbodies="";
 	var tbodies= table.getElementsByTagName("tbody");
 	var tbodyCotent = data['AgentList'];
 	for(var i=0;i<tbodyCotent.length;i++){
@@ -147,9 +175,11 @@ function completeAgentsList4Statistic(data,status){
 	tbodies[0].innerHTML=newtbodies;
 }
 
-function searchAgent(){
-	var agentKeyword = jq('#agnetKeyword').val();
-	ThinkAjax.send("{:U('Admin/searchAgent4Statistic')}",'ajax=1&agentKeyword='+agentKeyword,completeAgentsList4Statistic,'');
+function searchTarget(){
+//	var agentKeyword = jq('#agnetKeyword').val();
+//	ThinkAjax.send("{:U('Admin/searchAgent4Statistic')}",'ajax=1&agentKeyword='+agentKeyword,completeAgentsList4Statistic,'');
+	ThinkAjax.sendForm("statisticsTarget", "{:U('Admin/searchAgent4Statistic')}",genPaginator,'');
+
 }
 
 </script>

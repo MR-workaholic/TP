@@ -50,39 +50,61 @@
 </head>
 <body>
 
-
-
-    <!--<div class="panel conter">
-      <div class="panel-body">
-      <div  class="container">
-        <div class="row">
-            <div class="col-sm-4 col-md-4 col-lg-4">
-              <button class="btn btn-lg" type="button">代理商列表</button>
-            </div>
-            <div class="col-sm-4 col-md-4 col-lg-4">
-              <button class="btn btn-lg" type="button">设备列表</button>
-            </div>
-            <div class="col-sm-4 col-md-4 col-lg-4">
-              <button class="btn btn-lg" type="button">统计数据</button>
-            </div>
-        </div>
-        </div>
-      </div>
-    </div>-->
 <div class="example">
     <div class="container">
-      <div class="row">
-        <div class="col-sm-1 col-md-1 col-lg-1">
-          <label class="control-label">关键字： </label>
+    <!-- 
+    <div class="row" style="float:left; border:1px solid red">
+    
+    	<div class="col-sm-3 col-md-3 col-lg-3">
+    	 <label style="width:80px">查询内容： </label>
+    	</div>
+    	
+    	<div class="col-sm-8 col-md-8 col-lg-8">
+	    	 <select class="form-control" name="key" >
+	  			    	<option value="Num">代理商ID</option>
+	  			    	<option value="Name">代理商名称</option>
+	  		 </select>
+  		 </div>
+    
+    </div>
+    
+    
+      <div class="row" style="float:left; border:1px solid blue; margin:10px">
+        <div class="col-sm-2 col-md-2 col-lg-2">
+          <label style="width:80px" >关键字： </label>
         </div>
-        <div class="col-sm-3 col-md-3 col-lg-3">
+        <div class="col-sm-5 col-md-5 col-lg-5">
           <input id="agentKeyword" class="form-control" type="text"  placeholder="搜索代理商ID或者名称"/>
         </div>
         <div class="col-sm-1 col-md-1 col-lg-1">
           <input type="button" class="btn btn-toolbar else" value="搜索" onclick="searchAgent()"/>
         </div>
-        <div class="col-sm-6 col-md-6 col-lg-6"></div>
+       
       </div>
+      
+     <div style="clear: both"></div>
+       -->
+      <form id='searchAgent'> 
+       <div class="input-group">
+       	
+            <span class="input-group-addon">查询内容：</span>
+            <select class="form-control" name="key">
+              <option value="Num">代理商ID</option>
+              <option value="Name">代理商名称</option>
+            </select>
+            <span class="input-group-addon fix-border fix-padding"></span>
+            
+            <span class="input-group-addon">查询关键字：</span>
+            <span class="input-group-addon fix-border fix-padding"></span>
+            
+            <input type="text" class="form-control" placeholder="填写完整的关键字" name="agentKeyword">
+            <input type="hidden" class="form-control" name="ajax" value="1">
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default" onclick="searchAgent()" >搜索</button>
+            </span>
+     
+        </div>
+       </form>
     </div>
 <br/>
     <table id="agents" class="table table-bordered basic">
@@ -93,40 +115,23 @@
         <th>商户拥有数</th>
         <th>设备拥有数</th>
         <th>设备在线数</th>
+        <th>设备操作</th>
         <th>进入代理商账户</th>
         <th>备注</th>
       </tr>
       </thead>
       <tbody>
       <tr>
-        <td>001</td>
-        <td>有缘代理</td>
-        <td>30</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
         <td></td>
         <td></td>
         <td><a href="javascript:">进入</a></td>
         <td></td>
       </tr>
-      <tr>
-      <tr>
-        <td>001</td>
-        <td>有缘代理</td>
-        <td>30</td>
-        <td></td>
-        <td></td>
-        <td><a href="javascript:">进入</a></td>
-        <td></td>
-      </tr>
-      <tr>
-      <tr>
-        <td>001</td>
-        <td>有缘代理</td>
-        <td>30</td>
-        <td></td>
-        <td></td>
-        <td><a href="javascript:">进入</a></td>
-        <td></td>
-      </tr>
+     
       </tbody>
     </table>
     
@@ -178,12 +183,14 @@
 	}
 	
 	function completeAgentInfo(data,status){
+		
 	     var bodyContent = data['agentsList'];
 		 var table = document.getElementById("agents");
 		 var newtbodies="";
 		var tbodies= table.getElementsByTagName("tbody");
 		for(var i=0;i<bodyContent.length;i++){
 			newtbodies += "<tr><td>"+bodyContent[i]['agentId']+"</td><td>"+bodyContent[i]['agentName']+"</td><td>"+bodyContent[i]['MerchantNum']+"</td><td>"+bodyContent[i]['routerNum']+"</td><td>"+bodyContent[i]['onlineRouterNum']+"</td>";
+			newtbodies += "<td><a href=\"javascript:\" onclick=\"addRoute('"+bodyContent[i]['BId']+"')\">添加</a>&nbsp;&nbsp;<a href=\"javascript:\" onclick=\"deleteRoute('"+bodyContent[i]['BId']+"')\">删除</a></td>";
 			newtbodies +="<td><a href=\"javascript:\" onclick=\"enterAgentAccount('"+bodyContent[i]['BId']+"')\">进入</a></td>";
 			newtbodies +="<td>"+bodyContent[i]['note']+"</td>";
 			newtbodies += "</tr>";
@@ -191,10 +198,29 @@
 		tbodies[0].innerHTML=newtbodies;
 	}
 	
+	function addRoute(uid){
+		
+		var top = document.body.clientHeight / 4;
+		var left = document.body.clientWidth / 4; 
+		
+		window.open("../AgentMessage/addRoute/uid/"+uid, "", "width=700,height=400,top="+top+",left="+left+",resizable=no");
+		
+	}
+	
+	function deleteRoute(uid){
+		
+		var top = document.body.clientHeight / 4;
+		var left = document.body.clientWidth / 4; 
+		
+		window.open("../AgentMessage/deleteRoute/uid/"+uid, "", "width=700,height=400,top="+top+",left="+left+",resizable=no");
+		
+		
+	}
+	
 	
 	function searchAgent(){
-		var agentKeyword = jq('#agentKeyword').val();
-		ThinkAjax.send("{:U('Admin/searchAgentList')}",'ajax=1&agentKeyword='+agentKeyword,completeAgentInfo,'');
+		//var agentKeyword = jq('#agentKeyword').val();
+		ThinkAjax.sendForm("searchAgent", "{:U('Admin/searchAgentList')}",genPaginator,'');
 	}
 </script>
 </body>

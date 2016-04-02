@@ -111,6 +111,30 @@ class SigninController extends Controller {
 	}
 	}
 	
+	
+	function loginIn($type, $hosts)
+	{
+	
+		switch ($type)
+		{
+			case '普通商家':
+				$_SESSION['type'] = $type;
+				$this->success('注册成功！请记住密码 ', 'http://'.$hosts.'/TP/index.php/admin/Merchant/show');//之后改为跳转到主页
+				break;
+			case '代理商':
+				$_SESSION['type'] = $type;
+				$this->success('注册成功！请记住密码  ', 'http://'.$hosts.'/TP/index.php/admin/Merchant/showAgent');//之后改为跳转到主页
+				break;
+			case '管理员':
+				$_SESSION['type'] = $type;
+				$this->success('注册成功！请记住密码 ', 'http://'.$hosts.'/TP/index.php/admin/Merchant/showAdmin');//之后改为跳转到主页
+				break;
+			default:
+				$this->error('账号类型错误');
+		}
+	
+	}
+	
 	/*
 	 * 利用框架的自动检测与自动完成检测验证码与填写的数据，全部通过则注册成功
 	 */
@@ -150,20 +174,7 @@ class SigninController extends Controller {
 	   	
 	   				$call->saveshop($updata_information, $type, 0);
 	   					
-					switch ($type)
-					{
-						case '普通商家':
-							$this->success('注册成功！请记住密码 '.$mobilephone, 'http://'.$hosts.'/TP/index.php/admin/Merchant/show');//之后改为跳转到主页
-							break;
-						case '代理商':
-							$this->success('注册成功！请记住密码 '.$mobilephone, 'http://'.$hosts.'/TP/index.php/admin/Merchant/showAgent');//之后改为跳转到主页
-							break;
-						case '管理员':
-							$this->success('注册成功！请记住密码 '.$mobilephone, 'http://'.$hosts.'/TP/index.php/admin/Merchant/showAdmin');//之后改为跳转到主页
-							break;
-						default:
-							$this->error('账号类型错误', 'http://'.$hosts.'/TP/index.php/admin/signin/showsignupview');			
-					}	
+					$this->loginIn($type, $hosts);
 					
 					}else{
 						
@@ -294,7 +305,9 @@ class SigninController extends Controller {
 					 
 					$call->saveshop($updata_information,0);
 				
-					$this->success('注册成功！请记住密码 ', 'http://'.$hosts.'/TP/index.php/admin/Merchant/show');//之后改为跳转到主页
+					//$this->success('注册成功！请记住密码 ', 'http://'.$hosts.'/TP/index.php/admin/Merchant/show');//之后改为跳转到主页
+					$this->loginIn($data['type'], $hosts);
+					
 				}else{
 				
 					$this->error('请联系代理商后，重新注册！ ', 'http://'.$hosts.'/TP/index.php/admin/signin/showsignupview');

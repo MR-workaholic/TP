@@ -139,7 +139,7 @@ class AgentMessageController extends Controller {
  
     
 //获取路由列表
-    public function getrRouterList(){
+    public function getRouterList(){
     	
      	$agentid = 12;
         $pageSize=I('post.PageSize');
@@ -158,6 +158,7 @@ class AgentMessageController extends Controller {
         
         $response['data']['routerList'] = $result['rows'];
         $response['data']['totalPage'] = ceil($result['total']/$pageSize);
+        $response['data']['isSearch'] = 0;
         $response['status'] = 1;
         $response['info'] = '';
  
@@ -165,6 +166,40 @@ class AgentMessageController extends Controller {
         $this->ajaxReturn($response,'JSON');
 
 
+    }
+    
+    //获取搜索结果的路由列表
+    
+    public function searchRouterList(){
+    	
+    	$call = A('Publiccode');
+    	$key = I('post.key');
+    	$routerKeyword = I('post.routerKeyword');
+    	$pageSize = I('post.PageSize');
+    	$pageNum = I('post.PageNum');
+    
+    	$json = array(
+    			'op' => 'query',
+    			'where' => "where {$key} = '{$routerKeyword}'",
+    			'rows' => $pageSize,
+    			'page' => $pageNum
+    	);
+    	
+    	$json = json_encode($json);
+    	
+    	$result = $call->RouterHandle($json);
+    	
+    	$response['data']['routerList'] = $result['rows'];
+    	$response['data']['totalPage'] = ceil($result['total']/$pageSize);
+    	$response['data']['isSearch'] = 1;
+    	$response['status'] = 1;
+    	$response['info'] = '';
+    	$response['type'] = 'JSON';
+    	$this->ajaxReturn($response,'JSON');
+    	
+    	
+    	
+    	
     }
     
     //获取商家列表
@@ -187,6 +222,7 @@ class AgentMessageController extends Controller {
     	$result = $call->AccountHandle($json);
     	$response['data']['merchantList'] = $result['rows'];
     	$response['data']['totalPage'] = ceil($result['total']/$PageSize);
+    	$response['data']['isSearch'] = 0;
     	$response['status'] = 1;
     	$response['info'] = '';
     	
@@ -197,6 +233,43 @@ class AgentMessageController extends Controller {
     	
     	
     }
+    
+    //搜索商家列表结果
+    public function searchMerchantList()
+    {
+    	$call = A('Publiccode');
+    	$key = I('post.key');
+    	$merchantKeyword = I('post.merchantKeyword');
+    	$PageSize = I('post.PageSize');
+    	$pageNum  = I('post.PageNum');
+    	$agentid  = 12;
+    	
+    	$json = array(
+    			"op" => "query",
+    			"where" => "where {$key} = '{$merchantKeyword}' and AgentId = {$agentid}",
+    			"rows"  => $PageSize,
+    			"page"  => $pageNum,
+    	);
+    	 
+    	$json = json_encode($json);
+    	 
+    	$result = $call->AccountHandle($json);
+    	$response['data']['merchantList'] = $result['rows'];
+    	$response['data']['totalPage'] = ceil($result['total']/$PageSize);
+    	$response['data']['isSearch'] = 1;
+    	$response['status'] = 1;
+    	$response['info'] = '';
+    	 
+    	$response['type'] = 'JSON';
+    	$this->ajaxReturn($response,'JSON');
+    	
+    	
+    	
+    	
+    	
+    }
+    
+    
   //删除路由
     public function deleteRouter(){
         $call = A('Publiccode');
@@ -256,7 +329,7 @@ class AgentMessageController extends Controller {
 		return $data;
     }
     
-    //删除路由
+    //删除商家
     public function deleteMerchant(){
     	
     	$call = A('Publiccode');
@@ -288,6 +361,7 @@ class AgentMessageController extends Controller {
     {
     	$this->assign('businessId',$uid);
     	$this->assign('action', 'ADD');
+    	//$this->assign('type', I('session.type'));
     	$this->display('./GLLogin/Signin/zui-master-me/Agent/addRoute.html');
     }
     
@@ -295,6 +369,7 @@ class AgentMessageController extends Controller {
     {
     	$this->assign('businessId',$uid);
     	$this->assign('action', 'DELETE');
+    	//$this->assign('type', I('session.type'));
     	$this->display('./GLLogin/Signin/zui-master-me/Agent/addRoute.html');
     }
     
@@ -303,14 +378,30 @@ class AgentMessageController extends Controller {
     	$call = A('Publiccode');
     	$pageNum = I('post.PageNum');
     	$pageSize = I('post.PageSize');
+    	$type = I('session.type');
+    	
+    	if ($type == '代理商')
+    	{
+    		$json = array(
+    				'op' => 'query',
+    				'where' => "where AgentId = 12 and BusinessId = 0",
+    				"rows"  => $pageSize,
+    				"page"  => $pageNum,
+    		);
+    		
+    	}else {
+    		
+    		$json = array(
+    				'op' => 'query',
+    				'where' => 'where AgentId = 0',
+    				"rows"  => $pageSize,
+    				"page"  => $pageNum,
+    		);
+    		
+    	}
     	
     	
-    	$json = array(
-    		'op' => 'query',
-    		'where' => "where AgentId = 12 and BusinessId = 0",
-    		"rows"  => $pageSize,
-    		"page"  => $pageNum,	 
-    	);
+    	
     	
     	$json = json_encode($json);
     	
@@ -332,14 +423,31 @@ class AgentMessageController extends Controller {
     	$pageNum = I('post.PageNum');
     	$pageSize = I('post.PageSize');
     	$businessId = I('post.businessId');
-    	 
-    	 
-    	$json = array(
+    	$type = I('session.type');
+    	
+    	if ($type == '代理商')
+    	{
+    		
+    		$json = array(
     			'op' => 'query',
     			'where' => "where AgentId = 12 and BusinessId = ".$businessId,
     			"rows"  => $pageSize,
     			"page"  => $pageNum,
     	);
+    	
+    	}else {
+    	
+    		$json = array(
+    				'op' => 'query',
+    				'where' => "where AgentId = ".$businessId,
+    				"rows"  => $pageSize,
+    				"page"  => $pageNum,
+    		);
+    	
+    	}
+    	 
+    	 
+    
     	 
     	$json = json_encode($json);
     	 
@@ -359,6 +467,7 @@ class AgentMessageController extends Controller {
     	$businessId = I('post.businessId');
     	$route = I('post.route');
     	$call = A('Publiccode');
+    	$type = I('session.type');
     	
     	if (!empty($route))
     	{
@@ -374,7 +483,13 @@ class AgentMessageController extends Controller {
     			
     			$result = $call->RouterHandle($json);
     			
-    			$result['rows'][0]['BusinessId'] = $businessId;
+    			if ($type == '代理商')
+    			{
+    				$result['rows'][0]['BusinessId'] = $businessId;
+    			}else{
+    				$result['rows'][0]['AgentId'] = $businessId;
+    			}
+    			
 
     			$json1 = array(
     					"op" => "save",
@@ -415,6 +530,7 @@ class AgentMessageController extends Controller {
     	$businessId = I('post.businessId');
     	$route = I('post.route');
     	$call = A('Publiccode');
+    	$type = I('session.type');
     	 
     	if (!empty($route))
     	{
@@ -430,8 +546,16 @@ class AgentMessageController extends Controller {
     		 
     		$result = $call->RouterHandle($json);
     		 
-    		unset($result['rows'][0]['BusinessName']);
-			unset($result['rows'][0]['BusinessId']);
+    		if ($type == '代理商')
+    		{
+    			unset($result['rows'][0]['BusinessName']);
+    			unset($result['rows'][0]['BusinessId']);
+    			
+    		}else{
+    			unset($result['rows'][0]['AgentName']);
+    			unset($result['rows'][0]['AgentId']);
+    		}
+    		
     	
     		$json1 = array(
     		"op" => "save",

@@ -63,8 +63,15 @@
 	                }
 	            },
 	            onPageClicked: function (event, originalEvent, type, page) { //异步换页
-	            ThinkAjax.send("<?php echo U('AgentMessage/getrMerchantList');?>",'ajax=1&PageSize=2&PageNum='+page, completeMerchantList, '');
-	            },
+	            	
+	            	if(data['isSearch'] == 0)
+	            		{
+	            			ThinkAjax.send("<?php echo U('AgentMessage/getrMerchantList');?>",'ajax=1&PageSize=2&PageNum='+page, completeMerchantList, '');
+	            		}else{
+	            			$('PageNum').value = page;
+	            			ThinkAjax.sendForm("searchMerchant", "<?php echo U('AgentMessage/searchMerchantList');?>", completeMerchantList, '');
+	            		}
+	             },
 		    };
 		
 			var element =  jq('#paginator-test');
@@ -106,7 +113,6 @@
 		var left = document.body.clientWidth / 4; 
 		
 		window.open("../AgentMessage/addRoute/uid/"+uid, "", "width=700,height=400,top="+top+",left="+left+",resizable=no");
-		//window.open("../AgentMessage/addRoute/uid/"+uid);
 		
 	}
 	
@@ -145,16 +151,29 @@
 <div class="example">
   <div class="container">
     <h3>商家列表</h3>
-    <div  class="row">
-      <div class="col-sm-2 col-md-2 col-lg-2"></div>
-      <div class="col-sm-3 col-md-3 col-lg-3">
-        <input type="text" class="form-control" placeholder="搜索商家"/>
-      </div>
-      <div class="col-sm-1 col-md-1 col-lg-1">
-        <input type="button" class="btn btn-toolbar else" value="搜索"/>
-      </div>
-      <div class="col-sm-6 col-md-6 col-lg-6"></div>
-    </div>
+      <form id='searchMerchant'> 
+       <div class="input-group">
+       	
+            <span class="input-group-addon">查询内容：</span>
+            <select class="form-control" name="key">
+              <option value="Contact">负责人</option>
+              <option value="Name">商家名称</option>
+            </select>
+            <span class="input-group-addon fix-border fix-padding"></span>
+            
+            <span class="input-group-addon">查询关键字：</span>
+            <span class="input-group-addon fix-border fix-padding"></span>
+            
+            <input type="text" class="form-control" placeholder="填写完整的关键字" name="merchantKeyword">
+            <input type="hidden" class="form-control" name="ajax" value="1">
+            <input type="hidden" class="form-control" name="PageSize" value="2">
+            <input type="hidden" class="form-control" name="PageNum" value="1" id="PageNum">
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default" onclick="searchMerchant()" >搜索</button>
+            </span>
+     
+        </div>
+       </form>
   </div>
   <br />
     <table id="merchants" class="table table-bordered basic">
@@ -189,6 +208,10 @@
 
 	//开始构造分页插件
 	ThinkAjax.send("<?php echo U('AgentMessage/getrMerchantList');?>",'ajax=1&PageNum=1&PageSize=2', genPaginator,'');
+	
+	function searchMerchant(){
+		ThinkAjax.sendForm("searchMerchant", "<?php echo U('AgentMessage/searchMerchantList');?>", genPaginator, '');
+	}
 
 </script>
 </body>

@@ -260,6 +260,7 @@ class MerchantController extends Controller {
 		session_start();
 		
 		unset($_SESSION['uid']);
+		unset($_SESSION['type']);
 		
 		
 		$result_dest = session_destroy();
