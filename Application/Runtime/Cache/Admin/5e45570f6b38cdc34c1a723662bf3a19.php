@@ -84,7 +84,7 @@
       
      <div style="clear: both"></div>
        -->
-         <form id='searchAgent'> 
+      <form id='searchAgent'> 
        <div class="input-group">
        	
             <span class="input-group-addon">查询内容：</span>
@@ -97,7 +97,7 @@
             <span class="input-group-addon">查询关键字：</span>
             <span class="input-group-addon fix-border fix-padding"></span>
             
-            <input type="text" class="form-control" placeholder="填写关键字" name="agentKeyword">
+            <input type="text" class="form-control" placeholder="填写完整的关键字" name="agentKeyword">
             <input type="hidden" class="form-control" name="ajax" value="1">
             <span class="input-group-btn">
               <button type="button" class="btn btn-default" onclick="searchAgent()" >搜索</button>
@@ -106,7 +106,9 @@
         </div>
        </form>
     </div>
-<br/>
+    
+	<br/>
+
     <table id="agents" class="table table-bordered basic">
       <thead>
       <tr>
@@ -121,16 +123,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td><a href="javascript:">进入</a></td>
-        <td></td>
-      </tr>
+     
      
       </tbody>
     </table>
@@ -184,18 +177,33 @@
 	
 	function completeAgentInfo(data,status){
 		
-	     var bodyContent = data['agentsList'];
-		 var table = document.getElementById("agents");
-		 var newtbodies="";
-		var tbodies= table.getElementsByTagName("tbody");
-		for(var i=0;i<bodyContent.length;i++){
-			newtbodies += "<tr><td>"+bodyContent[i]['agentId']+"</td><td>"+bodyContent[i]['agentName']+"</td><td>"+bodyContent[i]['MerchantNum']+"</td><td>"+bodyContent[i]['routerNum']+"</td><td>"+bodyContent[i]['onlineRouterNum']+"</td>";
-			newtbodies += "<td><a href=\"javascript:\" onclick=\"addRoute('"+bodyContent[i]['BId']+"')\">添加</a>&nbsp;&nbsp;<a href=\"javascript:\" onclick=\"deleteRoute('"+bodyContent[i]['BId']+"')\">删除</a></td>";
-			newtbodies +="<td><a href=\"javascript:\" onclick=\"enterAgentAccount('"+bodyContent[i]['BId']+"')\">进入</a></td>";
-			newtbodies +="<td>"+bodyContent[i]['note']+"</td>";
-			newtbodies += "</tr>";
-		}
-		tbodies[0].innerHTML=newtbodies;
+		if(status == 0)
+			{
+				 
+				 var table = document.getElementById("agents");
+				 var newtbodies = "";
+				 var tbodies = table.getElementsByTagName("tbody");
+				 newtbodies += "<h4>没有任何代理商</h4>";
+				 tbodies[0].innerHTML=newtbodies;
+			
+			}else{
+				
+				 var bodyContent = data['agentsList'];
+				 var table = document.getElementById("agents");
+				 var newtbodies="";
+				 var tbodies= table.getElementsByTagName("tbody");
+				 for(var i=0;i<bodyContent.length;i++){
+					newtbodies += "<tr><td>"+bodyContent[i]['agentId']+"</td><td>"+bodyContent[i]['agentName']+"</td><td>"+bodyContent[i]['MerchantNum']+"</td><td>"+bodyContent[i]['routerNum']+"</td><td>"+bodyContent[i]['onlineRouterNum']+"</td>";
+					newtbodies += "<td><a href=\"javascript:\" onclick=\"addRoute('"+bodyContent[i]['BId']+"')\">添加</a>&nbsp;&nbsp;<a href=\"javascript:\" onclick=\"deleteRoute('"+bodyContent[i]['BId']+"')\">删除</a></td>";
+					newtbodies +="<td><a href=\"javascript:\" onclick=\"enterAgentAccount('"+bodyContent[i]['BId']+"')\">进入</a></td>";
+					newtbodies +="<td>"+bodyContent[i]['note']+"</td>";
+					newtbodies += "</tr>";
+				 }
+				 tbodies[0].innerHTML=newtbodies;
+				
+			}
+		
+	     
 	}
 	
 	function addRoute(uid){

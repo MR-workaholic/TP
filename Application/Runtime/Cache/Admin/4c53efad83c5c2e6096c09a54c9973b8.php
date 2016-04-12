@@ -109,7 +109,9 @@
   <div class="routeSet">
       <!-------无线网络使能--------->
       <p class="wifiEnable">
-       	 无线网络使能：<input id="wifiEnable" type="checkbox" name="wifiEnable" checked="checked"/>
+      	
+       	   	 无线网络使能：<input id="wifiEnable" type="checkbox" name="wifiEnable"/>
+       	
       </p>
 
       <!-------增加SSID--------->
@@ -210,7 +212,7 @@
 
       <!-------升级--------->
       <div class="upgrade">
-        <p>现版本号：<strong id="version"></strong> <span>最新版本：1.0.1</span></p>
+        <p>现版本号：<strong id="version"></strong> <span>最新版本：<strong id="newVersion"></strong></span></p>
         <input id="upgrade" type="button" value=" 升 级 "/>
       </div>
   </div>
@@ -288,7 +290,7 @@ var objTable=jq("div.MACadress table");
         jq("p.SSIDadd>input,table input[id],div.MACadress p>input,div.wirelessParameter select").attr("disabled","isDisabled");
       }
       if(flag){
-      jq("p.SSIDadd>input,table input[id],div.MACadress p>input,div.wirelessParameter select").removeAttr("disabled");
+      	jq("p.SSIDadd>input,table input[id],div.MACadress p>input,div.wirelessParameter select").removeAttr("disabled");
       }
     })
 </script>
@@ -329,15 +331,25 @@ var objTable=jq("div.MACadress table");
 		
 		if(status == 1)
 			{
-			  security_mod = "../Routeset/SSIDset/did/"+data['did']; 
+			  security_mod = "../Routeset/SSIDset/mac/"+data['mac']; 
 			  $('dssid').innerHTML = data['dssid'];
 			  $('power').value = data['power'];
 			  $('dsid').value = data['dsid'];
 			  $('did').value = data['did'];
 			  $('version').innerHTML = data['version'];
+			  $('newVersion').innerHTML = data['newVersion'];
 			  displaySelect(data['channel'], 'channel');
 			  displaySelect(data['wlmodel'], 'pattern');
 			  displaySelect(data['bandwidth'], 'bandwidth');
+			  
+			  var boxes = document.getElementsByName('wifiEnable');
+			 
+			  if(data['enable'] == 1)
+				  {
+				  	boxes[0].checked = true;
+				  }else{
+					  boxes[0].checked = false; 
+				  }
 			  
 			}
 		

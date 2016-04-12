@@ -71,7 +71,7 @@
 	            break; 
 	        }
 	   }
-	}
+ }
 
 	ThinkAjax.send("<?php echo U('Authentication/authenticationmescalling');?>",'ajax=1&calling='+'y',completeauthenticationmescalling,'');
 	
@@ -86,7 +86,7 @@
 			   {
 			     case "1":  radio_value='onclickLogin'; jq(".oneclickLogin").show();jq(".signin1").hide();break;
 			     case "2":  radio_value='signin';jq(".signin1,.oneclickLogin").show();break;
-			     default: radio_value='nosignin'; jq(".oneclickLogin,.signin1").hide();
+			     default: 	radio_value='nosignin'; jq(".oneclickLogin,.signin1").hide();
 			   }
 			   //console.log(radio_value);
 			   

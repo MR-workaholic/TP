@@ -65,7 +65,7 @@
 <ul class="wireSecuritySet">
   <li>名称：
   	<input type="text" name="dssid" id='dssid' value=''/>
-  	<input type="hidden" name='did' value=<?php echo ($did); ?>/>
+  	<input type="hidden" name='mac' value=<?php echo ($mac); ?>/>
   </li>
   
   <li>加密：
@@ -77,7 +77,7 @@
    </select>
   </li>
   
-  <li>密码：<input type="password" name="devpassword" id='devpassword' value=''/></li>
+  <li>密码：<input type="text" name="devpassword" id='devpassword' value=''/></li>
 </ul>
 </form>
 
@@ -93,7 +93,7 @@
  // console.log('<?php echo ($smodel); ?>');
   //displaySelect('<?php echo ($smodel); ?>','smodel');
   
-  ThinkAjax.send("<?php echo U('Routeset/SSIDmescalling');?>",'ajax=1&calling='+'<?php echo ($did); ?>',completeSSIDmescalling,'');
+  ThinkAjax.send("<?php echo U('Routeset/SSIDmescalling');?>",'ajax=1&calling='+'<?php echo ($mac); ?>',completeSSIDmescalling,'');
 	
 	function completeSSIDmescalling(data,status)
 	{

@@ -44,8 +44,6 @@
 //构造分页器
 	function genPaginator(data,status){
 	
-	
-	
 		var options = {
 		        size:"small",
 		        bootstrapMajorVersion:3,
@@ -87,19 +85,40 @@
 
 
 	//把列表信息填充到table中
-	function completeRouterList(data,status){
-		routerList = data['routerList'];
-		 var table = document.getElementById("routers");
-		 var newtbodies="";
-		var tbodies= table.getElementsByTagName("tbody");
-		for(var i=0;i<routerList.length;i++){
-			newtbodies += "<tr><td>"+routerList[i]['SN']+"</td><td>"+routerList[i]['FirmwareVer']+"</td><td>"+routerList[i]['State']+"</td><td>"+routerList[i]['Mac']+"</td><td>"+routerList[i]['BusinessName']+"</td>";
-			newtbodies +="<td>"+routerList[i]['FirmwareVer']+"</td><td>"+""+"</td>";
-			newtbodies +="<td><a href=\"javascript:\" onclick=\"getRouterDetail('"+routerList[i]['RouterId']+"')\">查看</a></td>";
-			newtbodies += "<td><a href=\"javascript:\" onclick=\"upgradeConfirm('"+routerList[i]['RouterId']+"')\">升级</a>&nbsp;&nbsp;<a href=\"javascript:\" onclick=\"deleteConfirm('"+routerList[i]['RouterId']+"','"+i+"')\">删除</a></td>";
-			newtbodies += "</tr>";
-		}
-		tbodies[0].innerHTML=newtbodies;
+	function completeRouterList(data, status){
+	
+		
+		if(status == 0)
+			{
+			
+			
+			var table = document.getElementById("routers");
+			var newtbodies = "";
+			var tbodies = table.getElementsByTagName("tbody");
+			
+			newtbodies += "<h4>没有任何路由设备</h4>";
+			
+			tbodies[0].innerHTML = newtbodies;
+				
+				
+			
+			}else{
+				
+				routerList = data['routerList'];
+				var table = document.getElementById("routers");
+				var newtbodies="";
+				var tbodies= table.getElementsByTagName("tbody");
+				for(var i=0;i<routerList.length;i++){
+					newtbodies += "<tr><td>"+routerList[i]['SN']+"</td><td>"+routerList[i]['FirmwareVer']+"</td><td>"+routerList[i]['State']+"</td><td>"+routerList[i]['Mac']+"</td><td>"+routerList[i]['BusinessName']+"</td>";
+					newtbodies +="<td>"+routerList[i]['FirmwareVer']+"</td><td>"+""+"</td>";
+					newtbodies +="<td><a href=\"javascript:\" onclick=\"getRouterDetail('"+routerList[i]['RouterId']+"')\">查看</a></td>";
+					newtbodies += "<td><a href=\"javascript:\" onclick=\"upgradeConfirm('"+routerList[i]['RouterId']+"')\">升级</a>&nbsp;&nbsp;<a href=\"javascript:\" onclick=\"deleteConfirm('"+routerList[i]['RouterId']+"','"+i+"')\">删除</a></td>";
+					newtbodies += "</tr>";
+				}
+				tbodies[0].innerHTML=newtbodies;
+				
+			}
+			
 	}
 	
 	

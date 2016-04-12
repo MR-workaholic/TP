@@ -155,15 +155,31 @@ class AgentMessageController extends Controller {
         $json = json_encode($json);
         
         $result = $call->RouterHandle($json);
+
         
-        $response['data']['routerList'] = $result['rows'];
-        $response['data']['totalPage'] = ceil($result['total']/$pageSize);
-        $response['data']['isSearch'] = 0;
-        $response['status'] = 1;
-        $response['info'] = '';
- 
-        $response['type'] = 'JSON';
-        $this->ajaxReturn($response,'JSON');
+        if($result['total'] == 0 || !$result)
+        {
+        	$response['data']['totalPage'] = 1;
+        	$response['data']['isSearch'] = 0;
+        	$response['status'] = 0;
+        	$response['info'] = '';
+        	$response['type'] = 'JSON';
+        	$this->ajaxReturn($response,'JSON');
+        	
+        }else {
+        	
+        	$response['data']['routerList'] = $result['rows'];
+        	$response['data']['totalPage'] = ceil($result['total']/$pageSize);
+        	$response['data']['isSearch'] = 0;
+        	$response['status'] = 1;
+        	$response['info'] = '';
+        	
+        	$response['type'] = 'JSON';
+        	$this->ajaxReturn($response,'JSON');
+        	
+        }
+        
+       
 
 
     }
@@ -188,6 +204,22 @@ class AgentMessageController extends Controller {
     	$json = json_encode($json);
     	
     	$result = $call->RouterHandle($json);
+ 
+    	
+    	if($result['total'] == 0 || !$result)
+    	{
+    		
+    		$response['data']['totalPage'] = 1;
+    		$response['data']['isSearch'] = 1;
+    		$response['status'] = 0;
+    		$response['info'] = '';
+    		$response['type'] = 'JSON';
+    		$this->ajaxReturn($response,'JSON');
+    		
+    		
+    	}else{
+    		
+    	
     	
     	$response['data']['routerList'] = $result['rows'];
     	$response['data']['totalPage'] = ceil($result['total']/$pageSize);
@@ -197,13 +229,13 @@ class AgentMessageController extends Controller {
     	$response['type'] = 'JSON';
     	$this->ajaxReturn($response,'JSON');
     	
-    	
+    	}
     	
     	
     }
     
     //获取商家列表
-    public function getrMerchantList(){
+    public function getMerchantList(){
     	
     	$agentid  = 12;
     	$call     = A('Publiccode');
@@ -220,14 +252,33 @@ class AgentMessageController extends Controller {
     	$json = json_encode($json);
     	
     	$result = $call->AccountHandle($json);
-    	$response['data']['merchantList'] = $result['rows'];
-    	$response['data']['totalPage'] = ceil($result['total']/$PageSize);
-    	$response['data']['isSearch'] = 0;
-    	$response['status'] = 1;
-    	$response['info'] = '';
+		
     	
-    	$response['type'] = 'JSON';
-    	$this->ajaxReturn($response,'JSON');
+    	if ($result['total'] == 0 || !$result)
+    	{
+    		
+    		$response['data']['totalPage'] = 1;
+    		$response['data']['isSearch'] = 0;
+    		$response['status'] = 0;
+    		$response['info'] = '';
+    		 
+    		$response['type'] = 'JSON';
+    		$this->ajaxReturn($response,'JSON');
+    		
+    		
+    	}else{
+    		
+    		$response['data']['merchantList'] = $result['rows'];
+    		$response['data']['totalPage'] = ceil($result['total']/$PageSize);
+    		$response['data']['isSearch'] = 0;
+    		$response['status'] = 1;
+    		$response['info'] = '';
+    		 
+    		$response['type'] = 'JSON';
+    		$this->ajaxReturn($response,'JSON');
+    		
+    	}
+    	
     	
     	
     	
@@ -254,19 +305,32 @@ class AgentMessageController extends Controller {
     	$json = json_encode($json);
     	 
     	$result = $call->AccountHandle($json);
-    	$response['data']['merchantList'] = $result['rows'];
-    	$response['data']['totalPage'] = ceil($result['total']/$PageSize);
-    	$response['data']['isSearch'] = 1;
-    	$response['status'] = 1;
-    	$response['info'] = '';
-    	 
-    	$response['type'] = 'JSON';
-    	$this->ajaxReturn($response,'JSON');
     	
+    	if ($result['total'] == 0 || !$result )
+    	{
+    		
+    		$response['data']['totalPage'] = 1;
+    		$response['data']['isSearch'] = 1;
+    		$response['status'] = 0;
+    		$response['info'] = '';
+    		
+    		$response['type'] = 'JSON';
+    		$this->ajaxReturn($response,'JSON');
+    		
+    	}else{
+    		
+    		$response['data']['merchantList'] = $result['rows'];
+    		$response['data']['totalPage'] = ceil($result['total']/$PageSize);
+    		$response['data']['isSearch'] = 1;
+    		$response['status'] = 1;
+    		$response['info'] = '';
+    		
+    		$response['type'] = 'JSON';
+    		$this->ajaxReturn($response,'JSON');
+    		
+    	}
     	
-    	
-    	
-    	
+	
     }
     
     

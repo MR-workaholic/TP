@@ -33,7 +33,7 @@
     div.example table.table.table-bordered{
       max-width: 1200px;
       min-width: 800px;
-      margin: 10px auto;
+      margin: 0px auto;
       text-align: center;
     }
 
@@ -71,7 +71,7 @@
 	            	
 	            	if(isSearch == 0)
 	            		{
-	            			ThinkAjax.send("{:U('Admin/getrRouterList')}",'ajax=1&PageSize=10&PageNum='+page,completeRouterList,'');
+	            			ThinkAjax.send("{:U('Admin/getRouterList')}",'ajax=1&PageSize=10&PageNum='+page,completeRouterList,'');
 	            		}else
 	            			{
 	            				$('PageNum').value = page;
@@ -86,19 +86,34 @@
 			completeRouterList(data,status);
 }
 	//把列表信息填充到table中
-	function completeRouterList(data,status){
-		routerList = data['routerMsg'];
-		var table = document.getElementById("routers");
-		var newtbodies="";
-		var tbodies= table.getElementsByTagName("tbody");
-		for(var i=0;i<routerList.length;i++){
-			newtbodies += "<tr><td>"+routerList[i]['SN']+"</td><td>"+routerList[i]['FirmwareVer']+"</td><td>"+routerList[i]['State']+"</td><td>"+routerList[i]['Mac']+"</td><td>"+routerList[i]['BusinessName']+"</td>";
-			newtbodies += "<td>"+routerList[i]['AgentName']+"</td><td>"+routerList[i]['FirmwareVer']+"</td><td>"+""+"</td>";
-			newtbodies += "<td><a href=\"javascript:\" onclick=\"getRouterDetail('"+routerList[i]['RouterId']+"')\">查看</a></td>";
-			newtbodies += "<td><a href=\"javascript:\" onclick=\"upgradeConfirm()\">升级</a>&nbsp;&nbsp;<a href=\"javascript:\" onclick=\"deleteConfirm('"+routerList[i]['RouterId']+"','"+i+"')\">删除</a></td>";
-			newtbodies += "</tr>";
+	function completeRouterList(data, status){
+		
+		if(status == 0){
+			
+			var table = document.getElementById("routers");
+			var newtbodies = "";
+			var tbodies = table.getElementsByTagName("tbody");
+			newtbodies += "<h4>没有任何路由设备</h4>";
+			tbodies[0].innerHTML = newtbodies;
+			
+		}else{
+			
+			routerList = data['routerMsg'];
+			var table = document.getElementById("routers");
+			var newtbodies = "";
+			var tbodies = table.getElementsByTagName("tbody");
+			for(var i=0;i<routerList.length;i++){
+				newtbodies += "<tr><td>"+routerList[i]['SN']+"</td><td>"+routerList[i]['FirmwareVer']+"</td><td>"+routerList[i]['State']+"</td><td>"+routerList[i]['Mac']+"</td><td>"+routerList[i]['BusinessName']+"</td>";
+				newtbodies += "<td>"+routerList[i]['AgentName']+"</td><td>"+routerList[i]['FirmwareVer']+"</td><td>"+""+"</td>";
+				newtbodies += "<td><a href=\"javascript:\" onclick=\"getRouterDetail('"+routerList[i]['RouterId']+"')\">查看</a></td>";
+				newtbodies += "<td><a href=\"javascript:\" onclick=\"upgradeConfirm()\">升级</a>&nbsp;&nbsp;<a href=\"javascript:\" onclick=\"deleteConfirm('"+routerList[i]['RouterId']+"','"+i+"')\">删除</a></td>";
+				newtbodies += "</tr>";
+			}
+			tbodies[0].innerHTML=newtbodies;
+			
 		}
-		tbodies[0].innerHTML=newtbodies;
+		
+		
 	}
 	
 	
@@ -162,7 +177,9 @@
      
         </div>
        </form>
-    
+       
+        <br/>
+       
     <table id="routers" class="table table-bordered">
       <thead>
       <tr>
@@ -179,19 +196,8 @@
       </tr>
       </thead>
       <tbody>
-      <tr>
      
-      <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td><a href="javascript:">点击</a></td>
-        <td><a href="javascript:">删除</a></td>
-      </tr>
+      
       </tbody>
     </table>
   <div>
@@ -208,7 +214,7 @@
 <script  language="JavaScript">
       
 	//开始构造分页插件
-	ThinkAjax.send("{:U('Admin/getrRouterList')}",'ajax=1&PageSize=10&PageNum=1',genPaginator,'');
+	ThinkAjax.send("{:U('Admin/getRouterList')}",'ajax=1&PageSize=10&PageNum=1',genPaginator,'');
 	
 	
 	function searchRouter()

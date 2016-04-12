@@ -105,9 +105,29 @@ class PubliccodeController extends Controller {
 	}
 	
 	/*
+	 * 根据uid返回商家的接口BId
+	 */
+	
+	public function getBId($uid)
+	{
+		
+			$json = array(
+				"op" => "query",
+				"where" => "where Num = '{$uid}'",
+			);
+		
+			$json = json_encode($json);
+
+			$jsonResult = $this->AccountHandle($json);
+			
+			return  $jsonResult['rows'][0]['BId'];
+
+	}
+	
+	/*
 	 * 保存商家信息
 	 */
-	public function  saveshop($updata_information, $type, $mode=0){
+	public function  saveshop($updata_information, $type, $agent, $mode=0){   
 		
 		$database = C('Database');
 		$webservice = C('Webservice');
@@ -120,7 +140,7 @@ class PubliccodeController extends Controller {
 					'uid' => 0,
 					'shopname' => "例如：山泉公馆",
 					'shopphone' => "例如：020-38216208;020-38216468",
-					'shopstyle' => "例如：餐饮中餐",
+					'shopstyle' => "餐饮业",
 					'shopwebsite' => "例如：guanlian.com/shop/47rs",
 					'shopremark' => " ",
 					'shopman' => "例如：李小明",
@@ -151,28 +171,34 @@ class PubliccodeController extends Controller {
 			
 			$newRole['BId'] = 0;
 			$newRole['LoginName'] = $resultForForm1['name'];
-			$newRole['Password'] = 'test11';//$resultForForm1['password'];
+			$newRole['Password']  = $resultForForm1['password'];
 			$newRole['State'] = '正常';
-			$newRole['Name'] = '例如：山泉公馆';
+			$newRole['Name']  = '例如：'.$resultForForm1['name'].'的店';
 			$newRole['Phone'] = $resultForForm1['mobilephone'];
-			$newRole['Role'] = "{$type}";
+			$newRole['Role']  = "{$type}";
 			$newRole['Num'] = $resultForForm1['uid'];
 			$newRole['Contact'] = "例如：李小明";
 			$newRole['Address'] = "例如：林乐路25号中怡城市花园A栋2楼（近中信广场）";
 			$newRole['AdminModify'] = "是";
+			$newRole['ContactInfo'] = '例如：020-38216208';
+			$newRole['Type'] = '餐饮业';
+			$newRole['Remark'] = '暂无备注信息';
+			$newRole['Longitude'] = 113.336899;
+			$newRole['Latitude']  = 23.14892;	
+			$newRole['AgentId'] = $this->getBId($agent);
 			
-			
+
 			$json1 = array(
 					'op' => 'save',
-					'obj' => $newRole
-						
+					'obj' => $newRole					
 			);
 			$json1 = json_encode($json1);
 			//var_dump($json1);
 			
 			$jsonResult1 = $this->AccountHandle($json1);
 			
-			
+		
+	
 		}
 		
 	}
@@ -209,17 +235,17 @@ class PubliccodeController extends Controller {
 					
 				$jsonResult = $this->AccountHandle($json);
 				
-					
+					 
 				$result['shopname']      = $jsonResult['rows'][0]['Name'];
-				$result['shopphone']     = '例如：020-38216208;020-38216468';//$jsonResult['rows'][0][''];
+				$result['shopphone']     = $jsonResult['rows'][0]['ContactInfo'];
 				$result['shopwebsite']   = '例如：guanlian.com/shop/47rs';//$jsonResult['rows'][0][''];
-				$result['shopremark']    = '暂时没有备注';//$jsonResult['rows'][0][''];
+				$result['shopremark']    = $jsonResult['rows'][0]['Remark'];
 				$result['shopman']       = $jsonResult['rows'][0]['Contact'];
 				$result['shopsite']      = $jsonResult['rows'][0]['Address'];
-				$result['shoplongitude'] = 113.33395;//$jsonResult['rows'][0][''];
-				$result['shoplatitude']  = 23.149136;//$jsonResult['rows'][0][''];
+				$result['shoplongitude'] = $jsonResult['rows'][0]['Longitude'];
+				$result['shoplatitude']  = $jsonResult['rows'][0]['Latitude'];
 				$result['sid']           = $jsonResult['rows'][0]['BId'];
-				$result['shopstyle']     = '餐饮业';//$jsonResult['rows'][0][''];
+				$result['shopstyle']     = $jsonResult['rows'][0]['Type'];
 				
 			}
 		

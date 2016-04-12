@@ -64,19 +64,31 @@ class AdminController extends Controller {
 		);
 		$json = json_encode($json);
 		$result = $call->AccountHandle($json);
+		
+		if ($result['total'] == 0 || !$result)
+		{
+			
+			$response['data']['totalPage'] = 1;
+			$response['status'] = 0;
+			$response['info'] = '';
+			$response['type'] = 'JSON';
+			$this->ajaxReturn($response,'JSON');
+			
+		}else {
 	
 		
 		for($i=0; $i<count($result['rows']); $i++){
-		    $data[$i]['agentId']=$result['rows'][$i]['Num'];
-		    $data[$i]['agentName']=$result['rows'][$i]['Name'];
-		    $data[$i]['BId']=$result['rows'][$i]['BId'];
+			
+		    $data[$i]['agentId'] = $result['rows'][$i]['Num'];
+		    $data[$i]['agentName'] = $result['rows'][$i]['Name'];
+		    $data[$i]['BId'] = $result['rows'][$i]['BId'];
 		    //商户拥有数的条件语句
 		    $MerchantNumjson = array(
 		        "op" => "count",
 		        "where" => "where Role = '普通商家' and AgentId='{$result['rows'][$i]['BId']}'",
 		    );
 		    $MerchantNumjson = json_encode($MerchantNumjson);
-		    $data[$i]['MerchantNum']=$call->AccountHandle($MerchantNumjson);
+		    $data[$i]['MerchantNum'] = $call->AccountHandle($MerchantNumjson);
 		    
 		    //设备拥有数的条件语句
 		    $RouterNumjson = array(
@@ -84,15 +96,16 @@ class AdminController extends Controller {
 		        "where" => "where AgentId='{$result['rows'][$i]['BId']}'",
 		    );
 		    $RouterNumjson = json_encode($RouterNumjson);
-		    $data[$i]['routerNum']=$call->RouterHandle($RouterNumjson);
+		    $data[$i]['routerNum'] = $call->RouterHandle($RouterNumjson);
 		    
 		    //在线设备拥有数
 		    $onlineRouterNumjson = array(
 		        "op" => "count",
 		        "where" => "where State='在线' and AgentId='{$result['rows'][$i]['BId']}'",
 		    );
+		    
 		    $onlineRouterNumjson = json_encode($onlineRouterNumjson);
-		    $data[$i]['onlineRouterNum']=$call->RouterHandle($onlineRouterNumjson);
+		    $data[$i]['onlineRouterNum'] = $call->RouterHandle($onlineRouterNumjson);
 
 		    $data[$i]['note']='test';
 
@@ -100,19 +113,16 @@ class AdminController extends Controller {
 	    
 	    $response['data']['agentsList'] = $data;
 	    $response['data']['totalPage'] = ceil($result['total']/$pageSize);
-	    if($result == ""){
-	        $response['status'] = 0;
-	        $response['info'] = '查询失败';
-	    }else{
-	        $response['status'] = 1;
-	        $response['info'] = '';
-	    }
+	    $response['status'] = 1;
+	    $response['info'] = '';
 	    $response['type'] = 'JSON';
 	    $this->ajaxReturn($response,'JSON');
+		}
 	}
 	
 	//搜索一个商家的信息
 	public function searchAgentList(){
+		
 	    $call = A('Publiccode');
 	    $agentKeyword = I('post.agentKeyword');
 	    $key = I('post.key');
@@ -125,8 +135,17 @@ class AdminController extends Controller {
 	    $result = $call->AccountHandle($json);
 	     
 	  
-		
-
+	    if($result['total'] == 0 || !$result)
+	    {
+	    	
+	    	$response['data']['totalPage'] = 1;
+	    	$response['status'] = 0;
+	    	$response['info'] = '';
+	    	$response['type'] = 'JSON';
+	    	$this->ajaxReturn($response,'JSON');
+	    	
+	    }else {
+	    	
 		    $data[0]['agentId']=$result['rows'][0]['Num'];
 		    $data[0]['agentName']=$result['rows'][0]['Name'];
 		    //商户拥有数的条件语句
@@ -159,15 +178,12 @@ class AdminController extends Controller {
 	    
 	    $response['data']['agentsList'] = $data;
 	    $response['data']['totalPage'] = 1;
-	    if($result == ""){
-	        $response['status'] = 0;
-	        $response['info'] = '查询失败';
-	    }else{
-	        $response['status'] = 1;
-	        $response['info'] = '';
-	    }
+	    $response['status'] = 1;
+	    $response['info'] = '';
 	    $response['type'] = 'JSON';
 	    $this->ajaxReturn($response,'JSON');
+	    
+	    }
 	}
 	
 	
@@ -190,14 +206,31 @@ class AdminController extends Controller {
 		$json = json_encode($json);
 		
 		$result = $call->RouterHandle($json);
+// 		$result['total'] = 0;
 		
-		$response['data']['routerMsg'] = $result['rows'];
-		$response['data']['totalPage'] = ceil($result['total']/$pageSize);
-		$response['data']['isSearch'] = 1;
-		$response['status'] = 1;
-		$response['info'] = '';
-		$response['type'] = 'JSON';
-		$this->ajaxReturn($response,'JSON');
+		if($result['total'] == 0 || !$result)
+		{
+
+			
+			$response['data']['totalPage'] = 1;
+			$response['data']['isSearch'] = 1;
+			$response['status'] = 0;
+			$response['info'] = '';
+			$response['type'] = 'JSON';
+			$this->ajaxReturn($response,'JSON');
+			
+		}else{
+			
+			$response['data']['routerMsg'] = $result['rows'];
+			$response['data']['totalPage'] = ceil($result['total']/$pageSize);
+			$response['data']['isSearch'] = 1;
+			$response['status'] = 1;
+			$response['info'] = '';
+			$response['type'] = 'JSON';
+			$this->ajaxReturn($response,'JSON');
+			
+		}
+		
 		
 		
 		
@@ -231,7 +264,7 @@ class AdminController extends Controller {
 	}
 	
 	//获取路由列表
-	public function getrRouterList(){
+	public function getRouterList(){
 	    $pageSize=I('post.PageSize');
 	    $pageNum=I('post.PageNum');
 	    
@@ -246,23 +279,40 @@ class AdminController extends Controller {
 	
 	    $result = $call->RouterHandle($json);
 	    
-	    $response['data']['routerMsg'] = $result['rows'];
-	    $response['data']['totalPage'] = ceil($result['total']/$pageSize);
-	    $response['data']['isSearch'] = 0;
-	    $response['status'] = 1;
-	    $response['info'] = '';
-	    $response['totoalRow'] = $result['total'];
-	    $response['type'] = 'JSON';
-	    $this->ajaxReturn($response,'JSON');
+	    if ($result['total'] == 0 || !$result)
+	    {
+	    	
+	    	$response['data']['totalPage'] = 1;
+	    	$response['data']['isSearch'] = 0;
+	    	$response['status'] = 0;
+	    	$response['info'] = '';
+	    	// $response['totoalRow'] = $result['total'];
+	    	$response['type'] = 'JSON';
+	    	$this->ajaxReturn($response,'JSON');
+	    	
+	    }else {
+	    
+		    $response['data']['routerMsg'] = $result['rows'];
+		    $response['data']['totalPage'] = ceil($result['total']/$pageSize);
+		    $response['data']['isSearch'] = 0;
+		    $response['status'] = 1;
+		    $response['info'] = '';
+		   // $response['totoalRow'] = $result['total'];
+		    $response['type'] = 'JSON';
+		    $this->ajaxReturn($response,'JSON');
+	    
+	    }
 	
 	
 	}
 	
 	//获取统计页面的代理商列表
 	public function getAgentList4Static(){
+		
 	    $pageSize = I('post.PageSize');
-	    $pageNum = I('post.PageNum');
+	    $pageNum  = I('post.PageNum');
 	    $call = A('Publiccode');
+	    
 	    $json = array(
 	        "op" => "query",
 	        "where" => "where Role = '代理商'",
@@ -271,18 +321,32 @@ class AdminController extends Controller {
 	    );
 	    $json = json_encode($json);
 	    $result = $call->AccountHandle($json);
-
-	    for($i=0;$i<count($result['rows']);$i++){
-	        $data[$i]['agentId']=$result['rows'][$i]['Num'];
-	        $data[$i]['agentName']=$result['rows'][$i]['Name'];
-	    }
 	    
-	    $response['data']['AgentList'] = $data;
-	    $response['data']['totalPage'] = ceil($result['total']/$pageSize);
-	    $response['status'] = 1;
-	    $response['info'] = '';
-	    $response['type'] = 'JSON';
-	    $this->ajaxReturn($response,'JSON');
+	    if ($result['total'] == 0 || !$result)
+	    {
+	    	
+	    	$response['data']['totalPage'] = 1;
+	    	$response['status'] = 0;
+	    	$response['info'] = '';
+	    	$response['type'] = 'JSON';
+	    	
+	    }else {
+	    	
+	    	for($i=0;$i<count($result['rows']);$i++){
+	    		$data[$i]['agentId']=$result['rows'][$i]['Num'];
+	    		$data[$i]['agentName']=$result['rows'][$i]['Name'];
+	    	}
+	    	 
+	    	$response['data']['AgentList'] = $data;
+	    	$response['data']['totalPage'] = ceil($result['total']/$pageSize);
+	    	$response['status'] = 1;
+	    	$response['info'] = '';
+	    	$response['type'] = 'JSON';
+	    	$this->ajaxReturn($response,'JSON');
+	    	
+	    }
+
+	    
 	}
 	
 	//在统计页面上搜索代理商
@@ -298,15 +362,31 @@ class AdminController extends Controller {
 	    );
 	    $json = json_encode($json);
 	    $result = $call->AccountHandle($json);
+// 		$result['total'] = 0;
 	    
-	    $data[0]['agentId'] = $result['rows'][0]['Num'];
-	    $data[0]['agentName'] = $result['rows'][0]['Name'];
-	    $response['data']['AgentList'] = $data;
-	    $response['data']['totalPage'] = 1;
-	    $response['status'] = 1;
-	    $response['info'] = '';
-	    $response['type'] = 'JSON';
-	    $this->ajaxReturn($response,'JSON');
+	    if($result['total'] == 0 || !$result)
+	    {
+	    	
+	    	$response['data']['totalPage'] = 1;
+	    	$response['status'] = 0;
+	    	$response['info'] = '';
+	    	$response['type'] = 'JSON';
+	    	$this->ajaxReturn($response,'JSON');
+	    	
+	    }else{
+	    	
+	    	$data[0]['agentId'] = $result['rows'][0]['Num'];
+	    	$data[0]['agentName'] = $result['rows'][0]['Name'];
+	    	$response['data']['AgentList'] = $data;
+	    	$response['data']['totalPage'] = 1;
+	    	$response['status'] = 1;
+	    	$response['info'] = '';
+	    	$response['type'] = 'JSON';
+	    	$this->ajaxReturn($response,'JSON');
+	    	
+	    }
+	    
+	   
 	}
 	
 	

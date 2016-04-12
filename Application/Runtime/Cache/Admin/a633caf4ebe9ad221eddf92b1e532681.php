@@ -109,24 +109,30 @@
 </head>
 <body>
 <div class="example">
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-6">
-        <label for="merchantType" class="control-label">检索条目: </label>
-        <select id="merchantType">
-          <option value="eat">商家类型一</option>
-          <option value="sleep">商家类型二</option>
-          <option value="code">商家类型三</option>
-        </select>
-      </div>
-      <div class="col-sm-4">
-        <label for="keyword" class="control-label">关键字:</label> <input type="text" id="keyword">
-      </div>
-      <div class="col-sm-2">
-        <input type="button" class="btn btn-toolbar basic" value="搜索"/>
-        </div>
-    </div>
-  </div>
+ <form id='searchMerchant4Statistics'> 
+       <div class="input-group">
+       	
+            <span class="input-group-addon">查询内容：</span>
+            <select class="form-control" name="key">
+              <option value="Contact">负责人</option>
+              <option value="Name">商家名称</option>
+            </select>
+            <span class="input-group-addon fix-border fix-padding"></span>
+            
+            <span class="input-group-addon">查询关键字：</span>
+            <span class="input-group-addon fix-border fix-padding"></span>
+            
+            <input type="text" class="form-control" placeholder="填写完整的关键字" name="merchantKeyword">
+            <input type="hidden" class="form-control" name="ajax" value="1">
+            <input type="hidden" class="form-control" name="PageSize" value="2">
+            <input type="hidden" class="form-control" name="PageNum" value="1" id="PageNum">
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default" onclick="searchMerchant()" >搜索</button>
+            </span>
+     
+       </div>
+  </form>
+  
   <br />
   
   <table id="merchantStatistics" class="table table-bordered basic">

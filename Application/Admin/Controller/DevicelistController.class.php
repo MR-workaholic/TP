@@ -45,7 +45,7 @@ class DevicelistController extends Controller {
 			
 		}else 
 		{
-			
+			/*
 			//为了返回BID
 	
 			//构造用户查询json参数
@@ -57,12 +57,12 @@ class DevicelistController extends Controller {
 				
 			//执行账户查询,返回数组
 			$jsonResult = $call->AccountHandle($json);
-			
+			*/
 			
 			//构造设备查询语句
 			$json1 = array(
 					"op" => "query",
-					"where" => "where BusinessId = {$jsonResult['rows'][0]['BId']} and State <> '停用'",
+					"where" => "where BusinessNum = {$uid} and State <> '停用'",
 			);
 			
 			$json1 = json_encode($json1);
@@ -81,15 +81,15 @@ class DevicelistController extends Controller {
 				
 				foreach ($result['rows'] as $k=>$v)
 				{
-					 $devmes[$k]['dname'] = 'dname'.$k;//$v[''];
+					 $devmes[$k]['dname'] = $v['RouterName'];
 					 $devmes[$k]['dtype'] = $v['FirmwareVer'];
 					 $devmes[$k]['dssid'] = 'dssid'.$k;//$v[''];
 					 $devmes[$k]['dstate'] = $v['State'];
 					 $devmes[$k]['donlinenum'] = $v['OnlineCount'];
 					 $devmes[$k]['dmac'] = $v['Mac'];
-					 $devmes[$k]['dplmac'] = 'dplmac'.$k;//$v[''];
-					 $devmes[$k]['dplcbandwidth'] = 'dplcbandwidth'.$k;//$v[''];
-					 $devmes[$k]['dplcnetworkname'] = 'dplcnetworkname'.$k;//$v[''];
+					 $devmes[$k]['dplmac'] = $v['PLCMac'];
+					 $devmes[$k]['dplcbandwidth'] = $v['PLCBandwidth'];
+					 $devmes[$k]['dplcnetworkname'] = $v['PLCName'];
 
 				}
 				

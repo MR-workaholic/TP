@@ -47,7 +47,8 @@
                 	<span>手机号码：</span>
                 	<input type="tel" name="mobilephone"  placeholder="手机号为普通登录方式的账号">
                 	<input  class="sentVerify" type="submit" value="发送验证码">
-                	<input class="style" type="hidden" name="type" value="{$type}">             	
+                	<input class="style" type="hidden" name="type" value="{$type}">
+                	<input class="style" type="hidden" name="agent" value="{$agent}">             	
                   </FORM>
               	</li>
                  <else/>
@@ -57,6 +58,7 @@
                 	<input type="tel"  name="mobilephone"  value="{$mobilephone}">
                 	<input  class="sentVerify" type="submit" value="发送验证码">
                 	<input class="style" type="hidden" name="type" value="{$type}">
+                	<input class="style" type="hidden" name="agent" value="{$agent}">
                   </FORM>
                   </li>   
                </eq>
@@ -68,6 +70,7 @@
                 	<li><span>确认密码：</span><input type="password" name="pwconfirm"  maxlength="20" placeholder="请输入确认密码"></li>
                 	<li><input class="register" type="submit" value="注册"></li>
                 	<li><input class="style" type="hidden" name="mobilephone" value="{$mobilephone}"></li>
+                	<li><input class="style" type="hidden" name="agent" value="{$agent}"></li>
                 	<li><input class="style" type="hidden" name="type" value="{$type}"></li>
               </FORM>
               

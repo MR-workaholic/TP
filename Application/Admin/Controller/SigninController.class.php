@@ -15,11 +15,12 @@ class SigninController extends Controller {
 
 	
 	//商家账户注册入口
-	public function showsignupview($mobilephone=0)
+	public function showsignupview($agent=0, $mobilephone=0)
 	{
 		$hosts = C('Hosts');
 		
 		$this->assign('mobilephone',$mobilephone);  //绑定到html的$mobilephone中
+		$this->assign('agent', $agent);
 		$this->assign('hosts', $hosts);
 		$this->assign('type', '普通商家');
 		$this->display('./GLLogin/Signin/myproject_lai/html/signin.html');
@@ -63,6 +64,7 @@ class SigninController extends Controller {
 	public  function telverify()
 	{
 		$mobilephone = I('post.mobilephone');
+		$agent = I('post.agent');
 		$type = I('post.type');
 		$call = A('Publiccode');
 		$hosts = C('Hosts');
@@ -92,13 +94,13 @@ class SigninController extends Controller {
 		switch ($type)
 		{
 			case '普通商家':
-				$this->success('请输入验证码：'.$rands,'http://'.$hosts.'/TP/index.php/admin/signin/showsignupview/mobilephone/'.$mobilephone);
+				$this->success('请输入验证码：'.$rands,'http://'.$hosts.'/TP/index.php/admin/signin/showsignupview/agent/'.$agent.'/mobilephone/'.$mobilephone);
 				break;
 			case '代理商':
-				$this->success('请输入验证码：'.$rands,'http://'.$hosts.'/TP/index.php/admin/signin/showagentsignupview/mobilephone/'.$mobilephone);
+				$this->success('请输入验证码：'.$rands,'http://'.$hosts.'/TP/index.php/admin/signin/showagentsignupview/agent/'.$agent.'/mobilephone/'.$mobilephone);
 				break;
 			case '管理员':
-				$this->success('请输入验证码：'.$rands,'http://'.$hosts.'/TP/index.php/admin/signin/showadminsignupview/mobilephone/'.$mobilephone);
+				$this->success('请输入验证码：'.$rands,'http://'.$hosts.'/TP/index.php/admin/signin/showadminsignupview/agent/'.$agent.'/mobilephone/'.$mobilephone);
 				break;
 			default:
 				$this->error('类型错误');
@@ -112,8 +114,13 @@ class SigninController extends Controller {
 	}
 	
 	
-	function loginIn($type, $hosts)
+	function loginIn($type, $hosts, $uid)
 	{
+		
+		$call = A('Publiccode');
+		$_SESSION['uid'] = $uid;
+		$_SESSION['BId'] = $call->getBId($uid);
+		
 	
 		switch ($type)
 		{
@@ -146,6 +153,7 @@ class SigninController extends Controller {
 // 		$pwconfirm = I('post.pwconfirm');
 // 		$telverify = I('post.telverify');
 		$mobilephone = I('post.mobilephone');
+		$agent = I('post.agent');
 		$call = A('Publiccode');
 		$hosts = C('Hosts');
 		$type = I('post.type');
@@ -160,11 +168,10 @@ class SigninController extends Controller {
 				
 				unset($_SESSION[$mobilephone]);//不绑定验证码，验证已经通过
 				
-				//以电话名创建文件夹并放在session中，然后登陆进去主页面中
 				
-					$_SESSION['uid'] = $uid;
 					
-					if (mkdir('./Application/Admin/UserFile/'.$_SESSION['uid']))  //创建用户的文件夹
+					
+					if (mkdir('./Application/Admin/UserFile/'.$uid))  //创建用户的文件夹
 					{
 						
 	   	
@@ -172,9 +179,9 @@ class SigninController extends Controller {
 	   						'uid' => $uid,
 	   					);
 	   	
-	   				$call->saveshop($updata_information, $type, 0);
+	   				$call->saveshop($updata_information, $type, $agent, 0);
 	   					
-					$this->loginIn($type, $hosts);
+					$this->loginIn($type, $hosts, $uid);
 					
 					}else{
 						
@@ -291,10 +298,9 @@ class SigninController extends Controller {
 				
 				$uid = $Telsignin->add($data);
 				
-				
-				$_SESSION['uid'] = $uid;
+			
 					
-				if (mkdir('./Application/Admin/UserFile/'.$_SESSION['uid']))
+				if (mkdir('./Application/Admin/UserFile/'.$uid))
 				{
 					
 					$call = A('Publiccode'); 
@@ -306,7 +312,7 @@ class SigninController extends Controller {
 					$call->saveshop($updata_information,0);
 				
 					//$this->success('注册成功！请记住密码 ', 'http://'.$hosts.'/TP/index.php/admin/Merchant/show');//之后改为跳转到主页
-					$this->loginIn($data['type'], $hosts);
+					$this->loginIn($data['type'], $hosts, $uid);
 					
 				}else{
 				

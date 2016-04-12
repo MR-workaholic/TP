@@ -46,7 +46,8 @@
                 	<span>手机号码：</span>
                 	<input type="tel" name="mobilephone"  placeholder="手机号为普通登录方式的账号">
                 	<input  class="sentVerify" type="submit" value="发送验证码">
-                	<input class="style" type="hidden" name="type" value="<?php echo ($type); ?>">             	
+                	<input class="style" type="hidden" name="type" value="<?php echo ($type); ?>">
+                	<input class="style" type="hidden" name="agent" value="<?php echo ($agent); ?>">             	
                   </FORM>
               	</li>
                  <?php else: ?>
@@ -56,6 +57,7 @@
                 	<input type="tel"  name="mobilephone"  value="<?php echo ($mobilephone); ?>">
                 	<input  class="sentVerify" type="submit" value="发送验证码">
                 	<input class="style" type="hidden" name="type" value="<?php echo ($type); ?>">
+                	<input class="style" type="hidden" name="agent" value="<?php echo ($agent); ?>">
                   </FORM>
                   </li><?php endif; ?>
               
@@ -66,6 +68,7 @@
                 	<li><span>确认密码：</span><input type="password" name="pwconfirm"  maxlength="20" placeholder="请输入确认密码"></li>
                 	<li><input class="register" type="submit" value="注册"></li>
                 	<li><input class="style" type="hidden" name="mobilephone" value="<?php echo ($mobilephone); ?>"></li>
+                	<li><input class="style" type="hidden" name="agent" value="<?php echo ($agent); ?>"></li>
                 	<li><input class="style" type="hidden" name="type" value="<?php echo ($type); ?>"></li>
               </FORM>
               

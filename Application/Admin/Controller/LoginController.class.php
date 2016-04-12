@@ -44,10 +44,9 @@ class LoginController extends Controller {
 			
 				if ($result['password']==sha1($password))
 				{
-					
-					$_SESSION['uid'] = $result['uid'];
+										
 					//$this->success('登陆成功','http://'.$hosts.'/TP/index.php/admin/Merchant/show');//跳转到主页
-					$this->loginIn($result['type'], $hosts);
+					$this->loginIn($result['type'], $hosts, $result['uid']);
 					
 				}
 				else {
@@ -75,9 +74,9 @@ class LoginController extends Controller {
 				if ($result['password']==sha1($password))  
 				{
 					
-					$_SESSION['uid'] = $result['uid'];
+				
 					//$this->success('登陆成功','http://'.$hosts.'/TP/index.php/admin/Merchant/show');//跳转到主页
-					$this->loginIn($result['type'], $hosts);
+					$this->loginIn($result['type'], $hosts, $result['uid']);
 
 						
 				}
@@ -108,9 +107,9 @@ class LoginController extends Controller {
 			if ($result['password']==sha1($password))
 			{
 					
-				$_SESSION['uid'] = $result['uid'];
+				
 				//$this->success('登陆成功','http://'.$hosts.'/TP/index.php/admin/Merchant/show');//跳转到主页
-				$this->loginIn($result['type'], $hosts);
+				$this->loginIn($result['type'], $hosts, $result['uid']);
 					
 			}
 			else {
@@ -124,8 +123,11 @@ class LoginController extends Controller {
 			}
 			
 			
-	function loginIn($type, $hosts)
+	function loginIn($type, $hosts, $uid)
 	{
+		$call = A('Publiccode');
+		$_SESSION['uid'] = $uid;
+		$_SESSION['BId'] = $call->getBId($uid);
 		
 		switch ($type)
 		{

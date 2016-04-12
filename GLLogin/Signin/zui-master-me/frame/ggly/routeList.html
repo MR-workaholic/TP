@@ -51,7 +51,9 @@
     var whichbutton = 0;
 
     //循环请求页面，以更新在线人数
-    routelistStatus = setInterval('devicelistRefresh()', 2000);
+   	devicelistRefresh(); // routelistStatus = setInterval('devicelistRefresh()', 2000);
+    
+   
     
 	function devicelistRefresh()
 	{

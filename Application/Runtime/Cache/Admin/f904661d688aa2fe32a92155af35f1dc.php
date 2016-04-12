@@ -86,20 +86,36 @@
 	//把列表信息填充到table中
 	function completeMerchantList(data,status){
 		
-		merchantList = data['merchantList'];
-		var table = document.getElementById("merchants");
-		var newtbodies = "";
-		var tbodies= table.getElementsByTagName("tbody");
+		if(status == 0)
+			{
+				var table = document.getElementById("merchants");
+				var newtbodies = "";
+				var tbodies= table.getElementsByTagName("tbody");
+				
+				newtbodies += "<h4>没有任何商家</h4>";
+				tbodies[0].innerHTML=newtbodies;
+				
+			
+			}else{
+				
+				merchantList = data['merchantList'];
+				var table = document.getElementById("merchants");
+				var newtbodies = "";
+				var tbodies= table.getElementsByTagName("tbody");
+				
+				for(var i = 0; i < merchantList.length; i++){
+					newtbodies += "<tr><td>"+merchantList[i]['Name']+"</td><td>"+merchantList[i]['Phone']+"</td><td>"+merchantList[i]['Contact']+"</td><td>"+merchantList[i]['Address']+"</td>";
+					newtbodies += "<td><a href = \""+merchantList[i]['IndexPage']+"\">预览</a></td>";
+					newtbodies += "<td><a href=\"javascript:\" onclick=\"getMerchantStatistics('"+merchantList[i]['Num']+"')\">查看</a></td>";
+					newtbodies += "<td><a href=\"javascript:\" onclick=\"addRoute('"+merchantList[i]['BId']+"')\">添加</a>&nbsp;&nbsp;<a href=\"javascript:\" onclick=\"deleteRoute('"+merchantList[i]['BId']+"')\">删除</a></td>";
+					newtbodies += "<td>no content</td><td><a href=\"javascript:\" onclick=\"deleteMerchant('"+merchantList[i]['BId']+"','"+i+"')\">删除</a></td>";
+					newtbodies += "</tr>";
+				}
+				tbodies[0].innerHTML=newtbodies;
+				
+			}
 		
-		for(var i = 0; i < merchantList.length; i++){
-			newtbodies += "<tr><td>"+merchantList[i]['Name']+"</td><td>"+merchantList[i]['Phone']+"</td><td>"+merchantList[i]['Contact']+"</td><td>"+merchantList[i]['Address']+"</td>";
-			newtbodies += "<td><a href = \""+merchantList[i]['IndexPage']+"\">预览</a></td>";
-			newtbodies += "<td><a href=\"javascript:\" onclick=\"getMerchantStatistics('"+merchantList[i]['Num']+"')\">查看</a></td>";
-			newtbodies += "<td><a href=\"javascript:\" onclick=\"addRoute('"+merchantList[i]['BId']+"')\">添加</a>&nbsp;&nbsp;<a href=\"javascript:\" onclick=\"deleteRoute('"+merchantList[i]['BId']+"')\">删除</a></td>";
-			newtbodies += "<td>no content</td><td><a href=\"javascript:\" onclick=\"deleteMerchant('"+merchantList[i]['BId']+"','"+i+"')\">删除</a></td>";
-			newtbodies += "</tr>";
-		}
-		tbodies[0].innerHTML=newtbodies;
+		
 	}
 	
 	

@@ -65,7 +65,7 @@
 <ul class="wireSecuritySet">
   <li>名称：
   	<input type="text" name="dssid" id='dssid' value=''/>
-  	<input type="hidden" name='did' value={$did}/>
+  	<input type="hidden" name='mac' value={$mac}/>
   </li>
   
   <li>加密：
@@ -77,14 +77,14 @@
    </select>
   </li>
   
-  <li>密码：<input type="password" name="devpassword" id='devpassword' value=''/></li>
+  <li>密码：<input type="text" name="devpassword" id='devpassword' value=''/></li>
 </ul>
 </form>
 
 <div class="wireSecurity">
 
   <input type="button" onClick="updateSSIDset()" value="确 定"/>
-  <input type="button" value="取 消"/>
+
 
 </div>
 
@@ -93,7 +93,7 @@
  // console.log('{$smodel}');
   //displaySelect('{$smodel}','smodel');
   
-  ThinkAjax.send("{:U('Routeset/SSIDmescalling')}",'ajax=1&calling='+'{$did}',completeSSIDmescalling,'');
+  ThinkAjax.send("{:U('Routeset/SSIDmescalling')}",'ajax=1&calling='+'{$mac}',completeSSIDmescalling,'');
 	
 	function completeSSIDmescalling(data,status)
 	{

@@ -7,6 +7,9 @@ class MerchantController extends Controller {
 		$this->show('<style type="text/css">*{ padding: 0; margin: 0; } div{ padding: 4px 48px;} body{ background: #fff; font-family: "微软雅黑"; color: #333;font-size:24px} h1{ font-size: 100px; font-weight: normal; margin-bottom: 12px; } p{ line-height: 1.8em; font-size: 36px } a,a:hover,{color:blue;}</style><div style="padding: 24px 48px;"> <h1>:)</h1><p>欢迎使用 <b>ThinkPHP</b>！</p><br/>版本 V{$Think.version}</div><script type="text/javascript" src="http://ad.topthink.com/Public/static/client.js"></script><thinkad id="ad_55e75dfae343f5a1"></thinkad><script type="text/javascript" src="http://tajs.qq.com/stats?sId=9347272" charset="UTF-8"></script>','utf-8');
 	}
 	
+	/*
+	 * 展示商家的页面
+	 */
 	public function show()
 	{
 		$call = A('Publiccode');
@@ -14,6 +17,9 @@ class MerchantController extends Controller {
 		$this->display('./GLLogin/Signin/zui-master-me/Merchant/merchantIndex.html');
 	}
 	
+	/*
+	 * 展示代理商的页面
+	 */
 	public function showAgent()
 	{
 		$call = A('Publiccode');
@@ -21,6 +27,9 @@ class MerchantController extends Controller {
 		$this->display('./GLLogin/Signin/zui-master-me/Agent/agentIndex.html');
 	}
 	
+	/*
+	 * 展示管理员的页面
+	 */
 	public function showAdmin()
 	{
 		$call = A('Publiccode');
@@ -176,14 +185,14 @@ class MerchantController extends Controller {
 			//构造用户更新json参数
 			
 			$jsonResult['rows'][0]['Name'] = I('post.shopname');
-// 			$jsonResult['rows'][0]['Name'] = I('post.shopphone');
-// 			$jsonResult['rows'][0]['Name'] = I('post.shopstyle');
-// 			$jsonResult['rows'][0]['Name'] = I('post.shopwebsite');
-// 			$jsonResult['rows'][0]['Name'] = I('post.shopremark');
+			$jsonResult['rows'][0]['ContactInfo'] = I('post.shopphone');
+			$jsonResult['rows'][0]['Type'] = I('post.shopstyle');
+// 			$jsonResult['rows'][0][''] = I('post.shopwebsite');
+			$jsonResult['rows'][0]['Remark'] = I('post.shopremark');
 			$jsonResult['rows'][0]['Contact'] = I('post.shopman');
 			$jsonResult['rows'][0]['Address'] = I('post.shopsite');
-// 			$jsonResult['rows'][0]['Name'] = I('post.shoplongitude');
-// 			$jsonResult['rows'][0]['Name'] = I('post.shoplatitude');
+			$jsonResult['rows'][0]['Longitude'] = I('post.shoplongitude');
+			$jsonResult['rows'][0]['Latitude'] = I('post.shoplatitude');
 			
 			
 			$json1 = array(
@@ -211,10 +220,7 @@ class MerchantController extends Controller {
 				$response['type'] = 'JSON';
 				$this->ajaxReturn($response,'JSON');
 			}
-			
-			
-			
-			
+	
 		}
 		
 		
@@ -261,6 +267,7 @@ class MerchantController extends Controller {
 		
 		unset($_SESSION['uid']);
 		unset($_SESSION['type']);
+		unset($_SESSION['BId']);
 		
 		
 		$result_dest = session_destroy();

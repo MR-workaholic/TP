@@ -256,7 +256,7 @@
 <script>
 
 	var head = "<?php echo ($a); ?>";
-	alert(head);
+	
 	
 	
 	
@@ -280,7 +280,7 @@
   		var magnetURL = jq("#magnetURL1").val();
   		var magnetWord = jq("#magnetWord1").val();
   		
-  		alert('ajax=1&before='+num1+'&after='+num2);
+  	
   		ThinkAjax.send("<?php echo U('Adset/changeMagnet');?>", 'ajax=1&before='+num1+'&after='+num2+"&head="+head+"&magnetURL="+magnetURL+"&magnetWord="+magnetWord, completechangeMagnet, 'mesforupload1');
 	  
 	  
@@ -357,7 +357,7 @@
 
 	//  磁贴中的“添加”框中的“确定”按钮
 	jq("#confirmAddMagnet2").on("click",function(){
-	  alert("添加的磁贴图片的url为"+urlAfter2);
+	
 	  
 	  if(urlAfter2)
 		  {
@@ -427,7 +427,7 @@
         	if(imgNumber>=3&&imgNumber<=5){
              	
         	 num = imgSrc.substring(index-2,index+4);
-        	 alert(num);
+        	
         	
         		  
         	ThinkAjax.send("<?php echo U('Adset/remove_pic');?>", "ajax=1&src="+num+"&head="+head, '', '');
@@ -445,8 +445,7 @@
 			 	var magnetNumber=jq("#dashboard2").find(".panel").length;
 		        
 			 	num = imgSrc.substring(index-3,index+4);
-	        	alert(num);
-	        	
+	        
 	        		  
 	        	ThinkAjax.send("<?php echo U('Adset/remove_magnet');?>", "ajax=1&src="+num+"&head="+head, '', '');
 	        	
@@ -465,11 +464,11 @@
       g.prototype.handleEditImgEvent=function(){
       this.jq.on("click",".openImg",function(){
         var imgSrc=jq(this).closest(".panel-actions").next("div").find('img').attr("src");
-//        alert(imgSrc);
+
 
 		 var index=imgSrc.indexOf(".");
 		 var num = imgSrc.substring(index-1,index);
-		 alert(num);
+	
 		
         
 
@@ -481,8 +480,7 @@
           }
         })
 
-        alert(jq("div.blackBg1>div").children("div").length);
-//
+    
         jq(".blackBg1").show();
       })
 
@@ -490,7 +488,6 @@
 //  点击图片中的“添加”部分
       g.prototype.handAddImgEvent=function(){
         jq("#add1").on("click",function(){
-//        alert(imgSrc);
 
           //加载图片编辑部分
           jq("#addImg").load("../Adset/addImg/head/"+head+"/src/new",function(a,status,c){
@@ -500,7 +497,7 @@
             }
           })
 
-          alert(jq("div.blackBg1>div").children("div").length);
+        
 //          jq("#thisImg").attr("src",imgSrc);
           jq(".blackBg1").show();
         })
@@ -518,14 +515,14 @@
           var magnetSrc=jq(this).closest(".panel-actions").next("div").find("img").attr("src");
           var index=magnetSrc.indexOf(".");
       	  var num = magnetSrc.substring(index-3,index+4);
-      	  alert(num);
+      	
       	
       	  ThinkAjax.send("<?php echo U('Adset/callMagnetmes');?>", 'ajax=1&filename='+num+"&head="+head, completecallMagnetmes, '');
   
 	  
           
           jq(".magnetList").find("img").each(function(){
-//            alert(jq(this).attr("src"));
+
             if(jq(this).attr("src")==="/tp/public/images/"+num){
               jq(this).siblings().addClass("magnetBg");
               jq(this).removeClass("magnetBg");
@@ -603,8 +600,7 @@
       this.jq.addClass("dashboard-draggable"), this.jq.find(".remove-panel").mousedown(function (a) {
         a.preventDefault(), a.stopPropagation()
       }),this.jq.find(".openImg").mousedown(function(a){
-//        alert(jq(this).html())
-//        a.preventDefault(),
+
         a.stopPropagation()
       }),this.jq.find(".openMagnet").mousedown(function(a){
         a.stopPropagation()

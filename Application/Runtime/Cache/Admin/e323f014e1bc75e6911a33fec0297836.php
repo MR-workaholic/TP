@@ -39,20 +39,6 @@
 <div class="example">
   <div class="container">
   
-  <!--  
-    <div class="row">
-      <div class="col-sm-2 col-md-2 col-lg-2">
-        <label class="control-label">搜索：</label>
-      </div>
-      <div class="col-sm-4 col-md-4 col-lg-4">
-        <input  id="agnetKeyword" class="form-control" type="text"  placeholder="搜索商家ID或者商家名称"/>
-      </div>
-      <div class="col-sm-2 col-md-2 col-lg-2">
-        <input type="button" class="btn btn-toolbar else" value="搜索" onclick="searchAgent()"/>
-      </div>
-    </div>
-     -->
-     
       <form id='statisticsTarget'> 
        <div class="input-group">
        	
@@ -74,10 +60,10 @@
      
         </div>
       </form>
-     
-     
   </div>
-  <br />
+  
+  <br/>
+  
   <p>选择代理商：</p>
   <table id="agentsList" class="table table-bordered basic">
     <thead>
@@ -89,22 +75,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr>
-      <td></td>
-      <td></td>
-      <td> <input type="checkbox"></td>
-
-    </tr>
-    <tr>
-      <td></td>
-      <td></td>
-      <td> <input type="checkbox"></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td></td>
-      <td> <input type="checkbox"></td>
-    </tr>
+    	
     </tbody>
   </table>
   <div>
@@ -163,23 +134,36 @@ function genPaginator(data,status){
 }
 
 function completeAgentsList4Statistic(data,status){
-    var table = document.getElementById("agentsList");
-	var newtbodies="";
-	var tbodies= table.getElementsByTagName("tbody");
-	var tbodyCotent = data['AgentList'];
-	for(var i=0;i<tbodyCotent.length;i++){
-		newtbodies += "<tr><td>"+tbodyCotent[i]['agentId']+"</td><td>"+tbodyCotent[i]['agentName']+"</td>";
-		newtbodies +="<td><input type=\"checkbox\" value=\""+tbodyCotent[i]['agentId']+"\"></td>";
-		newtbodies += "</tr>";
+	
+	if(status == 0){
+
+		var table = document.getElementById("agentsList");
+		var newtbodies = "";
+		var tbodies = table.getElementsByTagName("tbody");
+		
+		newtbodies += "<h4>没有任何代理商</h4>";
+		tbodies[0].innerHTML = newtbodies;
+	
+	}else{
+		
+		var table = document.getElementById("agentsList");
+		var newtbodies = "";
+		var tbodies = table.getElementsByTagName("tbody");
+		var tbodyCotent = data['AgentList'];
+		for(var i=0;i<tbodyCotent.length;i++){
+			newtbodies += "<tr><td>"+tbodyCotent[i]['agentId']+"</td><td>"+tbodyCotent[i]['agentName']+"</td>";
+			newtbodies += "<td><input type=\"checkbox\" value=\""+tbodyCotent[i]['agentId']+"\"></td>";
+			newtbodies += "</tr>";
+		}
+		tbodies[0].innerHTML=newtbodies;
+		
 	}
-	tbodies[0].innerHTML=newtbodies;
+	
+    
 }
 
 function searchTarget(){
-//	var agentKeyword = jq('#agnetKeyword').val();
-//	ThinkAjax.send("<?php echo U('Admin/searchAgent4Statistic');?>",'ajax=1&agentKeyword='+agentKeyword,completeAgentsList4Statistic,'');
 	ThinkAjax.sendForm("statisticsTarget", "<?php echo U('Admin/searchAgent4Statistic');?>",genPaginator,'');
-
 }
 
 </script>

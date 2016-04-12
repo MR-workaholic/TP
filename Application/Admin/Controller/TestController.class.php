@@ -107,14 +107,15 @@ class TestController extends Controller {
 		
 // 		$phone = 13265478956;
 // 		$role = '普通商家';
-		$Num = 'test0003';
+// 		$Num = 'test0003';
+		$Bid = 44;
 		
 		/*
 		 * 可以使用json校验工具来检测
 		 */
 		$json = array(
 				"op" => "query",
-				"where" => "where Num = '{$Num}'",
+				"where" => "where Num = 44",
 		);
 		
 		$json = json_encode($json);
@@ -142,12 +143,12 @@ class TestController extends Controller {
 		
 		
 		//构造json参数
-		$phone = 12345678901;
-		$role = '普通商家';
-		$name = '商家1';
+// 		$phone = 12345678901;
+// 		$role = '普通商家';
+// 		$name = '商家1';
 		$json = array(
 				"op" => "query",
-				"where" => "where Role = '{$role}' and Phone = '{$phone}' and Name = '{$name}'",
+				"where" => "where Num = 37",
 		);
 		$json = json_encode($json);
 		var_dump($json);
@@ -161,8 +162,8 @@ class TestController extends Controller {
 		
 		//构造新的json参数
 
-		$jsonResult['rows'][0]['Address'] = '广州市天河区哈哈大厦';
-		$jsonResult['rows'][0]['Role'] = '普通商家';
+		$jsonResult['rows'][0]['AgentNum'] = 'test0003';
+// 		$jsonResult['rows'][0]['Role'] = '普通商家';
 
 		
 		$json1 = array(
@@ -229,24 +230,30 @@ class TestController extends Controller {
 // 		);
 
 		$updata_information = array(   //仅仅需要填写需要修改的字段
-				'uid' => 26,
+				'uid' => 37,
 		);
 
 		$Form1 = M('telsignin');
 		
 		$resultForForm1 = $Form1->where($updata_information)->find();
 		
-		$newRole['BId'] = 0;
-		$newRole['LoginName'] = $resultForForm1['name'];
-		$newRole['Password'] = '123456';
-		$newRole['State'] = '正常';
-		$newRole['Name'] = '例如：山泉公馆';
-		$newRole['Phone'] = $resultForForm1['mobilephone'];
-		$newRole['Role'] = '普通商家';
-		$newRole['Num'] = $resultForForm1['uid'];
-		$newRole['Contact'] = "例如：李小明";
-		$newRole['Address'] = "例如：林乐路25号中怡城市花园A栋2楼（近中信广场）";
-		$newRole['AdminModify'] = "是";
+			$newRole['BId'] = 0;
+			$newRole['LoginName'] = $resultForForm1['name'];
+			$newRole['Password'] = '123456';//$resultForForm1['password'];
+			$newRole['State'] = '正常';
+			$newRole['Name'] = '例如：山泉公馆37';
+			$newRole['Phone'] = $resultForForm1['mobilephone'];
+			$newRole['Role'] = "普通商家";
+			$newRole['Num'] = $resultForForm1['uid'];
+			$newRole['Contact'] = "例如：李小明";
+			$newRole['Address'] = "例如：林乐路25号中怡城市花园A栋2楼（近中信广场）";
+			$newRole['AdminModify'] = "是";
+			$newRole['ContactInfo'] = '例如：020-38216208';
+			$newRole['Type'] = '餐饮业';
+			$newRole['Remark'] = '暂无备注信息';
+			$newRole['AgentNum'] = 'test0003';
+		
+		
 		
 		
 		$json1 = array(
@@ -275,7 +282,7 @@ class TestController extends Controller {
 		$BusinessId = 3;
 		$json = array(
 				"op" => "query",
-				"where" => "where AgentId = 12",
+				"where" => "where Mac = '00:03:7F:11:20:B0'",
 		);
 		
 		$json = json_encode($json);
@@ -340,12 +347,14 @@ class TestController extends Controller {
 		$BusinessId = 3;
 		$json = array(
 				"op" => "query",
-				"where" => "where AgentId = 12",
+				"where" => "where Mac = '00:03:7F:11:28:B0'",
 		);
 		
 		$json = json_encode($json);
 		
 		$result = $call->RouterHandle($json);
+		
+		var_dump($result);
 		
 	//	$result['rows'][0]['Mac'] = '00:03:7F:11:20:B0';
 		
@@ -362,22 +371,34 @@ class TestController extends Controller {
 // 		unset($result['rows'][0]['SN']);   删除SN不可以更新成功
 		
 		
-		for($i=1; $i<5; $i++)
-		{
-			unset($result['rows'][$i]['BusinessName']);
-			unset($result['rows'][$i]['BusinessId']);
-			$json1 = array(
-					"op" => "save",
-					"obj" => $result['rows'][$i]
-			);
+// 		for($i=1; $i<5; $i++)
+// 		{
+// 			unset($result['rows'][$i]['BusinessName']);
+// 			unset($result['rows'][$i]['BusinessId']);
+// 			$json1 = array(
+// 					"op" => "save",
+// 					"obj" => $result['rows'][$i]
+// 			);
 			
-			$json1 = json_encode($json1);
+// 			$json1 = json_encode($json1);
 			
-			var_dump($json1);
+// 			var_dump($json1);
 			
-			$result1 = $call->RouterHandle($json1);
+// 			$result1 = $call->RouterHandle($json1);
 			
-		}
+// 		}
+
+		$result['rows'][0]['BusinessId'] = $call->getBId(44);
+		$json1 = array(
+							"op" => "save",
+							"obj" => $result['rows'][0]
+					);
+					
+					$json1 = json_encode($json1);
+					
+					var_dump($json1);
+					
+					$result1 = $call->RouterHandle($json1);
 		
 		var_dump($result1);
 		
@@ -392,13 +413,21 @@ class TestController extends Controller {
 		header("Content-Type:text/html;charset=UTF-8");
 		$call = A('Publiccode');
 		
-		$RouterMac = '00:03:7F:11:28:B0';
+		$RouterMac = '00:03:7F:11:20:B0';
+// 		$json = array(
+// 				"op" => "getSetting",
+// 				"RouterMac" => $RouterMac
+// 		);
+
 		$json = array(
 				"op" => "getSetting",
-				"RouterMac" => $RouterMac
+				"RSid" => 12,
 		);
 		
 		$json = json_encode($json);
+		
+		
+	
 		
 		var_dump($json);
 		
@@ -406,6 +435,7 @@ class TestController extends Controller {
 											  //object(stdClass)[8]  public 'RouterResult' => string 'wrsdb.Model.RouterSetting' (length=25)
 		
 		var_dump($result);
+		var_dump($result['Wlan']['ssid']);
 	}
 	
 	/*
