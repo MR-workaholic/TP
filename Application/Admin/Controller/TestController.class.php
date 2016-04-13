@@ -347,7 +347,7 @@ class TestController extends Controller {
 		$BusinessId = 3;
 		$json = array(
 				"op" => "query",
-				"where" => "where Mac = '00:03:7F:11:28:B0'",
+				"where" => "where Mac = '00:00:00:00:00:20'",
 		);
 		
 		$json = json_encode($json);
@@ -388,7 +388,9 @@ class TestController extends Controller {
 			
 // 		}
 
-		$result['rows'][0]['BusinessId'] = $call->getBId(44);
+		//$result['rows'][0]['BusinessId'] = $call->getBId(44);
+		$result['rows'][0]['RouterName'] = '设备X';
+		$result['rows'][0]['RouterModel'] = 'PLC03';
 		$json1 = array(
 							"op" => "save",
 							"obj" => $result['rows'][0]
@@ -401,6 +403,24 @@ class TestController extends Controller {
 					$result1 = $call->RouterHandle($json1);
 		
 		var_dump($result1);
+		
+	}
+	
+	public function dev_count()
+	{
+		header("Content-Type:text/html;charset=UTF-8");
+		$call = A('Publiccode');
+		
+		$json = array(
+			"op" => "count",
+			"where" => "where BusinessNum = 44  and State = '在线'"	
+		);
+		
+		$json = json_encode($json);
+		
+		$result = $call->RouterHandle($json);
+		
+		echo  $result;
 		
 	}
 	

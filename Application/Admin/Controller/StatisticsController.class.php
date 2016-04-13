@@ -34,56 +34,122 @@ class StatisticsController extends Controller {
 		$call = A('Publiccode');
 		$uid = $call->check_valid_user();
 		
-		$handle = M('devicelist');
-		$condition['uid'] = $uid;
-		$result = $handle->where($condition)->select();
-		$num = count($result,0);
 		
-		if(!$result)
+		$database = C('Database');
+		$webservice = C('Webservice');
+		$msgsource = C('MsgSource');
+		
+		if ($msgsource == $database)
 		{
-			$response['status'] = 0;
-		}else {
-			$response['status'] = $num;
-		}
-		
-		
-	if($num != 0)
-	{
-		
-	$a = 100/$num;	
-		
-	for ($i=0; $i < $num; $i++)
-	{
-		$data['data'][$i]['dname'] = $result[$i]['dname'];
-		$data['data'][$i]['did'] = $result[$i]['did'];
-		
-		if (!$type[$result[$i]['dtype']])
-		{
-			$type[$result[$i]['dtype']] = $a;
-		}else {
-			$type[$result[$i]['dtype']] += $a;
-		}
-		
-		if (!$version[$result[$i]['dtype'].$result[$i]['version']])
-		{
-			$version[$result[$i]['dtype'].$result[$i]['version']] = $a;
-		}else {
-			$version[$result[$i]['dtype'].$result[$i]['version']] += $a;
-		}
-		
-	}
-	$data['type'] = $type;
-	$data['version'] = $version;
-	
-	
-	
-	$response['data'] = $data;
-	}
+			$handle = M('devicelist');
+			$condition['uid'] = $uid;
+			$result = $handle->where($condition)->select();
+			$num = count($result,0);
+			
+			if(!$result)
+			{
+				$response['status'] = 0;
+			}else {
+				$response['status'] = $num;
+			}
+			
+			
+			if($num != 0)
+			{
+			
+				$a = 100/$num;
+			
+				for ($i=0; $i < $num; $i++)
+				{
+					$data['data'][$i]['dname'] = $result[$i]['dname'];
+					$data['data'][$i]['did'] = $result[$i]['did'];
+			
+					if (!$type[$result[$i]['dtype']])
+					{
+						$type[$result[$i]['dtype']] = $a;
+					}else {
+						$type[$result[$i]['dtype']] += $a;
+					}
+			
+					if (!$version[$result[$i]['dtype'].$result[$i]['version']])
+					{
+						$version[$result[$i]['dtype'].$result[$i]['version']] = $a;
+					}else {
+						$version[$result[$i]['dtype'].$result[$i]['version']] += $a;
+					}
+			
+				}
+				$data['type'] = $type;
+				$data['version'] = $version;
+			
+			
+			
+				$response['data'] = $data;
+			}
+			
+			
 
+			
+		}else {
+			
+			$json = array(
+				"op" => "query",
+				"where" => "where BusinessNum = {$uid} and State <> '停用'"	
+			);
+			
+			$json = json_encode($json);
+			
+			$jsonResult = $call->RouterHandle($json);
+
+			$num = $jsonResult['total'];
+			
 		
-		$response['info'] = '';
-		$response['type'] = 'JSON';
-		$this->ajaxReturn($response,'JSON');
+			$response['status'] = $num;
+		
+				
+				
+			if($num != 0)
+			{
+				$a = 100/$num;
+					
+
+
+			foreach ($jsonResult['rows'] as $key => $value)
+			{
+				$data['data'][$key]['dname'] = $value['RouterName'];
+				$data['data'][$key]['did']   = $value['RouterId'];
+				
+				if (!$type[$value['RouterModel']])
+				{
+					$type[$value['RouterModel']] = $a;
+				}else {
+					$type[$value['RouterModel']] += $a;
+				}
+				
+				if (!$version[$value['RouterModel'].$value['FirmwareVer']])
+				{
+					$version[$value['RouterModel'].$value['FirmwareVer']] = $a;
+				}else{
+					$version[$value['RouterModel'].$value['FirmwareVer']] += $a;
+				}
+				
+			}
+			$data['type'] = $type;
+			$data['version'] = $version;							
+		    $response['data'] = $data;
+				
+			}
+			
+			
+			
+			
+		}
+		
+					$response['info'] = '';
+					$response['type'] = 'JSON';
+					$this->ajaxReturn($response,'JSON');
+		
+		
 		
 		
 	}
@@ -102,18 +168,36 @@ class StatisticsController extends Controller {
 	{
 		$call = A('Publiccode');
 		
-		$date = $_POST['date'];
-		$dev = $_POST['dev'];
-		//$num = $call->get_devnum();
+		$date = I('post.date');
+		$dev  = I('post.dev');
+		$uid  = $call->check_valid_user(); 
 		
-		$handle = M('devicelist');
+		$database = C('Database');
+		$webservice = C('Webservice');
+		$msgsource = C('MsgSource');
 		
-		$uid = $call->check_valid_user();
-		$condition['uid'] = $uid;
+		if ($msgsource == $database)
+		{
+			$handle = M('devicelist');
+			
+			$uid = $call->check_valid_user();
+			$condition['uid'] = $uid;
+			
+			$result = $handle->where($condition)->select();
+			
+			$num = count($result, 0);
+			
+		}else {
+			
+			$json = array(
+					"op" => "count",
+					"where" => "where BusinessNum = {$uid}  and State <> '停用'"
+			);
+			$json = json_encode($json);
+			$num  = $call->RouterHandle($json);
+		}
 		
-		$result = $handle->where($condition)->select();
 		
-		$num = count($result, 0);
 		
 		if ($num)
 		{
@@ -272,48 +356,110 @@ class StatisticsController extends Controller {
 	public function handleuserpro(){
 		
 		$call = A('Publiccode');
-		$call->check_valid_user();
-		$date = $_POST['date'];
-		
-		$num = $call->get_devnum();
+		$date = I('post.date');
 		$uid = $call->check_valid_user();
 		
-		if($num)
-		{
-		
-		//返回总线总人数数据
-		$data['bigdatauser'] = $this->returndata(12);
-		
-		//返回在线时长数据
-		$handle = M('authentication');
-		$condition['uid'] = $uid;
-		$wifitime = $handle->where($condition)->getField('wifitime');
-		$data['wifitime'] = $wifitime;
-		$data['onlinetime'] = $this->returndata(4);
-		
-		//返回流量使用最多的前10个用户
-		$data['userflow'] = $this->returndata(10);
-	    $data['userflow'] = $this->quick_sort_sec($data['userflow']);
-	    $data['userflow'] = $this->tran_arr($data['userflow']);
-// 	    $data['findpos'] = $this->findpos($data['userflow'],1,10);//测试findpos没有错误
 
-	    //返回新老客户
-		$data['newuser'] = $this->returndata(2);
+		$database = C('Database');
+		$webservice = C('Webservice');
+		$msgsource = C('MsgSource');
 		
-		//返回认证比例
-		$data['loginay'] = $this->returndata(3);
-		
-		
-		
-		$response['data'] = $data;
+		if ($msgsource == $database)
+		{
+
+			$num = $call->get_devnum();
+			
+			
+			if($num)
+			{
+			
+				//返回总线总人数数据
+				$data['bigdatauser'] = $this->returndata(12);
+			
+				//返回在线时长数据
+				$handle = M('authentication');
+				$condition['uid'] = $uid;
+				$wifitime = $handle->where($condition)->getField('wifitime');
+				$data['wifitime'] = $wifitime;
+				$data['onlinetime'] = $this->returndata(4);
+			
+				//返回流量使用最多的前10个用户
+				$data['userflow'] = $this->returndata(10);
+				$data['userflow'] = $this->quick_sort_sec($data['userflow']);
+				$data['userflow'] = $this->tran_arr($data['userflow']);
+				// 	    $data['findpos'] = $this->findpos($data['userflow'],1,10);//测试findpos没有错误
+			
+				//返回新老客户
+				$data['newuser'] = $this->returndata(2);
+			
+				//返回认证比例
+				$data['loginay'] = $this->returndata(3);
+			
+			
+			
+				$response['data'] = $data;
+			}
+			
+			
+			$response['status'] = $num;
+			$response['info'] = '';
+			$response['type'] = 'JSON';
+			
+			$this->ajaxReturn($response, 'JSON');
+			
+		}else{
+			
+			$json = array(
+				"op" => "count",
+				"where" => "where BusinessNum = {$uid} and State <> '停用'"
+			);
+			
+			$json = json_encode($json);
+			$num = $call->RouterHandle($json);
+			
+			if($num)
+			{
+					
+				//返回总线总人数数据
+				$data['bigdatauser'] = $this->returndata(12);
+					
+				//返回在线时长数据
+				$handle = M('authentication');
+				$condition['uid'] = $uid;
+				$wifitime = $handle->where($condition)->getField('wifitime');
+				$data['wifitime'] = $wifitime;
+				$data['onlinetime'] = $this->returndata(4);
+					
+				//返回流量使用最多的前10个用户
+				$data['userflow'] = $this->returndata(10);
+				$data['userflow'] = $this->quick_sort_sec($data['userflow']);
+				$data['userflow'] = $this->tran_arr($data['userflow']);
+				// 	    $data['findpos'] = $this->findpos($data['userflow'],1,10);//测试findpos没有错误
+					
+				//返回新老客户
+				$data['newuser'] = $this->returndata(2);
+					
+				//返回认证比例
+				$data['loginay'] = $this->returndata(3);
+					
+					
+					
+				$response['data'] = $data;
+			}
+				
+				
+			$response['status'] = $num;
+			$response['info'] = '';
+			$response['type'] = 'JSON';
+				
+			$this->ajaxReturn($response, 'JSON');
+			
+			
+			
+			
+			
 		}
 		
-		
-		$response['status'] = $num;
-		$response['info'] = '';
-		$response['type'] = 'JSON';
-		
-		$this->ajaxReturn($response, 'JSON');
 
 		
 	}

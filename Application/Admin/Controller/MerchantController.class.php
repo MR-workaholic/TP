@@ -66,44 +66,111 @@ class MerchantController extends Controller {
 		
 		$call = A('Publiccode');
 		$hosts = C('Hosts');
-		$handle = M('devicelist');
-		
 		$uid = $call->check_valid_user();
-		$condition['uid'] = $uid;
 		
-		$result = $handle->where($condition)->select();
+		$database = C('Database');
+		$webservice = C('Webservice');
+		$msgsource = C('MsgSource');
 		
-		$count_sum = count($result, 0);
-		$count_online = 0;
 		
-		for($i=0; $i<$count_sum; $i++)
+		if ($msgsource == $database)
 		{
-			$data['data'][$i]['dname'] = $result[$i]['dname'];
-			$data['data'][$i]['dssid'] = $result[$i]['dssid'];
-			$data['data'][$i]['donlinenum'] = $result[$i]['donlinenum'];
-			if($result[$i]['dstate'] == '是')
+			
+			$handle = M('devicelist');
+			$condition['uid'] = $uid;
+			$result = $handle->where($condition)->select();
+			
+			$count_sum = count($result, 0);
+			$count_online = 0;
+			
+			for($i=0; $i<$count_sum; $i++)
 			{
-				$count_online++;
+				$data['data'][$i]['dname'] = $result[$i]['dname'];
+				$data['data'][$i]['dssid'] = $result[$i]['dssid'];
+				$data['data'][$i]['donlinenum'] = $result[$i]['donlinenum'];
+				if($result[$i]['dstate'] == '是')
+				{
+					$count_online++;
+				}
 			}
+			
+			// 		$handle1 = M('adlist');
+			// 		$condition['adstatus'] = 'Y';
+			// 		$url = $handle1->where($condition)->getField('url');
+			
+			
+			$data['count_sum'] = $count_sum;
+			$data['count_online'] = $count_online;
+			$data['url'] = 'http://'.$hosts.'/TP/index.php/Admin/Adset/showad/shop/'.$uid.'/aid/0';
+			
+		}else{
+
+			/*
+				$json = array(
+					"op" => "count",
+					"where" => "where BusinessNum = {$uid}  and State <> '停用'"	
+				);
+				$json = json_encode($json);
+				$data['count_sum'] = $call->RouterHandle($json);
+				
+				$json = array(
+					"op" => "count",
+					"where" => "where BusinessNum = {$uid}  and State = '在线'"	
+				);
+				$json = json_encode($json);
+				$data['count_online'] = $call->RouterHandle($json);
+				*/
+			$data['count_online'] = 0;
+			$data['url'] = 'http://'.$hosts.'/TP/index.php/Admin/Adset/showad/shop/'.$uid.'/aid/0';
+			
+			$json = array(
+					"op" => "query",
+					"where" => "where BusinessNum = {$uid}  and State <> '停用'"
+			);
+			$json = json_encode($json);
+			$result = $call->RouterHandle($json);
+			
+			$data['count_sum'] = $result['total'];
+			
+			foreach ($result['rows'] as $key => $item)
+			{
+				
+				$data['data'][$key]['dname'] = $item['RouterName'];
+				$data['data'][$key]['donlinenum'] = $item['OnlineCount'];
+				if($result[$key]['State'] == '在线')
+				{
+					$data['count_online']++;
+				}
+				
+				/*  由于路由器的MAC地址问题，暂时能查阅的路由只有一个
+				$json1 = array(
+					"op" => "getSetting",
+					"RouterMac" => $item['Mac']
+				);*/
+				
+				$json1 = array(
+						"op" => "getSetting",
+						"RouterMac" => '00:03:7F:11:20:B0',
+				);
+				
+				
+				
+				$json1 = json_encode($json1);
+				$result1 = $call->RouterHandle($json1);
+				$data['data'][$key]['dssid'] = $result1['Wlan']['ssid'];	
+			}
+			
+			
 		}
 		
-// 		$handle1 = M('adlist');
-// 		$condition['adstatus'] = 'Y';
-// 		$url = $handle1->where($condition)->getField('url');
-		
-		
-		$data['count_sum'] = $count_sum;
-		$data['count_online'] = $count_online;
-		$data['url'] = 'http://'.$hosts.'/TP/index.php/Admin/Adset/showad/shop/'.$uid.'/aid/0';
-		
-		
-		
 		$response['data'] = $data;
-		$response['status'] = $count_sum;
+		$response['status'] = $data['count_sum'];
 		$response['type'] = 'JSON';
 		$response['info'] = '';
-		
+			
 		$this->ajaxReturn($response, 'JSON');
+		
+		
 		
 	}
 	

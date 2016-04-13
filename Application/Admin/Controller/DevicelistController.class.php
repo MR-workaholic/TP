@@ -82,14 +82,29 @@ class DevicelistController extends Controller {
 				foreach ($result['rows'] as $k=>$v)
 				{
 					 $devmes[$k]['dname'] = $v['RouterName'];
-					 $devmes[$k]['dtype'] = $v['FirmwareVer'];
-					 $devmes[$k]['dssid'] = 'dssid'.$k;//$v[''];
+					 $devmes[$k]['dtype'] = $v['RouterModel'];
+					 //$devmes[$k]['dssid'] = 'dssid'.$k;//$v[''];
 					 $devmes[$k]['dstate'] = $v['State'];
 					 $devmes[$k]['donlinenum'] = $v['OnlineCount'];
 					 $devmes[$k]['dmac'] = $v['Mac'];
 					 $devmes[$k]['dplmac'] = $v['PLCMac'];
 					 $devmes[$k]['dplcbandwidth'] = $v['PLCBandwidth'];
 					 $devmes[$k]['dplcnetworkname'] = $v['PLCName'];
+					 
+					 /*  由于路由器的MAC地址问题，暂时能查阅的路由只有一个
+					  $json1 = array(
+					  		"op" => "getSetting",
+					  		"RouterMac" => $item['Mac']
+					  );*/
+					 
+					 $json2 = array(
+					 		"op" => "getSetting",
+					 		"RouterMac" => '00:03:7F:11:20:B0',
+					 );
+					 
+					 $json2 = json_encode($json2);
+					 $result2 = $call->RouterHandle($json2);
+					 $devmes[$k]['dssid'] = $result2['Wlan']['ssid'];
 
 				}
 				
