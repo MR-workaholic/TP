@@ -240,16 +240,24 @@ class MerchantController extends Controller {
 		
 	}
 	
+	/*
+	 * 展示网页帽子
+	 */
 	public function hatshow(){
 		
-		$call = A('Publiccode');
 		$hosts = C('Hosts');
-		$call->check_valid_user();
-		
 		$this->assign('hosts', $hosts);
-		
-		
 		$this->display('./Public/frame/hat.html');
+		
+	}
+	
+	/*
+	 * 展示网页的头部
+	 */
+	public function  headshow(){
+		$imgPath = C('IMG_PATH');
+		$this->assign('imgPath', $imgPath);
+		$this->display('./Public/frame/head.html');
 		
 	}
 	

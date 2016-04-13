@@ -122,16 +122,55 @@
       <li><h3>主题名称</h3></li>
       <li><input type="text" name="themeName"/></li>
       <li><h3>选择模板</h3></li>
-      <li>模板决定各页面的排版布局风格</li>
+      <li>模板决定各页面的排版布局风格(暂时只有<strong>模板1(mo1)</strong>可用)</li>
       <li>
-        <div><img src="/tp/public/merchant/img/mo1.png" /><p><input type="radio" name="themeTemplate" value='mo1'/><label> mo1</label></p></div>
-        <div><img src="/tp/public/merchant/img/mo2.png" /><p><input type="radio" name="themeTemplate" value='mo2'/><label> mo2</label></p></div>
-        <div><img src="/tp/public/merchant/img/mo3.png" /><p><input type="radio" name="themeTemplate" value='mo3'/><label> mo3</label></p></div>
-        <div><img src="/tp/public/merchant/img/mo4.png" /><p><input type="radio" name="themeTemplate" value='mo4'/><label> mo4</label></p></div>
-        <div><img src="/tp/public/merchant/img/mo5.png" /><p><input type="radio" name="themeTemplate" value='mo5'/><label> mo5</label></p></div>
-        <div><img src="/tp/public/merchant/img/mo6.png" /><p><input type="radio" name="themeTemplate" value='mo6'/><label> mo6</label></p></div>
-        <div><img src="/tp/public/merchant/img/mo7.png" /><p><input type="radio" name="themeTemplate" value='mo7'/><label> mo7</label></p></div>
-        <div><img src="/tp/public/merchant/img/mo8.png" /><p><input type="radio" name="themeTemplate" value='mo8'/><label> mo8</label></p></div>
+        <div>
+          <?php if(($imgPath) == "0"): ?><img src="/tp/public/merchant/img/mo1.png" />
+		  <?php else: ?>
+		    <img src="/project001/tp/public/merchant/img/mo1.png" /><?php endif; ?>	
+          <p><input type="radio" name="themeTemplate" value='mo1'/><label> mo1</label></p>
+        </div>
+        <div>
+        	 <?php if(($imgPath) == "0"): ?><img src="/tp/public/merchant/img/mo2.png" />
+		  	 <?php else: ?>
+		    	<img src="/project001/tp/public/merchant/img/mo2.png" /><?php endif; ?>	
+        	<p><input type="radio" name="themeTemplate" value='mo2'/><label> mo2</label></p></div>
+        <div>
+         <?php if(($imgPath) == "0"): ?><img src="/tp/public/merchant/img/mo3.png" />
+		  <?php else: ?>
+		    <img src="/project001/tp/public/merchant/img/mo3.png" /><?php endif; ?>	
+        	<p><input type="radio" name="themeTemplate" value='mo3'/><label> mo3</label></p>
+        </div>
+        <div>
+         <?php if(($imgPath) == "0"): ?><img src="/tp/public/merchant/img/mo4.png" />
+		  <?php else: ?>
+		    <img src="/project001/tp/public/merchant/img/mo4.png" /><?php endif; ?>	
+        	<p><input type="radio" name="themeTemplate" value='mo4'/><label> mo4</label></p>
+        </div>
+        <div>
+         <?php if(($imgPath) == "0"): ?><img src="/tp/public/merchant/img/mo5.png" />
+		  <?php else: ?>
+		    <img src="/project001/tp/public/merchant/img/mo5.png" /><?php endif; ?>	
+        	<p><input type="radio" name="themeTemplate" value='mo5'/><label> mo5</label></p>
+        </div>
+        <div>
+          <?php if(($imgPath) == "0"): ?><img src="/tp/public/merchant/img/mo6.png" />
+		  <?php else: ?>
+		    <img src="/project001/tp/public/merchant/img/mo6.png" /><?php endif; ?>	
+        	<p><input type="radio" name="themeTemplate" value='mo6'/><label> mo6</label></p>
+        </div>
+        <div>
+           <?php if(($imgPath) == "0"): ?><img src="/tp/public/merchant/img/mo7.png" />
+		  <?php else: ?>
+		    <img src="/project001/tp/public/merchant/img/mo7.png" /><?php endif; ?>	
+        	<p><input type="radio" name="themeTemplate" value='mo7'/><label> mo7</label></p>
+        </div>
+        <div>
+         <?php if(($imgPath) == "0"): ?><img src="/tp/public/merchant/img/mo8.png" />
+		  <?php else: ?>
+		    <img src="/project001/tp/public/merchant/img/mo8.png" /><?php endif; ?>	
+        	<p><input type="radio" name="themeTemplate" value='mo8'/><label> mo8</label></p>
+        </div>
       </li>
       <li><h3>备注</h3></li>
       <li></li>

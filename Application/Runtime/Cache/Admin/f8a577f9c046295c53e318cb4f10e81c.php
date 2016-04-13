@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE html>
 <html lang="zh-cn">
 <head>
 	<meta charset="UTF-8">
@@ -46,11 +46,9 @@
 <body>
 	<div class="myhead0">
 		<div class="myhead1">
-		  <eq name="imgPath" value="0">
-		  	<img src="/tp/public/merchant/img/brand.png" alt="商标" title="连WIFI">
-		  <else/>
-		    <img src="/project001/tp/public/merchant/img/brand.png" alt="商标" title="连WIFI">
-		  </eq>	
+		  <?php if(($imgPath) == "0"): ?><img src="/tp/public/merchant/img/brand.png" alt="商标" title="连WIFI">
+		  <?php else: ?>
+		    <img src="/project001/tp/public/merchant/img/brand.png" alt="商标" title="连WIFI"><?php endif; ?>	
 		</div>
 		<div class="myhead2">
 			<p >帮助中心</p>

@@ -30,8 +30,9 @@ class AuthenticationController extends Controller {
 	
 	public function signinshow()
 	{
+		$imgPath = C('IMG_PATH');
+		$this->assign('imgPath', $imgPath);
 		$this->display('./GLLogin/Signin/zui-master-me/Merchant/signin.html');
-		
 	}
 	
 	/*

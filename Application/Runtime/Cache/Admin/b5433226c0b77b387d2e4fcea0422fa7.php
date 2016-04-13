@@ -117,7 +117,7 @@
   var routelistStatus = 0;
    
   var hat="hatshow";
-  var head="/TP/Public/frame/head.html";
+  var head="headshow";
   var middletitle="middletitleshow";
  // var middletitle="/TP/Public/frame/middletitle.html";
   var mycontent="showIndex";

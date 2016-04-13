@@ -25,6 +25,8 @@ class AdsetController extends Controller {
 
 		$call = A('Publiccode');
 		$call->check_valid_user();
+		$imgPath = C('IMG_PATH');
+		$this->assign('imgPath', $imgPath);
 		$this->display('./GLLogin/Signin/zui-master-me/Merchant/themeAdd.html');
 		
 	}
@@ -358,12 +360,13 @@ class AdsetController extends Controller {
 	/*
 	 * 广告展示action--欢迎页
 	 * 
-	 * $aid为0的时候是展现当前设置的默认广告，否则是展现相应的广告
 	 * $shop:用户的id（uid）
-	 * $aid: 广告的id
+	 * $aid: 广告的id,为0的时候是展现当前设置的默认广告，否则是展现相应的广告
 	 */
 	public function showad($shop, $aid)
 	{
+		
+		$imgPath = C('IMG_PATH');
 		
 		if ($aid == 0)
 		{
@@ -393,7 +396,13 @@ class AdsetController extends Controller {
 		{
 			if ($file != '.' && $file != '..' && $file[0] == 'S')
 			{
-				$Spicarr[$countS] = '/tp/application/admin/userfile/'.$shop.'/'.$order.'upload_file/'.$file.'?rank='.time();
+				if ($imgPath == 0)
+				{
+					$Spicarr[$countS] = '/tp/application/admin/userfile/'.$shop.'/'.$order.'upload_file/'.$file.'?rank='.time();
+				}else {
+					$Spicarr[$countS] = '/project001/tp/application/admin/userfile/'.$shop.'/'.$order.'upload_file/'.$file.'?rank='.time();
+				}
+				
 				$countS++;	
 			}
 		}
@@ -407,6 +416,7 @@ class AdsetController extends Controller {
 		
 		$welcomeword = str_replace('&lt;', '<', $result['welcomeword']);
 		$welcomeword = str_replace('&gt;', '>', $welcomeword);
+		
 		
 		
 		
@@ -430,7 +440,8 @@ class AdsetController extends Controller {
 	
 	public function showad2($aid)
 	{
-	
+		
+		$imgPath = C('IMG_PATH');
 		$handle = M('adlist');
 		$condition['aid'] = $aid;
 		$result = $handle->where($condition)->find();
@@ -443,7 +454,13 @@ class AdsetController extends Controller {
 		{
 			if ($file != '.' && $file != '..' && $file[0] == 'L')
 			{
-				$Lpicarr[$countL] = '/tp/application/admin/userfile/'.$result['uid'].'/'.$result['order'].'upload_file/'.$file.'?rank='.time();
+				if ($imgPath == 0)
+				{
+					$Lpicarr[$countL] = '/tp/application/admin/userfile/'.$result['uid'].'/'.$result['order'].'upload_file/'.$file.'?rank='.time();
+				}else{
+					$Lpicarr[$countL] = '/project001/tp/application/admin/userfile/'.$result['uid'].'/'.$result['order'].'upload_file/'.$file.'?rank='.time();
+				}
+				
 				$countL++;
 			}
 		}
@@ -489,6 +506,7 @@ class AdsetController extends Controller {
 	
 	public function showad3($aid)
 	{
+		$imgPath = C('IMG_PATH');
 		$handle = M('adlist');
 		$condition['aid'] = $aid;
 		$result = $handle->where($condition)->find();
@@ -513,11 +531,16 @@ class AdsetController extends Controller {
 					$Ipicnamearr = $handle1->where($condition1)->getField('magnetname');
 					$Ipicurlarr  = trim($handle1->where($condition1)->getField('url'));
 					
-					
+					if ($imgPath == 0)
+					{
+						$src = '/tp/application/admin/userfile/'.$result['uid'].'/'.$result['order'].'upload_file/'.$file.'?rank='.time();
+					}else {
+						$src = '/project001/tp/application/admin/userfile/'.$result['uid'].'/'.$result['order'].'upload_file/'.$file.'?rank='.time();
+					}
 					
 					$Ipicarr[$countI] = array(
 							
-							'src' => '/tp/application/admin/userfile/'.$result['uid'].'/'.$result['order'].'upload_file/'.$file.'?rank='.time(),
+							'src' => $src,
 							'name' => $Ipicnamearr,
 							'url' => $Ipicurlarr,
 						
@@ -525,8 +548,12 @@ class AdsetController extends Controller {
 					
 					$countI++;
 				}else{
-					
-					$Lpicarr[$countL] = '/tp/application/admin/userfile/'.$result['uid'].'/'.$result['order'].'upload_file/'.$file.'?rank='.time();
+					if ($imgPath == 0)
+					{
+						$Lpicarr[$countL] = '/tp/application/admin/userfile/'.$result['uid'].'/'.$result['order'].'upload_file/'.$file.'?rank='.time();			
+					}else{
+						$Lpicarr[$countL] = '/project001/tp/application/admin/userfile/'.$result['uid'].'/'.$result['order'].'upload_file/'.$file.'?rank='.time();		
+					}
 					$countL++;
 					
 				}
@@ -565,7 +592,7 @@ class AdsetController extends Controller {
 	public function Fpicmescall()
 	{
 		$aid = I('post.aid');
-		
+		$imgPath = C('IMG_PATH');
 		$handle = M('adlist');
 		$condition['aid'] = $aid;
 		$result = $handle->where($condition)->find();
@@ -583,7 +610,13 @@ class AdsetController extends Controller {
 			if ($file != '.' && $file != '..' && $file[0] == 'F')
 			{
 				
+				if ($imgPath == 0)
+				{
 					$Fpicarr[$countF] = '/tp/application/admin/userfile/'.$result['uid'].'/'.$result['order'].'upload_file/'.$file.'?rank='.time();
+				}else{
+					$Fpicarr[$countF] = '/project001/tp/application/admin/userfile/'.$result['uid'].'/'.$result['order'].'upload_file/'.$file.'?rank='.time();
+				}
+					
 					$condition1['picname'] = $file;
 					$Fpicurlarr[$countF] = trim($handle1->where($condition1)->getField('url'));
 					$countF++;
@@ -769,6 +802,7 @@ class AdsetController extends Controller {
 	public function adset_whole($aid)
 	{
 	
+		$imgPath = C('IMG_PATH');
 		$handle = M('adlist');
 		$hosts = C('Hosts');
 		
@@ -776,7 +810,13 @@ class AdsetController extends Controller {
 		$result = $handle->where($condition)->find();
 		$call = A('Publiccode');
 		
-		$imgsrc = "/tp/application/admin/userfile/{$result['uid']}/{$result['order']}upload_file/L0.jpg?rank=".$call->getrandstr();
+		if ($imgPath == 0)
+		{
+			$imgsrc = "/tp/application/admin/userfile/{$result['uid']}/{$result['order']}upload_file/L0.jpg?rank=".$call->getrandstr();
+		}else{
+			$imgsrc = "/project001/tp/application/admin/userfile/{$result['uid']}/{$result['order']}upload_file/L0.jpg?rank=".$call->getrandstr();
+		}
+		
 		$url_upload = "http://{$hosts}/tp/application/admin/userfile/{$result['uid']}/{$result['order']}do_file_upload.php";
 		
 		$handle1 = M('adbtn');
@@ -830,8 +870,15 @@ class AdsetController extends Controller {
 		$condition['aid'] = $aid;
 		$result = $handle->where($condition)->find();
 		$call = A('Publiccode');
+		$imgPath = C('IMG_PATH');
 		
-		$Simgsrc = "/tp/application/admin/userfile/{$result['uid']}/{$result['order']}upload_file/S0.jpg?rank=".$call->getrandstr();
+		if ($imgPath == 0)
+		{
+			$Simgsrc = "/tp/application/admin/userfile/{$result['uid']}/{$result['order']}upload_file/S0.jpg?rank=".$call->getrandstr();
+		}else{
+			$Simgsrc = "/project001/tp/application/admin/userfile/{$result['uid']}/{$result['order']}upload_file/S0.jpg?rank=".$call->getrandstr();
+		}
+		
 		$url_upload = "http://{$hosts}/tp/application/admin/userfile/{$result['uid']}/{$result['order']}do_file_upload.php";
 		
 		
@@ -954,7 +1001,7 @@ class AdsetController extends Controller {
 	 */
 	public function adset_after($aid)
 	{
-		
+		$imgPath = C('IMG_PATH');
 		$handle = M('adlist');
 		$condition['aid'] = $aid;
 		$result = $handle->where($condition)->find();
@@ -975,22 +1022,40 @@ class AdsetController extends Controller {
 				switch ($file[0])
 				{
 					case 'F': 
+						
+						if ($imgPath == 0)
+						{
+							$src = "/tp/application/admin/userfile/{$result['uid']}/{$result['order']}upload_file/{$file}?rank=".$call->getrandstr();
+						}else{
+							$src = "/project001/tp/application/admin/userfile/{$result['uid']}/{$result['order']}upload_file/{$file}?rank=".$call->getrandstr();
+						}
 						$Fpicarr[$countF] = array(
-							src => "/tp/application/admin/userfile/{$result['uid']}/{$result['order']}upload_file/{$file}?rank=".$call->getrandstr(),
+							src => $src,
 							id => substr($file, 0, 2),
 						);
 						
 						$countF++;
 						break;
+						
 					case 'I':
+						
+						if ($imgPath == 0)
+						{
+							$src = "/tp/application/admin/userfile/{$result['uid']}/{$result['order']}upload_file/{$file}?rank=".$call->getrandstr();
+						}else{
+							$src = "/project001/tp/application/admin/userfile/{$result['uid']}/{$result['order']}upload_file/{$file}?rank=".$call->getrandstr();
+						}
+						
 						$Ipicarr[$counti] = array(
-						 src => "/tp/application/admin/userfile/{$result['uid']}/{$result['order']}upload_file/{$file}?rank=".$call->getrandstr(),
+						 src => $src,
 						 id => substr($file, 0, 3),
 						
 						);
 						
 						$counti++;
 						break;
+						
+					default:break;
 				}
 				
 			}
@@ -1005,6 +1070,7 @@ class AdsetController extends Controller {
 		$this->assign('Fpicarr', $Fpicarr);
 		$this->assign('Ipicarr', $Ipicarr);
 		$this->assign('a', $result['order']);
+		$this->assign('imgPath', $imgPath);
 		
 		
 
@@ -1096,6 +1162,7 @@ class AdsetController extends Controller {
 		$head = I('post.head');
 		$magnetWord = I('post.magnetWord');
 		$magnetURL = I('post.magnetURL');
+		$imgPath = C('IMG_PATH');
 		
 		$call = A('Publiccode');
 		$uid = $call->check_valid_user();
@@ -1124,9 +1191,15 @@ class AdsetController extends Controller {
 					$condition['url'] = $magnetURL;
 					$handle->add($condition);
 				
+					if ($imgPath == 0)
+					{
+						$src = "/tp/application/admin/userfile/{$uid}/{$head}upload_file/{$after}?rank=".$call->getrandstr();
+					}else{
+						$src = "/Project001/tp/application/admin/userfile/{$uid}/{$head}upload_file/{$after}?rank=".$call->getrandstr();
+					}
 				
 					$response['data'] = array(
-							'src' => "/tp/application/admin/userfile/{$uid}/{$head}upload_file/{$after}?rank=".$call->getrandstr(),
+							'src' => $src,
 					);
 				
 					$response['status'] = 0;
@@ -1200,10 +1273,16 @@ class AdsetController extends Controller {
 				$condition['url'] = $magnetURL;
 				$handle->add($condition);
 				
+				if ($imgPath == 0)
+				{
+					$src = "/tp/application/admin/userfile/{$uid}/{$head}upload_file/{$after}?rank=".$call->getrandstr();
+				}else{
+					$src = "project001/tp/application/admin/userfile/{$uid}/{$head}upload_file/{$after}?rank=".$call->getrandstr();
+				}
 				
 				$response['data'] = array(
 					'oldfilename' => substr($before, 0, 3),
-					'src' => "/tp/application/admin/userfile/{$uid}/{$head}upload_file/{$after}?rank=".$call->getrandstr(),
+					'src' => $src,
 				);
 				
 				$response['status'] = 0;

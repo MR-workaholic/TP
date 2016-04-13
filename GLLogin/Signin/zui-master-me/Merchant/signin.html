@@ -46,19 +46,32 @@
   <!-- 账户登录的三种方式-->
   <section>
     <div class="panel">
-      <img src="/tp/public/merchant/img/phone.png"/>
+    <eq name="imgPath" value="0">
+        <img src="/tp/public/merchant/img/phone.png"/>
+      <else/>
+      	<img src="/project001/tp/public/merchant/img/phone.png"/>  
+    </eq>
       <p>手机登录</p>
       <p>已开启</p>
       <button id="mobileSet" class="btn" href="javascript:">设置</button>
     </div>
     <div class="panel">
-      <img src="/tp/public/merchant/img/weixin.png"/>
+      <eq name="imgPath" value="0">
+        <img src="/tp/public/merchant/img/weixin.png"/>
+      <else/>
+      	<img src="/project001/tp/public/merchant/img/weixin.png"/>  
+     </eq>
+      
       <p>微信登录</p>
       <p>已开启</p>
       <button id="wechatSet" class="btn" href="javascript:">设置</button>
     </div>
     <div class="panel">
-      <img src="/tp/public/merchant/img/qq.png"/>
+       <eq name="imgPath" value="0">
+        <img src="/tp/public/merchant/img/qq.png"/>
+      <else/>
+      	<img src="/project001/tp/public/merchant/img/qq.png"/>  
+      </eq>
       <p>QQ登录</p>
       <p>已开启</p>
       <button id="qqSet" class="btn" href="javascript:">设置</button>
