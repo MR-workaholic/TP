@@ -1070,7 +1070,6 @@ class AdsetController extends Controller {
 		$this->assign('Fpicarr', $Fpicarr);
 		$this->assign('Ipicarr', $Ipicarr);
 		$this->assign('a', $result['order']);
-		$this->assign('imgPath', $imgPath);
 		
 		
 
@@ -1087,6 +1086,7 @@ class AdsetController extends Controller {
 		$call = A('Publiccode');
 		$hosts = C('Hosts');
 		$uid = $call->check_valid_user();
+		
 		
 		if ($src != 'new')
 		{
@@ -1108,9 +1108,8 @@ class AdsetController extends Controller {
 		$this->assign('url', $url);
 		$this->assign('rank', time());
 		$this->assign('hosts', $hosts);
-		
-		
-		
+	
+
 		$this->display("./Application/Admin/UserFile/{$uid}/{$head}addImg.html");
 	}
 	
@@ -1172,7 +1171,7 @@ class AdsetController extends Controller {
 		{
 			if (file_exists("./Application/Admin/UserFile/{$uid}/{$head}upload_file/{$after}"))
 			{
-// 				$response['data'] = '您已经拥有该磁贴（增加）';
+
 				$response['status'] = 1;
 				$response['info'] = '您已经拥有该磁贴（增加）';
 				$response['type'] = 'JSON';
@@ -1277,7 +1276,7 @@ class AdsetController extends Controller {
 				{
 					$src = "/tp/application/admin/userfile/{$uid}/{$head}upload_file/{$after}?rank=".$call->getrandstr();
 				}else{
-					$src = "project001/tp/application/admin/userfile/{$uid}/{$head}upload_file/{$after}?rank=".$call->getrandstr();
+					$src = "/project001/tp/application/admin/userfile/{$uid}/{$head}upload_file/{$after}?rank=".$call->getrandstr();
 				}
 				
 				$response['data'] = array(

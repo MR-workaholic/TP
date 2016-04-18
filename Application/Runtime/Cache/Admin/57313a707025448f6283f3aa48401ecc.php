@@ -72,7 +72,7 @@
   <p>注意：各图片间的宽高应保持一致，如不一致则部分轮播图片底部会出现空白。</p>
   <div id="thisImg" class="yd" >
   
-  		<?php if(($src) != "new"): ?><img src="/tp/application/admin/userfile/<?php echo ($uid); ?>/<?php echo ($head); ?>upload_file/F<?php echo ($src); ?>.jpg?rank=<?php echo ($rank); ?>" width="150" height="80" ><?php endif; ?>
+  		<?php if(($src) != "new"): ?><img src="/Project001/TP/Application/admin/userfile/<?php echo ($uid); ?>/<?php echo ($head); ?>upload_file/F<?php echo ($src); ?>.jpg?rank=<?php echo ($rank); ?>" width="150" height="80" ><?php endif; ?>
   		 
   </div>
   <div><input id="imgChoose" type="file" size="1" name="img"></div>
@@ -128,10 +128,10 @@
             if(add == 0)
             	{
 	            	jq('#'+filename).empty();
-	               	jq('#'+filename).html('<img src="/tp/application/admin/userfile/<?php echo ($uid); ?>/<?php echo ($head); ?>upload_file/'+filename+'.jpg?rank='+rank+'" width="150" height="80" />');
+	               	jq('#'+filename).html('<img src="/Project001/TP/Application/admin/userfile/<?php echo ($uid); ?>/<?php echo ($head); ?>upload_file/'+filename+'.jpg?rank='+rank+'" width="150" height="80" />');
   			   	}else{
   			   		
-  			   		var src = '/tp/application/admin/userfile/<?php echo ($uid); ?>/<?php echo ($head); ?>upload_file/'+filename+'.jpg?rank='+rank;
+  			   		var src = '/Project001/TP/Application/admin/userfile/<?php echo ($uid); ?>/<?php echo ($head); ?>upload_file/'+filename+'.jpg?rank='+rank;
   			   	
   			   		var new_content = '<div class="panel"><div class="panel-heading">'+
   			   						  '<div class="panel-actions ba1" style="display:none"><span class="openImg">编 辑</span>'+

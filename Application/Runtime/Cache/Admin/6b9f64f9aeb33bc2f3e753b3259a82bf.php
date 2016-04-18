@@ -138,7 +138,7 @@
 	                
 	                <div id = <?php echo ($vo["id"]); ?>> 
 	                	<img src="<?php echo ($vo["src"]); ?>" width="150" height="80"/>
-	               </div>
+	                </div>
 	               
                 </div>
                
@@ -200,33 +200,22 @@
     <h3>磁贴图标</h3>
     <p>为磁贴选择一个图标，点击以下图标进行选择：</p>
     <div class="magnetList">
-      <?php if(($imgPath) == "0"): ?><img src="/tp/public/images/I01.png" width="60" height="60">
-      	<img src="/tp/public/images/I02.png" width="60" height="60">
-      	<img src="/tp/public/images/I03.png" width="60" height="60">
-      	<img src="/tp/public/images/I04.png" width="60" height="60">
-      	<img src="/tp/public/images/I05.png" width="60" height="60">
-      	<img src="/tp/public/images/I06.png" width="60" height="60">
-      	<img src="/tp/public/images/I07.png" width="60" height="60">
-      	<img src="/tp/public/images/I08.png" width="60" height="60">
-      	<img src="/tp/public/images/I09.png" width="60" height="60">
-      	<img src="/tp/public/images/I10.png" width="60" height="60">
-      	<img src="/tp/public/images/I11.png" width="60" height="60">
-      	<img src="/tp/public/images/I12.png" width="60" height="60">
+  
       	
-      	<?php else: ?>
-      		
-      	<img src="/project001/tp/public/images/I01.png" width="60" height="60">
-      	<img src="/project001/tp/public/images/I02.png" width="60" height="60">
-      	<img src="/project001/tp/public/images/I03.png" width="60" height="60">
-      	<img src="/project001/tp/public/images/I04.png" width="60" height="60">
-      	<img src="/project001/tp/public/images/I05.png" width="60" height="60">
-      	<img src="/project001/tp/public/images/I06.png" width="60" height="60">
-      	<img src="/project001/tp/public/images/I07.png" width="60" height="60">
-      	<img src="/project001/tp/public/images/I08.png" width="60" height="60">
-      	<img src="/project001/tp/public/images/I09.png" width="60" height="60">
-      	<img src="/project001/tp/public/images/I10.png" width="60" height="60">
-      	<img src="/project001/tp/public/images/I11.png" width="60" height="60">
-      	<img src="/project001/tp/public/images/I12.png" width="60" height="60"><?php endif; ?>
+    	<img src="/Project001/TP/Public/images/I01.png" width="60" height="60">
+      	<img src="/Project001/TP/Public/images/I02.png" width="60" height="60">
+      	<img src="/Project001/TP/Public/images/I03.png" width="60" height="60">
+      	<img src="/Project001/TP/Public/images/I04.png" width="60" height="60">
+      	<img src="/Project001/TP/Public/images/I05.png" width="60" height="60">
+      	<img src="/Project001/TP/Public/images/I06.png" width="60" height="60">
+      	<img src="/Project001/TP/Public/images/I07.png" width="60" height="60">
+      	<img src="/Project001/TP/Public/images/I08.png" width="60" height="60">
+      	<img src="/Project001/TP/Public/images/I09.png" width="60" height="60">
+      	<img src="/Project001/TP/Public/images/I10.png" width="60" height="60">
+      	<img src="/Project001/TP/Public/images/I11.png" width="60" height="60">
+      	<img src="/Project001/TP/Public/images/I12.png" width="60" height="60">
+      	
+ 
     </div>
     <button type="button" class="btn" id="cancelAddMagnet" data-dismiss="modal">取消</button>
     <button type="button" class="btn btn-primary" id="confirmAddMagnet" data-dismiss="modal">确定</button>
@@ -248,33 +237,19 @@
     <h3>磁贴图标</h3>
     <p>为磁贴选择一个图标，点击以下图标进行选择：</p>
     <div class="magnetList">
-    	<?php if(($imgPath) == "0"): ?><img src="/tp/public/images/I01.png" width="60" height="60">
-      	<img src="/tp/public/images/I02.png" width="60" height="60">
-      	<img src="/tp/public/images/I03.png" width="60" height="60">
-      	<img src="/tp/public/images/I04.png" width="60" height="60">
-      	<img src="/tp/public/images/I05.png" width="60" height="60">
-      	<img src="/tp/public/images/I06.png" width="60" height="60">
-      	<img src="/tp/public/images/I07.png" width="60" height="60">
-      	<img src="/tp/public/images/I08.png" width="60" height="60">
-      	<img src="/tp/public/images/I09.png" width="60" height="60">
-      	<img src="/tp/public/images/I10.png" width="60" height="60">
-      	<img src="/tp/public/images/I11.png" width="60" height="60">
-      	<img src="/tp/public/images/I12.png" width="60" height="60">
-      	
-      	<?php else: ?>
-      		
-      	<img src="/project001/tp/public/images/I01.png" width="60" height="60">
-      	<img src="/project001/tp/public/images/I02.png" width="60" height="60">
-      	<img src="/project001/tp/public/images/I03.png" width="60" height="60">
-      	<img src="/project001/tp/public/images/I04.png" width="60" height="60">
-      	<img src="/project001/tp/public/images/I05.png" width="60" height="60">
-      	<img src="/project001/tp/public/images/I06.png" width="60" height="60">
-      	<img src="/project001/tp/public/images/I07.png" width="60" height="60">
-      	<img src="/project001/tp/public/images/I08.png" width="60" height="60">
-      	<img src="/project001/tp/public/images/I09.png" width="60" height="60">
-      	<img src="/project001/tp/public/images/I10.png" width="60" height="60">
-      	<img src="/project001/tp/public/images/I11.png" width="60" height="60">
-      	<img src="/project001/tp/public/images/I12.png" width="60" height="60"><?php endif; ?>
+    	
+    	<img src="/Project001/TP/Public/images/I01.png" width="60" height="60">
+      	<img src="/Project001/TP/Public/images/I02.png" width="60" height="60">
+      	<img src="/Project001/TP/Public/images/I03.png" width="60" height="60">
+      	<img src="/Project001/TP/Public/images/I04.png" width="60" height="60">
+      	<img src="/Project001/TP/Public/images/I05.png" width="60" height="60">
+      	<img src="/Project001/TP/Public/images/I06.png" width="60" height="60">
+      	<img src="/Project001/TP/Public/images/I07.png" width="60" height="60">
+      	<img src="/Project001/TP/Public/images/I08.png" width="60" height="60">
+      	<img src="/Project001/TP/Public/images/I09.png" width="60" height="60">
+      	<img src="/Project001/TP/Public/images/I10.png" width="60" height="60">
+      	<img src="/Project001/TP/Public/images/I11.png" width="60" height="60">
+      	<img src="/Project001/TP/Public/images/I12.png" width="60" height="60">
       
       
       </div>
@@ -554,7 +529,7 @@
           
           jq(".magnetList").find("img").each(function(){
 
-            if(jq(this).attr("src")==="/tp/public/images/"+num){
+            if(jq(this).attr("src")==="/Project001/TP/Public/images/"+num){
               jq(this).siblings().addClass("magnetBg");
               jq(this).removeClass("magnetBg");
               urlAfter=jq(this).attr("src");

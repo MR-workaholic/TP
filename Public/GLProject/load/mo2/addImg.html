@@ -73,7 +73,9 @@
   <div id="thisImg" class="yd" >
   
   		<neq name="src" value="new">
-			<img src="/tp/application/admin/userfile/{$uid}/{$head}upload_file/F{$src}.jpg?rank={$rank}" width="150" height="80" >
+  	
+			 <img src="__ROOT__/Application/admin/userfile/{$uid}/{$head}upload_file/F{$src}.jpg?rank={$rank}" width="150" height="80" >
+			
 		</neq>
   		 
   </div>
@@ -130,11 +132,11 @@
             if(add == 0)
             	{
 	            	jq('#'+filename).empty();
-	               	jq('#'+filename).html('<img src="/tp/application/admin/userfile/{$uid}/{$head}upload_file/'+filename+'.jpg?rank='+rank+'" width="150" height="80" />');
+	               	jq('#'+filename).html('<img src="__ROOT__/Application/admin/userfile/{$uid}/{$head}upload_file/'+filename+'.jpg?rank='+rank+'" width="150" height="80" />');
   			   	}else{
   			   		
-  			   		var src = '/tp/application/admin/userfile/{$uid}/{$head}upload_file/'+filename+'.jpg?rank='+rank;
-  			   		
+  			   		var src = '__ROOT__/Application/admin/userfile/{$uid}/{$head}upload_file/'+filename+'.jpg?rank='+rank;
+  			   	
   			   		var new_content = '<div class="panel"><div class="panel-heading">'+
   			   						  '<div class="panel-actions ba1" style="display:none"><span class="openImg">编 辑</span>'+
   			   						  '<button class="btn btn-mini btn-danger remove-panel"><i class="icon-remove"></i></button>'+
