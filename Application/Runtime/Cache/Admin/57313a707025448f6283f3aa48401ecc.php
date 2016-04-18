@@ -88,7 +88,7 @@
 <script>
 
 	
-	var url_upload = "http://project001.com/tp/application/admin/userfile/<?php echo ($uid); ?>/<?php echo ($head); ?>do_file_upload.php";
+	var url_upload = "http://<?php echo ($hosts); ?>/tp/application/admin/userfile/<?php echo ($uid); ?>/<?php echo ($head); ?>do_file_upload.php";
   	
 //  flat是上传的前缀
   function ajaxFileUpload(flat)
@@ -123,7 +123,7 @@
           	add = data.add;
           	dbret = data.dbret;
           
-          	alert(ret);
+          
            
             if(add == 0)
             	{
@@ -132,7 +132,7 @@
   			   	}else{
   			   		
   			   		var src = '/tp/application/admin/userfile/<?php echo ($uid); ?>/<?php echo ($head); ?>upload_file/'+filename+'.jpg?rank='+rank;
-  			   		alert(src);
+  			   	
   			   		var new_content = '<div class="panel"><div class="panel-heading">'+
   			   						  '<div class="panel-actions ba1" style="display:none"><span class="openImg">编 辑</span>'+
   			   						  '<button class="btn btn-mini btn-danger remove-panel"><i class="icon-remove"></i></button>'+
@@ -158,7 +158,7 @@
         		}else if(ret == 3)
         			{
         				dbret = data.dbret;
-        				alert(dbret);
+        			
         				if(dbret)
         					{
         						jq('#mesforupload').html('<p>图片上传失败或没上传图片，URL设置成功</p>');

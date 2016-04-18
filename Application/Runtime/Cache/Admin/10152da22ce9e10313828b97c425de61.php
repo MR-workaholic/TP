@@ -69,20 +69,17 @@
 			 $('agentNote').value = data['agentNote'];
 			 $('shoplongitude').value = data['shoplongitude'];
 			 $('shoplatitude').value = data['shoplatitude'];
-	/* 		 $('sid').value = data['sid'];
-			 $('shopsite2').innerHTML = data['shopsite']; */
+	/* 		 $('sid').value = data['sid'];*/
+			 $('shopsite2').innerHTML = data['agentAddress']; 
 			 $('agentId').value = data['agentId'];
 			 
-			 shopname = data['shopname'];
-			 shopsite = data['shopsite'];
+			 shopname = data['agentname'];
+			 shopsite = data['agentAddress'];
 			 x = data['shoplongitude'];
 			 y = data['shoplatitude'];
 			 
 			 baiduMap();
-			 
-			
-			
-			alert('更新成功！');
+
 		 }else{
 			 alert('更新失败！');
 		 }
@@ -172,6 +169,7 @@
  function completeBasicMsg(data,status){
 
 	 if(status==1){
+		 
 		 $('agentname').value = data['agentname'];
 		 $('agent').value = data['agent'];
 		 $('agentContact').value = data['agentContact'];
@@ -183,8 +181,8 @@
 		 $('shopsite2').innerHTML = data['agentAddress']; 
 		 $('agentId').value = data['agentId'];
 		 
-		 shopname = data['shopname'];
-		 shopsite = data['shopsite'];
+		 shopname = data['agentname'];
+		 shopsite = data['agentAddress'];
 		 x = data['shoplongitude'];
 		 y = data['shoplatitude'];
 		 

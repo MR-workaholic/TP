@@ -195,8 +195,8 @@
 				 for(var i=0;i<bodyContent.length;i++){
 					newtbodies += "<tr><td>"+bodyContent[i]['agentId']+"</td><td>"+bodyContent[i]['agentName']+"</td><td>"+bodyContent[i]['MerchantNum']+"</td><td>"+bodyContent[i]['routerNum']+"</td><td>"+bodyContent[i]['onlineRouterNum']+"</td>";
 					newtbodies += "<td><a href=\"javascript:\" onclick=\"addRoute('"+bodyContent[i]['BId']+"')\">添加</a>&nbsp;&nbsp;<a href=\"javascript:\" onclick=\"deleteRoute('"+bodyContent[i]['BId']+"')\">删除</a></td>";
-					newtbodies +="<td><a href=\"javascript:\" onclick=\"enterAgentAccount('"+bodyContent[i]['BId']+"')\">进入</a></td>";
-					newtbodies +="<td>"+bodyContent[i]['note']+"</td>";
+					newtbodies += "<td><a href=\"javascript:\" onclick=\"enterAgentAccount('"+bodyContent[i]['Num']+"')\">进入</a></td>";
+					newtbodies += "<td>"+bodyContent[i]['note']+"</td>";
 					newtbodies += "</tr>";
 				 }
 				 tbodies[0].innerHTML=newtbodies;

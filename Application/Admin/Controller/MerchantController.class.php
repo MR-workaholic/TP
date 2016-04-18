@@ -24,6 +24,10 @@ class MerchantController extends Controller {
 	{
 		$call = A('Publiccode');
 		$call->check_valid_user();
+		$type = I('session.type');
+		
+		$this->assign('type', $type);
+		
 		$this->display('./GLLogin/Signin/zui-master-me/Agent/agentIndex.html');
 	}
 	
@@ -329,6 +333,14 @@ class MerchantController extends Controller {
 	}
 	
 	/*
+	 * 展示空白
+	 */
+	
+	public function blank(){
+		$this->display('./Public/frame/blank.html');
+	}
+	
+	/*
 	 * 退出账户
 	 */
 	public function quituser(){
@@ -336,16 +348,36 @@ class MerchantController extends Controller {
 		$call = A('Publiccode');
 		$call->check_valid_user();
 		
+		$hosts = C('Hosts');
 		
 		
-		session_start();
 		
-		unset($_SESSION['uid']);
-		unset($_SESSION['type']);
-		unset($_SESSION['BId']);
+		
+		
+			
+		
+		
+// 		session_start();
+		
+// 		unset($_SESSION['uid']);
+// 		unset($_SESSION['type']);
+// 		unset($_SESSION['BId']);
+		
+// 		if (isset($_SESSION['proxyNum']))  
+// 		{
+// 			unset($_SESSION['proxyNum']);
+// 		}
+		
+// 		if (isset($_SESSION['proxyBId']))
+// 		{
+// 			unset($_SESSION['proxyBId']);
+// 		}
+
+		session(null);
 		
 		
 		$result_dest = session_destroy();
+// 		$result_dest = session('[destroy]');
 		
 		if ($result_dest)
 		{
@@ -357,6 +389,8 @@ class MerchantController extends Controller {
 		else {
 			$this->error("can not log you out");
 		}
+		
+	
 		
 	}
 	

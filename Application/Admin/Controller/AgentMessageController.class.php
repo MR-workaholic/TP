@@ -41,16 +41,18 @@ class AgentMessageController extends Controller {
         $call->check_valid_user();
         $this->assign('RouterMsg', $routerMsg);
    //    var_dump($routerMsg);
-      $this->display('./GLLogin/Signin/zui-master-me/Agent/deviceDetail.html');
+        $this->display('./GLLogin/Signin/zui-master-me/Agent/deviceDetail.html');
      // $this->display('./GLLogin/Signin/zui-master-me/Agent/addRoute.html');
     }
     
     public function showBasicMessage(){
+    	
         $call = A('Publiccode');
-        $agentId = 2;
-        if(I('session.proxyId',0) != 0){
-            $agentId=I('session.proxyId');
-        }
+       // $agentId = I('session.BId');
+       // $agentId = 2;
+        $agentId = $call->getAgentBid();
+        
+        
         $json = array(
             "op" => "query",
             "where" => "where BId = '{$agentId}'",
@@ -61,14 +63,14 @@ class AgentMessageController extends Controller {
         
         $jsonResult = $call->AccountHandle($json);
 
-            $agentMsg['agentname']= $jsonResult['rows'][0]['Name'];
-            $agentMsg['agent']= $jsonResult['rows'][0]['Contact'];
-            $agentMsg['agentContact']= "020-12345678";//$jsonResult['rows'][0]['Phone'];
-            $agentMsg['agentAddress']= $jsonResult['rows'][0]['Address'];
-            $agentMsg['shoplongitude']= 113.33395;
-            $agentMsg['shoplatitude']= 23.149136;
-            $agentMsg['agentId']=$jsonResult['rows'][0]['Num'];
-            $agentMsg['agentNote']= "test";
+        $agentMsg['agentname']     = $jsonResult['rows'][0]['Name'];
+        $agentMsg['agent']         = $jsonResult['rows'][0]['Contact'];
+        $agentMsg['agentContact']  = $jsonResult['rows'][0]['ContactInfo'];
+        $agentMsg['agentAddress']  = $jsonResult['rows'][0]['Address'];
+        $agentMsg['shoplongitude'] = $jsonResult['rows'][0]['Longitude'];
+        $agentMsg['shoplatitude']  = $jsonResult['rows'][0]['Latitude'];
+        $agentMsg['agentId']       = $jsonResult['rows'][0]['Num'];
+        $agentMsg['agentNote']     = $jsonResult['rows'][0]['Remark'];
             
         $response['data'] = $agentMsg;
         $response['status'] = 1;
@@ -81,7 +83,7 @@ class AgentMessageController extends Controller {
     public function updateAgentInfo(){
     	
         $call = A('Publiccode');
-        $agentId = $_POST['agentId'];
+        $agentId = I('post.agentId');
         
         $json = array(
             "op" => "query",
@@ -91,10 +93,14 @@ class AgentMessageController extends Controller {
         $json = json_encode($json);
         $jsonResult = $call->AccountHandle($json);
 
-        $jsonResult['rows'][0]['Name'] = $_POST['agentname'];
-        $jsonResult['rows'][0]['Contact'] = $_POST['agent'];
-        //$jsonResult['rows'][0]['Phone'] = $_POST['agentContact'];
-        $jsonResult['rows'][0]['Address'] = $_POST['agentAddress'];
+        $jsonResult['rows'][0]['Name'] = I('post.agentname');
+        $jsonResult['rows'][0]['Contact'] = I('post.agent');
+        $jsonResult['rows'][0]['Address'] = I('post.agentAddress');
+        $jsonResult['rows'][0]['Longitude'] = I('post.shoplongitude');
+        $jsonResult['rows'][0]['Latitude'] = I('post.shoplatitude');
+        $jsonResult['rows'][0]['Remark'] = I('post.agentNote');
+        $jsonResult['rows'][0]['ContactInfo'] = I('post.agentContact');
+        
 
 
         $json1 = array(
@@ -112,14 +118,15 @@ class AgentMessageController extends Controller {
     
         $jsonResult = $call->AccountHandle($json);
         
-        $agentMsg['agentname']= $jsonResult['rows'][0]['Name'];
-        $agentMsg['agent']= $jsonResult['rows'][0]['Contact'];
-        $agentMsg['agentContact']= "020-12345678";//$jsonResult['rows'][0]['Phone'];
-        $agentMsg['agentAddress']= $jsonResult['rows'][0]['Address'];
-        $agentMsg['shoplongitude']= 113.33395;
-        $agentMsg['shoplatitude']= 23.149136;
-        $agentMsg['agentId']=$jsonResult['rows'][0]['Num'];
-        $agentMsg['agentNote']= "test";
+
+        $agentMsg['agentname']     = $jsonResult['rows'][0]['Name'];
+        $agentMsg['agent']         = $jsonResult['rows'][0]['Contact'];
+        $agentMsg['agentContact']  = $jsonResult['rows'][0]['ContactInfo'];
+        $agentMsg['agentAddress']  = $jsonResult['rows'][0]['Address'];
+        $agentMsg['shoplongitude'] = $jsonResult['rows'][0]['Longitude'];
+        $agentMsg['shoplatitude']  = $jsonResult['rows'][0]['Latitude'];
+        $agentMsg['agentId']       = $jsonResult['rows'][0]['Num'];
+        $agentMsg['agentNote']     = $jsonResult['rows'][0]['Remark'];
         
         $response['data'] = $agentMsg;
         
@@ -141,10 +148,13 @@ class AgentMessageController extends Controller {
 //获取路由列表
     public function getRouterList(){
     	
-     	$agentid = 12;
+//     	$agentid = I('session.BId');
+     	//$agentid = 12;
+    	$call = A('Publiccode');
+    	$agentid = $call->getAgentBid();
         $pageSize=I('post.PageSize');
         $pageNum=I('post.PageNum');
-        $call = A('Publiccode');
+       
         $json = array(
             "op" => "query",
             "where" => "where AgentId = {$agentid}",
@@ -166,7 +176,7 @@ class AgentMessageController extends Controller {
         	$response['type'] = 'JSON';
         	$this->ajaxReturn($response,'JSON');
         	
-        }else {
+        }else{
         	
         	$response['data']['routerList'] = $result['rows'];
         	$response['data']['totalPage'] = ceil($result['total']/$pageSize);
@@ -237,8 +247,12 @@ class AgentMessageController extends Controller {
     //获取商家列表
     public function getMerchantList(){
     	
-    	$agentid  = 12;
+//     	$agentid = I('session.BId');
+    	//$agentid  = 12;
     	$call     = A('Publiccode');
+    	
+    	$agentid = $call->getAgentBid();
+    	
     	$PageSize = I('post.PageSize');
     	$pageNum  = I('post.PageNum');
     
@@ -293,7 +307,10 @@ class AgentMessageController extends Controller {
     	$merchantKeyword = I('post.merchantKeyword');
     	$PageSize = I('post.PageSize');
     	$pageNum  = I('post.PageNum');
-    	$agentid  = 12;
+    	//$agentid  = 12;
+//     	$agentid = I('session.BId');
+    	$agentid = $call->getAgentBid();
+		
     	
     	$json = array(
     			"op" => "query",
@@ -379,16 +396,34 @@ class AgentMessageController extends Controller {
 		$onlineUserjson = json_encode($onlineUserjson);		
 		$onlineUserCount = $call->ClientRecordHandle($onlineUserjson);
         
-		$data['RouterId']=$routerInfoResult['rows'][0]['RouterId'];
-		$data['SN']=$routerInfoResult['rows'][0]['SN'];
-		$data['FirmwareVer']=$routerInfoResult['rows'][0]['FirmwareVer'];
-		$data['State']=$routerInfoResult['rows'][0]['State'];
-		$data['MAC']=$routerInfoResult['rows'][0]['Mac'];
-		$data['PLCmac']='PLC名字';
-		$data['PLCwidth']='测试PLC带宽';	
-		$data['PLCName']='测试PLC网络名称';
-		$data['SSID']='测试SSID';
-		$data['onlineUserNum']=$onlineUserCount;
+		$data['RouterId']      = $routerInfoResult['rows'][0]['RouterId'];
+		$data['SN']            = $routerInfoResult['rows'][0]['SN'];
+		$data['RouterName']    = $routerInfoResult['rows'][0]['RouterName'];
+		$data['FirmwareVer']   = $routerInfoResult['rows'][0]['FirmwareVer'];
+		$data['State']         = $routerInfoResult['rows'][0]['State'];
+		$data['MAC']           = $routerInfoResult['rows'][0]['Mac'];
+		$data['PLCmac']        = $routerInfoResult['rows'][0]['PLCMac'];
+		$data['PLCwidth']      = $routerInfoResult['rows'][0]['PLCBandwidth'];	
+		$data['PLCName']       = $routerInfoResult['rows'][0]['PLCName'];
+		$data['onlineUserNum'] = $onlineUserCount;
+		
+		//获取SSID
+// 		$ssidJson = array(
+// 			'op' => 'getSetting',
+// 			'RouterMac' => "{$routerInfoResult['rows'][0]['MAC']}",	
+// 		);
+
+				$ssidJson = array(
+					'op' => 'getSetting',
+					'RouterMac' => "00:03:7F:11:20:B0",
+				);
+				
+				$ssidJson = json_encode($ssidJson);
+				
+				$result = $call->RouterHandle($ssidJson);
+		
+		$data['SSID'] = $result['Wlan']['ssid'];
+		
 		
 		return $data;
     }
@@ -443,12 +478,14 @@ class AgentMessageController extends Controller {
     	$pageNum = I('post.PageNum');
     	$pageSize = I('post.PageSize');
     	$type = I('session.type');
+//     	$agentid = I('session.BId');
+    	$agentid = $call->getAgentBid();
     	
     	if ($type == '代理商')
     	{
     		$json = array(
     				'op' => 'query',
-    				'where' => "where AgentId = 12 and BusinessId = 0",
+    				'where' => "where AgentId = {$agentid} and BusinessId = 0",
     				"rows"  => $pageSize,
     				"page"  => $pageNum,
     		);
@@ -488,13 +525,15 @@ class AgentMessageController extends Controller {
     	$pageSize = I('post.PageSize');
     	$businessId = I('post.businessId');
     	$type = I('session.type');
+//     	$agentid = I('session.BId');
+    	$agentid = $call->getAgentBid();
     	
     	if ($type == '代理商')
     	{
     		
     		$json = array(
     			'op' => 'query',
-    			'where' => "where AgentId = 12 and BusinessId = ".$businessId,
+    			'where' => "where AgentId = {$agentid} and BusinessId = {$businessId}",
     			"rows"  => $pageSize,
     			"page"  => $pageNum,
     	);

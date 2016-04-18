@@ -85,7 +85,7 @@ var jq = jQuery.noConflict();
 				 
 				 devlistcon += "<tbody>";
 	               
-	            	   devlistcon += "<tr><td><?php echo ($RouterMsg['SN']); ?></td><td><?php echo ($RouterMsg['FirmwareVer']); ?></td><td><?php echo ($RouterMsg['SSID']); ?></td>";
+	            	   devlistcon += "<tr><td><?php echo ($RouterMsg['RouterName']); ?></td><td><?php echo ($RouterMsg['FirmwareVer']); ?></td><td><?php echo ($RouterMsg['SSID']); ?></td>";
 	            	   devlistcon += "<td><?php echo ($RouterMsg['State']); ?></td><td><?php echo ($RouterMsg['onlineUserNum']); ?></td><td><a href=\"javascript:\">查看</a></td>";
 	            	   devlistcon += "<td><a href=\"javascript:\">查看</a></td><td><a href=\"javascript:\">预览</a></td></tr>";
               
@@ -97,7 +97,7 @@ var jq = jQuery.noConflict();
 				 "<th>PLC网络名称</th></tr></thead>";
 				 
 				 devlistcon += "<tbody>";
-	            	   devlistcon += "<tr><td><?php echo ($RouterMsg['SN']); ?></td><td><?php echo ($RouterMsg['SSID']); ?></td><td><?php echo ($RouterMsg['State']); ?></td>";
+	            	   devlistcon += "<tr><td><?php echo ($RouterMsg['RouterName']); ?></td><td><?php echo ($RouterMsg['SSID']); ?></td><td><?php echo ($RouterMsg['State']); ?></td>";
 	            	   devlistcon += "<td><?php echo ($RouterMsg['onlineUserNum']); ?></td><td><?php echo ($RouterMsg['MAC']); ?></td><td><?php echo ($RouterMsg['PLCmac']); ?></td>";
 	            	   devlistcon += "<td><?php echo ($RouterMsg['PLCwidth']); ?></td><td><?php echo ($RouterMsg['PLCName']); ?></td></tr>";
 	               

@@ -41,10 +41,12 @@ class AgentController extends Controller {
 	 */
 	
 	public function indexInfo(){
-	    
-	 //   $agentid = I('session.uid');
-	    $agentid = 12;
-	    $call = A('Publiccode');
+		
+		$call = A('Publiccode');
+	    $agentid = $call->getAgentBid();
+// 		$agentid = session('proxyBId');
+	    //$agentid = 12;
+	   
 	     //  在线设备总数
 	    $onlineRouterjson = array(
 	        "op" => "count",
@@ -78,109 +80,44 @@ class AgentController extends Controller {
 	    );
 	    $MerchantNumjson = json_encode($MerchantNumjson);
 	    $merchantResult = $call->AccountHandle($MerchantNumjson);
+	    
 	    //拥有商家总数
 	    $merchantCount = $merchantResult['total'];
 	    
-        $mercharsList="(";
-	    for($i=0; $i<$merchantCount-1; $i++){
-	       $mercharsList=$mercharsList.$merchantResult['rows'][$i]['BId'].",";
+	    if($merchantCount != 0)
+	    {
+	    	$mercharsList="(";
+	    	for($i = 0; $i < $merchantCount - 1; $i++){
+	    		$mercharsList=$mercharsList.$merchantResult['rows'][$i]['BId'].",";
+	    	}
+	    	$mercharsList=$mercharsList.$merchantResult['rows'][$merchantCount-1]['BId'].")";
+	    	//在线客流量
+	    	$onlientClientNumjson = array(
+	    			"op" => "count",
+	    			"where" => "where BId IN {$mercharsList} and State = '在线'",
+	    	);
+	    	$onlientClientNumjson = json_encode($onlientClientNumjson);
+	    	$onlientClientNumResult = $call->ClientRecordHandle($onlientClientNumjson);
+	    	
+	    }else{
+	    	$onlientClientNumResult = 0;
 	    }
-	    $mercharsList=$mercharsList.$merchantResult['rows'][$merchantCount-1]['BId'].")";
-	    //在线客流量
-	    $onlientClientNumjson = array(
-	        "op" => "count",
-	        "where" => "where BId IN {$mercharsList}",
-	    );
-	    $onlientClientNumjson = json_encode($onlientClientNumjson);
-
-	    $onlientClientNumResult = $call->ClientRecordHandle($onlientClientNumjson);
-	    $data['onlineDevices']=$onlineRouterCount.'/'.$totalRouterCount;
-	    $data['merchantTotal']=$merchantCount;
-	    $data['onlineClients']=$onlientClientNumResult;
-	    $data['offlineDevices']=$offlineRouterCount.'/'.$totalRouterCount;
+	    
+        
+	    
+	    $data['onlineDevices'] = $onlineRouterCount.'/'.$totalRouterCount;
+	    $data['merchantTotal'] = $merchantCount;
+	    $data['onlineClients'] = $onlientClientNumResult;
+	    $data['offlineDevices'] = $offlineRouterCount.'/'.$totalRouterCount;
 		$response['data'] = $data;
 		$response['status'] = 1;
 		$response['type'] = 'JSON';
-		$response['info'] = '';
+		$response['info'] = ''.json_encode($_SESSION);
 		
 		$this->ajaxReturn($response, 'JSON');
 		
 	}
 	
-	
-	
-	/*
-	 * 退出账户
-	 */
-	public function quituser(){
-		
-		$call = A('Publiccode');
-		$call->check_valid_user();
-		
-		session_start();
-		
-		unset($_SESSION['uid']);
-		
-		$result_dest = session_destroy();
-		
-		if ($result_dest)
-		{
-			$this->display('./GLLogin/Signin/myproject_lai/html/login.html');
-		}
-		else {
-			$this->error("can not log you out");
-		}
-		
-	}
-	
-	/*
-	 * 修改密码弹出框
-	 */
-	
-	public function passwordsetshow()
-	{
-		$this->display('./GLLogin/Signin/zui-master-me/Merchant/passwordSet.html');
-	}
-	
-	/*
-	 * 修改密码后台操作
-	 */
-	public function passwordset()
-	{
-		$call = A('Publiccode');
-		$uid = $call->check_valid_user();
-		$oldPassword = I('post.oldPassword');
-		$newPassword = I('post.newPassword');
-		$newPasswordcomfirm = I('post.newPasswordcomfirm');
-		$handle = M('telsignin');
-		$condition['uid'] = $uid;
-		
-		$password = $handle->where($condition)->getField('password');
-		
-		if ($password == sha1($oldPassword))
-		{
-			if (strlen($newPassword)>5 && strlen($newPassword)<21)
-			{
-			
-				if ($newPassword == $newPasswordcomfirm)
-				{
-					$condition['password'] = sha1($newPassword);
-					$handle->save($condition);
-					$this->success('修改密码成功','',3);
-				
-				}else{
-					$this->error('两次输入的新密码不一致');
-				}
-			
-			}else {
-					$this->error('输入的新密码长度不对');
-			}
-				
-			
-		}else {
-			$this->error('原密码不准确');
-		}
-	
-	}
+
 	
 }

@@ -66,7 +66,7 @@
 	            	
 	            	if(data['isSearch'] == 0)
 	            		{
-	            			ThinkAjax.send("<?php echo U('AgentMessage/getrMerchantList');?>",'ajax=1&PageSize=2&PageNum='+page, completeMerchantList, '');
+	            			ThinkAjax.send("<?php echo U('AgentMessage/getMerchantList');?>",'ajax=1&PageSize=2&PageNum='+page, completeMerchantList, '');
 	            		}else{
 	            			$('PageNum').value = page;
 	            			ThinkAjax.sendForm("searchMerchant", "<?php echo U('AgentMessage/searchMerchantList');?>", completeMerchantList, '');
@@ -77,8 +77,7 @@
 			var element =  jq('#paginator-test');
 			element.bootstrapPaginator(options);
 			
-			//ThinkAjax.send("<?php echo U('AgentMessage/getrMerchantList');?>",'ajax=1&PageNum=0&PageSize=3',completeMerchantList,'');
-		
+			
 			completeMerchantList(data, status);
 }
 
@@ -104,11 +103,11 @@
 				var tbodies= table.getElementsByTagName("tbody");
 				
 				for(var i = 0; i < merchantList.length; i++){
-					newtbodies += "<tr><td>"+merchantList[i]['Name']+"</td><td>"+merchantList[i]['Phone']+"</td><td>"+merchantList[i]['Contact']+"</td><td>"+merchantList[i]['Address']+"</td>";
-					newtbodies += "<td><a href = \""+merchantList[i]['IndexPage']+"\">预览</a></td>";
+					newtbodies += "<tr><td>"+merchantList[i]['Name']+"</td><td>"+merchantList[i]['ContactInfo']+"</td><td>"+merchantList[i]['Contact']+"</td><td>"+merchantList[i]['Address']+"</td>";
+					
 					newtbodies += "<td><a href=\"javascript:\" onclick=\"getMerchantStatistics('"+merchantList[i]['Num']+"')\">查看</a></td>";
 					newtbodies += "<td><a href=\"javascript:\" onclick=\"addRoute('"+merchantList[i]['BId']+"')\">添加</a>&nbsp;&nbsp;<a href=\"javascript:\" onclick=\"deleteRoute('"+merchantList[i]['BId']+"')\">删除</a></td>";
-					newtbodies += "<td>no content</td><td><a href=\"javascript:\" onclick=\"deleteMerchant('"+merchantList[i]['BId']+"','"+i+"')\">删除</a></td>";
+					newtbodies += "<td><a href=\"javascript:\" onclick=\"deleteMerchant('"+merchantList[i]['BId']+"','"+i+"')\">删除</a></td>";
 					newtbodies += "</tr>";
 				}
 				tbodies[0].innerHTML=newtbodies;
@@ -198,11 +197,9 @@
         <th>商家名称</th>
         <th>联系方式</th>
         <th>负责人</th>
-        <th>地址</th>
-        <th>预览商户页面</th>
+        <th>商铺地址</th>
         <th>商户运行统计</th>
         <th>设备操作</th>
-        <th>备注</th>
         <th>操作</th>
       </tr>
       </thead>
@@ -223,7 +220,7 @@
 
 
 	//开始构造分页插件
-	ThinkAjax.send("<?php echo U('AgentMessage/getrMerchantList');?>",'ajax=1&PageNum=1&PageSize=2', genPaginator,'');
+	ThinkAjax.send("<?php echo U('AgentMessage/getMerchantList');?>",'ajax=1&PageNum=1&PageSize=2', genPaginator,'');
 	
 	function searchMerchant(){
 		ThinkAjax.sendForm("searchMerchant", "<?php echo U('AgentMessage/searchMerchantList');?>", genPaginator, '');

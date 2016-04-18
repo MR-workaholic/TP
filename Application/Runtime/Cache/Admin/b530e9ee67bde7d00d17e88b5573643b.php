@@ -109,7 +109,7 @@
 				var newtbodies="";
 				var tbodies= table.getElementsByTagName("tbody");
 				for(var i=0;i<routerList.length;i++){
-					newtbodies += "<tr><td>"+routerList[i]['SN']+"</td><td>"+routerList[i]['FirmwareVer']+"</td><td>"+routerList[i]['State']+"</td><td>"+routerList[i]['Mac']+"</td><td>"+routerList[i]['BusinessName']+"</td>";
+					newtbodies += "<tr><td>"+routerList[i]['RouterName']+"</td><td>"+routerList[i]['FirmwareVer']+"</td><td>"+routerList[i]['State']+"</td><td>"+routerList[i]['Mac']+"</td><td>"+routerList[i]['BusinessName']+"</td>";
 					newtbodies +="<td>"+routerList[i]['FirmwareVer']+"</td><td>"+""+"</td>";
 					newtbodies +="<td><a href=\"javascript:\" onclick=\"getRouterDetail('"+routerList[i]['RouterId']+"')\">查看</a></td>";
 					newtbodies += "<td><a href=\"javascript:\" onclick=\"upgradeConfirm('"+routerList[i]['RouterId']+"')\">升级</a>&nbsp;&nbsp;<a href=\"javascript:\" onclick=\"deleteConfirm('"+routerList[i]['RouterId']+"','"+i+"')\">删除</a></td>";

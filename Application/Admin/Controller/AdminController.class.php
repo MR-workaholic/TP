@@ -40,20 +40,26 @@ class AdminController extends Controller {
 	
 	//进入代理商账户
 	public function showAgentIndex(){
+		
+		$call = A('Publiccode');
+		$call->check_valid_user();
+		$hosts = C('Hosts');
+		
 	    //以哪一个代理商进入
-	    $proxy_agent_id=I('get.proxyId');
-	    $call = A('Publiccode');
-	    $call->check_valid_user();
-	    $_SESSION['proxyId'] = $proxy_agent_id;
-	    $this->display('./GLLogin/Signin/zui-master-me/Agent/agentIndex.html');
+	    $proxyAgentNum = I('get.proxyId');  //代理商的num
+
+	    session('proxyNum', $proxyAgentNum);
+
+	    
+	    $this->success('跳转中…… ', 'http://'.$hosts.'/TP/index.php/admin/Merchant/showAgent');
 
 	}
 	
 	//从先勤接口中获取代理商列表
 	public function getAgentsInfo(){
 	   
-	    $pageSize=I('post.PageSize');
-	    $pageNum=I('post.PageNum');
+	    $pageSize = I('post.PageSize');
+	    $pageNum  = I('post.PageNum');
 	    $call = A('Publiccode');
 		
 		$json = array(
@@ -82,6 +88,7 @@ class AdminController extends Controller {
 		    $data[$i]['agentId'] = $result['rows'][$i]['Num'];
 		    $data[$i]['agentName'] = $result['rows'][$i]['Name'];
 		    $data[$i]['BId'] = $result['rows'][$i]['BId'];
+		    $data[$i]['Num'] = $result['rows'][$i]['Num'];
 		    //商户拥有数的条件语句
 		    $MerchantNumjson = array(
 		        "op" => "count",

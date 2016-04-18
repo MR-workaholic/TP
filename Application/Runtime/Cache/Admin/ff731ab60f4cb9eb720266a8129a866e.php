@@ -38,18 +38,17 @@
 <div class="virtual_body">
   <div id="mywhole">
 
-    <div id="myhat" >
+ 
+    <div id="myhat" ></div>
 
-    </div>
-
-    <div id="myhead">
-
-    </div>
+    <div id="myhead"></div>
 
     <div id="mymiddle">
 
       <div id="mymiddletitle">
       </div>
+      
+     
 
       <div id="mymiddlecontent">
 
@@ -90,8 +89,7 @@
                   </ul>
                 </li>
 
-                <li><a href="javascript:void(0);" onclick="clickAccountSet()" style="font-size:13px"><i class="icon-list-ul"></i> 账号设置 </a></li>
-
+				<?php if(($type) == "代理商"): ?><li><a href="javascript:void(0);" onclick="clickAccountSet()" style="font-size:13px"><i class="icon-list-ul"></i> 账号设置 </a></li><?php endif; ?>
               </ul>
 
             </nav>
@@ -119,10 +117,21 @@
    */
    var jq = jQuery.noConflict();
    var routelistStatus = 0;
+   
+   var type = '<?php echo ($type); ?>';
     
-   var hat="hatshow";
-   var head="/TP/Public/frame/head.html";
-   var middletitle="middletitleshow";
+   if(type == '管理员')
+	   {
+		   var hat="blank";
+		   var head="blank";
+		   var middletitle="blank";
+	   }else{
+		   var hat="hatshow";
+		   var head="headshow";
+		   var middletitle="middletitleshow";
+	   }
+   
+  
   // var middletitle="/TP/Public/frame/middletitle.html";
    var mycontent="../Agent/showIndex";
    

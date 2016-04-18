@@ -63,15 +63,21 @@
 	                }
 	            },
 	            onPageClicked: function (event, originalEvent, type, page) { //异步换页
-	            ThinkAjax.send("<?php echo U('AgentMessage/getrMerchantList');?>",'ajax=1&PageSize=6&PageNum='+page, completeMerchantList, '');
+	            	
+	            	if(data['isSearch'] == 0)
+	            		{
+	            			ThinkAjax.send("<?php echo U('AgentMessage/getMerchantList');?>",'ajax=1&PageSize=6&PageNum='+page, completeMerchantList, '');
+	            		}else{
+	            			$('PageNum').value = page;
+	            			ThinkAjax.sendForm("searchMerchant4Statistics", "<?php echo U('AgentMessage/searchMerchantList');?>", completeMerchantList, '');
+	            		}
 	            },
 		    };
 		
 			var element =  jq('#paginator-test');
 			element.bootstrapPaginator(options);
 			
-			//ThinkAjax.send("<?php echo U('AgentMessage/getrMerchantList');?>",'ajax=1&PageNum=0&PageSize=3',completeMerchantList,'');
-		
+			
 			completeMerchantList(data, status);
 		}
 		
@@ -80,23 +86,40 @@
 			//把列表信息填充到table中
 			function completeMerchantList(data,status){
 				
-				
-				merchantList = data['merchantList'];
-				var table = document.getElementById("merchantStatistics");
-				var newtbodies = "";
-				var tbodies = table.getElementsByTagName("tbody");
-				
-				
-				
-				for(var i = 0; i < merchantList.length; i++)
-				{
-					newtbodies += "<tr><td>"+merchantList[i]['Name']+"</td><td>"+merchantList[i]['Contact']+"</td><td>"+merchantList[i]['Address']+"</td><td>"+merchantList[i]['Role']+"</td>";
-					newtbodies += "<td><input type=\"checkbox\" name='"+merchantList[i]['BId']+"'></td>";
-					newtbodies += "</tr>";
+				if(status == 0)
+					{
 					
-				}
+						
+						var table = document.getElementById("merchantStatistics");
+						var newtbodies = "";
+						var tbodies = table.getElementsByTagName("tbody");
+						
+						newtbodies = "<h4>没有任何商家</h4>";
+						
+						tbodies[0].innerHTML = newtbodies;
+					
+					}else{
+						
+						merchantList = data['merchantList'];
+						var table = document.getElementById("merchantStatistics");
+						var newtbodies = "";
+						var tbodies = table.getElementsByTagName("tbody");
+						
+						
+						
+						for(var i = 0; i < merchantList.length; i++)
+						{
+							newtbodies += "<tr><td>"+merchantList[i]['Name']+"</td><td>"+merchantList[i]['Contact']+"</td><td>"+merchantList[i]['Address']+"</td><td>"+merchantList[i]['Role']+"</td>";
+							newtbodies += "<td><input type=\"checkbox\" name='"+merchantList[i]['BId']+"'></td>";
+							newtbodies += "</tr>";
+							
+						}
+						
+						tbodies[0].innerHTML = newtbodies;
+						
+					}
 				
-				tbodies[0].innerHTML = newtbodies;
+				
 				
 				
 			}
@@ -127,7 +150,7 @@
             <input type="hidden" class="form-control" name="PageSize" value="2">
             <input type="hidden" class="form-control" name="PageNum" value="1" id="PageNum">
             <span class="input-group-btn">
-              <button type="button" class="btn btn-default" onclick="searchMerchant()" >搜索</button>
+              <button type="button" class="btn btn-default" onclick="searchMerchant4Statistics()" >搜索</button>
             </span>
      
        </div>
@@ -167,7 +190,13 @@
 
 <script>
 		//开始构造分页插件
-		ThinkAjax.send("<?php echo U('AgentMessage/getrMerchantList');?>",'ajax=1&PageNum=1&PageSize=6', genPaginator,'');
+		ThinkAjax.send("<?php echo U('AgentMessage/getMerchantList');?>",'ajax=1&PageNum=1&PageSize=6', genPaginator,'');
+		
+		function searchMerchant4Statistics(){
+			ThinkAjax.sendForm("searchMerchant4Statistics", "<?php echo U('AgentMessage/searchMerchantList');?>", genPaginator, '');
+		}
+		
+		
 </script>
 
 </body>

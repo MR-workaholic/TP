@@ -97,10 +97,10 @@ class SigninController extends Controller {
 				$this->success('请输入验证码：'.$rands,'http://'.$hosts.'/TP/index.php/admin/signin/showsignupview/agent/'.$agent.'/mobilephone/'.$mobilephone);
 				break;
 			case '代理商':
-				$this->success('请输入验证码：'.$rands,'http://'.$hosts.'/TP/index.php/admin/signin/showagentsignupview/agent/'.$agent.'/mobilephone/'.$mobilephone);
+				$this->success('请输入验证码：'.$rands,'http://'.$hosts.'/TP/index.php/admin/signin/showagentsignupview/mobilephone/'.$mobilephone);
 				break;
 			case '管理员':
-				$this->success('请输入验证码：'.$rands,'http://'.$hosts.'/TP/index.php/admin/signin/showadminsignupview/agent/'.$agent.'/mobilephone/'.$mobilephone);
+				$this->success('请输入验证码：'.$rands,'http://'.$hosts.'/TP/index.php/admin/signin/showadminsignupview/mobilephone/'.$mobilephone);
 				break;
 			default:
 				$this->error('类型错误');
@@ -173,13 +173,19 @@ class SigninController extends Controller {
 					
 					if (mkdir('./Application/Admin/UserFile/'.$uid))  //创建用户的文件夹
 					{
-						
-	   	
+						@copy('./Public/GLProject/load/.keep.txt', './Application/Admin/UserFile/'.$uid.'/.keep.txt');
+
 	   					$updata_information = array(   //仅仅需要填写需要修改的字段
 	   						'uid' => $uid,
 	   					);
 	   	
-	   				$call->saveshop($updata_information, $type, $agent, 0);
+	   			if ($type == '普通商家')
+	   			{
+	   				$call->saveshop($updata_information, $type, $agent);
+	   			}else{
+	   				$call->saveshop($updata_information, $type);
+	   			}	
+	   				
 	   					
 					$this->loginIn($type, $hosts, $uid);
 					

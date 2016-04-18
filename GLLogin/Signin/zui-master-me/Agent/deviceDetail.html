@@ -85,7 +85,7 @@ var jq = jQuery.noConflict();
 				 
 				 devlistcon += "<tbody>";
 	               
-	            	   devlistcon += "<tr><td>{$RouterMsg['SN']}</td><td>{$RouterMsg['FirmwareVer']}</td><td>{$RouterMsg['SSID']}</td>";
+	            	   devlistcon += "<tr><td>{$RouterMsg['RouterName']}</td><td>{$RouterMsg['FirmwareVer']}</td><td>{$RouterMsg['SSID']}</td>";
 	            	   devlistcon += "<td>{$RouterMsg['State']}</td><td>{$RouterMsg['onlineUserNum']}</td><td><a href=\"javascript:\">查看</a></td>";
 	            	   devlistcon += "<td><a href=\"javascript:\">查看</a></td><td><a href=\"javascript:\">预览</a></td></tr>";
               
@@ -97,7 +97,7 @@ var jq = jQuery.noConflict();
 				 "<th>PLC网络名称</th></tr></thead>";
 				 
 				 devlistcon += "<tbody>";
-	            	   devlistcon += "<tr><td>{$RouterMsg['SN']}</td><td>{$RouterMsg['SSID']}</td><td>{$RouterMsg['State']}</td>";
+	            	   devlistcon += "<tr><td>{$RouterMsg['RouterName']}</td><td>{$RouterMsg['SSID']}</td><td>{$RouterMsg['State']}</td>";
 	            	   devlistcon += "<td>{$RouterMsg['onlineUserNum']}</td><td>{$RouterMsg['MAC']}</td><td>{$RouterMsg['PLCmac']}</td>";
 	            	   devlistcon += "<td>{$RouterMsg['PLCwidth']}</td><td>{$RouterMsg['PLCName']}</td></tr>";
 	               

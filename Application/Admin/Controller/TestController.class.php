@@ -115,7 +115,7 @@ class TestController extends Controller {
 		 */
 		$json = array(
 				"op" => "query",
-				"where" => "where Num = 44",
+				"where" => "where Num = '30'",
 		);
 		
 		$json = json_encode($json);
@@ -148,7 +148,7 @@ class TestController extends Controller {
 // 		$name = '商家1';
 		$json = array(
 				"op" => "query",
-				"where" => "where Num = 37",
+				"where" => "where Num = 'admin1'",
 		);
 		$json = json_encode($json);
 		var_dump($json);
@@ -162,7 +162,7 @@ class TestController extends Controller {
 		
 		//构造新的json参数
 
-		$jsonResult['rows'][0]['AgentNum'] = 'test0003';
+		$jsonResult['rows'][0]['Num'] = '30';
 // 		$jsonResult['rows'][0]['Role'] = '普通商家';
 
 		
@@ -503,6 +503,11 @@ class TestController extends Controller {
 		
 	}
 	
+	public function print_session(){
+		header("Content-Type:text/html;charset=UTF-8");
+		var_dump($_SESSION);
+	}
+	
 	
 	public  function ajaxcalling(){
 		$q=$_POST["calling"];
@@ -617,7 +622,11 @@ class TestController extends Controller {
 	}
 	
 	
-	
+	public function  copyfile()
+	{
+		$uid = 44;
+		@copy('./Public/GLProject/load/.keep.txt', './Application/Admin/UserFile/'.$uid.'/.keep.txt');
+	}
 	
 	
 	

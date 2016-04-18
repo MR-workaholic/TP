@@ -125,9 +125,36 @@ class PubliccodeController extends Controller {
 	}
 	
 	/*
+	 * 返回代理商的BId  session('?name')
+	 */
+	
+	public function getAgentBid()
+	{
+		if (session('?proxyNum')){
+			return $this->getBId(session('proxyNum'));
+		}else {
+			return I('session.BId');
+		}
+	}
+	
+
+	/*
+	 * 返回代理商的Uid
+	*/
+	
+	public function getAgentUid()
+	{
+		if (session('?proxyNum')){
+			return session('proxyNum');
+		}else {
+			return I('session.uid');
+		}
+	}
+	
+	/*
 	 * 保存商家信息
 	 */
-	public function  saveshop($updata_information, $type, $agent, $mode=0){   
+	public function  saveshop($updata_information, $type, $agent=0, $mode=0){   
 		
 		$database = C('Database');
 		$webservice = C('Webservice');
@@ -185,7 +212,11 @@ class PubliccodeController extends Controller {
 			$newRole['Remark'] = '暂无备注信息';
 			$newRole['Longitude'] = 113.336899;
 			$newRole['Latitude']  = 23.14892;	
-			$newRole['AgentId'] = $this->getBId($agent);
+			if ($type == '普通商家')
+			{
+				$newRole['AgentId'] = $this->getBId($agent);
+			}
+			
 			
 
 			$json1 = array(
