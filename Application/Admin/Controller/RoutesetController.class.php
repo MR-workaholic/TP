@@ -40,7 +40,7 @@ class RoutesetController extends Controller {
 					
 				for ($i=0; $i < $num; $i++)
 				{
-				$data[$i]['dname'] = $result[$i]['dname'];
+				  $data[$i]['dname'] = $result[$i]['dname'];
 				}
 					
 				$response['data'] = $data;
@@ -72,7 +72,7 @@ class RoutesetController extends Controller {
 				$response['status'] = $result['total'];
 				foreach ($result['rows'] as $k=>$v)
 				{
-					$data[$k]['dname'] = $v['Mac'];
+					$data[$k]['dname'] = $v['RouterName'];
 				}
 				$response['data'] = $data;
 				
@@ -227,9 +227,10 @@ class RoutesetController extends Controller {
 			$result['wlmodel'] = $jsonResult['Wlan']['hwmode'];
 			$result['bandwidth'] = 1;
 			$result['enable'] = 1;  
-			$result['dsid'] = $RouterMac;  
+			$result['dsid'] = $RouterMac; 
+			$result['routerName'] = $jsonResule4BasicMes['rows'][0]['RouterName'];
 			
-// 			$result['looklook'] = $jsonResule4BasicMes;
+//  			$result['looklook'] = $jsonResule4BasicMes;
 // 			$result['mac'] = $jsonResult['RouterMac'];
 // 			$result['mac'] = $jsonResult['RouterMac'];
 
@@ -434,6 +435,58 @@ class RoutesetController extends Controller {
 		
 		
 		
+	}
+	
+	public function routerBasicMesChange(){
+		
+		$Mac = I('post.rMac');  //网络接口的话，是路由的MAC地址
+		$Routername = I('post.Routername');
+		$call = A('Publiccode');  
+		
+		$json = array(
+				"op" => "query",
+				"where" => "where Mac = '{$Mac}'",
+		);
+		$json = json_encode($json);
+		
+		//执行账户查询,返回数组
+		$jsonResult = $call->RouterHandle($json);
+		
+		
+		
+		$jsonResult['rows'][0]['RouterName'] = $Routername;
+		
+		$json = array(
+				"op" => "save",
+				"obj" => $jsonResult['rows'][0]
+		);
+		$json = json_encode($json);
+		
+		//执行账户查询,返回数组
+		$jsonResult = $call->RouterHandle($json);
+		
+		
+		
+		$json = array(
+				"op" => "query",
+				"where" => "where Mac = '{$Mac}'",
+		);
+		$json = json_encode($json);
+		
+		//执行账户查询,返回数组
+		$jsonResult = $call->RouterHandle($json);
+		
+		
+		
+		$result['routerName'] = $jsonResult['rows'][0]['RouterName'];
+		$result['dsid'] = $Mac;
+	
+		$response['status'] = 1;
+		$response['data'] = $result;
+		$response['info'] = '';
+		$response['type'] = 'JSON';
+		$this->ajaxReturn($response,'JSON');
+
 	}
 	
 	

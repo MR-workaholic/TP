@@ -477,11 +477,11 @@
 //      2015/12/24 改by赖晓青 点击图片中的“编辑”，编辑相应图片的链接等属性
       g.prototype.handleEditImgEvent=function(){
       this.jq.on("click",".openImg",function(){
+      	
+      	
         var imgSrc=jq(this).closest(".panel-actions").next("div").find('img').attr("src");
-
-
-		 var index=imgSrc.indexOf(".");
-		 var num = imgSrc.substring(index-1,index);
+	 		  var index=imgSrc.indexOf(".");
+		    var num = imgSrc.substring(index-1,index);
 	
 		
         

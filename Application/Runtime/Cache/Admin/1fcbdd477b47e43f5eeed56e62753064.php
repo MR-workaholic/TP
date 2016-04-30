@@ -103,7 +103,7 @@
 			var newtbodies = "";
 			var tbodies = table.getElementsByTagName("tbody");
 			for(var i=0;i<routerList.length;i++){
-				newtbodies += "<tr><td>"+routerList[i]['SN']+"</td><td>"+routerList[i]['FirmwareVer']+"</td><td>"+routerList[i]['State']+"</td><td>"+routerList[i]['Mac']+"</td><td>"+routerList[i]['BusinessName']+"</td>";
+				newtbodies += "<tr><td>"+routerList[i]['SN']+"</td><td>"+routerList[i]['RouterModel']+"</td><td>"+routerList[i]['State']+"</td><td>"+routerList[i]['Mac']+"</td><td>"+routerList[i]['BusinessName']+"</td>";
 				newtbodies += "<td>"+routerList[i]['AgentName']+"</td><td>"+routerList[i]['FirmwareVer']+"</td><td>"+""+"</td>";
 				newtbodies += "<td><a href=\"javascript:\" onclick=\"getRouterDetail('"+routerList[i]['RouterId']+"')\">查看</a></td>";
 				newtbodies += "<td><a href=\"javascript:\" onclick=\"upgradeConfirm()\">升级</a>&nbsp;&nbsp;<a href=\"javascript:\" onclick=\"deleteConfirm('"+routerList[i]['RouterId']+"','"+i+"')\">删除</a></td>";
@@ -155,8 +155,8 @@
        	
             <span class="input-group-addon">查询内容：</span>
             <select class="form-control" name="key">
-              <option value="Num">设备名称</option>
-              <option value="Name">设备型号</option>
+              <option value="SN">SN号</option>
+              <option value="RouterModel">设备型号</option>
               <option value="State">在线状态</option>
               <option value="Mac">路由MAC</option>
               <option value="BusinessName">商家名</option>
@@ -167,7 +167,7 @@
             <span class="input-group-addon">查询关键字：</span>
             <span class="input-group-addon fix-border fix-padding"></span>
             
-            <input type="text" class="form-control" placeholder="填写完整关键字" name="routerKeyword">
+            <input type="text" class="form-control" placeholder="填写查询字段" name="routerKeyword">
             <input type="hidden" class="form-control" name="ajax" value="1">
             <input type="hidden" class="form-control" name="PageSize" value="10">
             <input type="hidden" class="form-control" name="PageNum" value="1" id="PageNum">
@@ -183,7 +183,7 @@
     <table id="routers" class="table table-bordered">
       <thead>
       <tr>
-        <th>设备名称</th>
+        <th>SN号</th>
         <th>设备型号</th>
         <th>在线状态</th>
         <th>路由MAC</th>

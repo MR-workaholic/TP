@@ -115,7 +115,7 @@ class TestController extends Controller {
 		 */
 		$json = array(
 				"op" => "query",
-				"where" => "where Num = '30'",
+				"where" => "where Num = '44'",
 		);
 		
 		$json = json_encode($json);
@@ -140,6 +140,7 @@ class TestController extends Controller {
 		
 		header("Content-Type:text/html;charset=UTF-8");
 		$call = A('Publiccode');
+		$hosts = C('Hosts');
 		
 		
 		//构造json参数
@@ -148,7 +149,7 @@ class TestController extends Controller {
 // 		$name = '商家1';
 		$json = array(
 				"op" => "query",
-				"where" => "where Num = 'admin1'",
+				"where" => "where Num = '44'",
 		);
 		$json = json_encode($json);
 		var_dump($json);
@@ -162,8 +163,10 @@ class TestController extends Controller {
 		
 		//构造新的json参数
 
-		$jsonResult['rows'][0]['Num'] = '30';
+// 		$jsonResult['rows'][0]['Num'] = '30';
 // 		$jsonResult['rows'][0]['Role'] = '普通商家';
+		$jsonResult['rows'][0]['ContactInfo'] = '020-38216222';
+// 		$jsonResult['rows'][0]['IndexPage'] = "https:\/\/www.baidu.com\/";
 
 		
 		$json1 = array(

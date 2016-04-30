@@ -75,6 +75,7 @@ class AdminController extends Controller {
 		{
 			
 			$response['data']['totalPage'] = 1;
+			$response['data']['isSearch'] = 0;
 			$response['status'] = 0;
 			$response['info'] = '';
 			$response['type'] = 'JSON';
@@ -83,43 +84,44 @@ class AdminController extends Controller {
 		}else {
 	
 		
-		for($i=0; $i<count($result['rows']); $i++){
+		foreach ($result['rows'] as $key=>$value){
 			
-		    $data[$i]['agentId'] = $result['rows'][$i]['Num'];
-		    $data[$i]['agentName'] = $result['rows'][$i]['Name'];
-		    $data[$i]['BId'] = $result['rows'][$i]['BId'];
-		    $data[$i]['Num'] = $result['rows'][$i]['Num'];
+		    $data[$key]['agentId'] = $value['Num'];
+		    $data[$key]['agentName'] = $value['Name'];
+		    $data[$key]['BId'] = $value['BId'];
+		    $data[$key]['Num'] = $value['Num'];
 		    //商户拥有数的条件语句
 		    $MerchantNumjson = array(
 		        "op" => "count",
-		        "where" => "where Role = '普通商家' and AgentId='{$result['rows'][$i]['BId']}'",
+		        "where" => "where Role = '普通商家' and AgentId='{$value['BId']}'",
 		    );
 		    $MerchantNumjson = json_encode($MerchantNumjson);
-		    $data[$i]['MerchantNum'] = $call->AccountHandle($MerchantNumjson);
+		    $data[$key]['MerchantNum'] = $call->AccountHandle($MerchantNumjson);
 		    
 		    //设备拥有数的条件语句
 		    $RouterNumjson = array(
 		        "op" => "count",
-		        "where" => "where AgentId='{$result['rows'][$i]['BId']}'",
+		        "where" => "where AgentId='{$value['BId']}'",
 		    );
 		    $RouterNumjson = json_encode($RouterNumjson);
-		    $data[$i]['routerNum'] = $call->RouterHandle($RouterNumjson);
+		    $data[$key]['routerNum'] = $call->RouterHandle($RouterNumjson);
 		    
 		    //在线设备拥有数
 		    $onlineRouterNumjson = array(
 		        "op" => "count",
-		        "where" => "where State='在线' and AgentId='{$result['rows'][$i]['BId']}'",
+		        "where" => "where State='在线' and AgentId='{$value['BId']}'",
 		    );
 		    
 		    $onlineRouterNumjson = json_encode($onlineRouterNumjson);
-		    $data[$i]['onlineRouterNum'] = $call->RouterHandle($onlineRouterNumjson);
+		    $data[$key]['onlineRouterNum'] = $call->RouterHandle($onlineRouterNumjson);
 
-		    $data[$i]['note']='test';
+		    $data[$key]['note']='test';
 
 		}
 	    
 	    $response['data']['agentsList'] = $data;
 	    $response['data']['totalPage'] = ceil($result['total']/$pageSize);
+	    $response['data']['isSearch'] = 0;
 	    $response['status'] = 1;
 	    $response['info'] = '';
 	    $response['type'] = 'JSON';
@@ -133,10 +135,15 @@ class AdminController extends Controller {
 	    $call = A('Publiccode');
 	    $agentKeyword = I('post.agentKeyword');
 	    $key = I('post.key');
+	    $pageSize = I('post.PageSize');
+		$pageNum = I('post.PageNum');
 	    
 	    $json = array(
 	        "op" => "query",
-	        "where" => "where {$key} = '{$agentKeyword}'",
+	        "where" => "where Role = '代理商' and {$key} like '%{$agentKeyword}%'",
+	        'rows' => $pageSize,
+	        'page' => $pageNum
+	        
 	    );
 	    $json = json_encode($json);
 	    $result = $call->AccountHandle($json);
@@ -146,6 +153,7 @@ class AdminController extends Controller {
 	    {
 	    	
 	    	$response['data']['totalPage'] = 1;
+	    	$response['data']['isSearch'] = 1;
 	    	$response['status'] = 0;
 	    	$response['info'] = '';
 	    	$response['type'] = 'JSON';
@@ -153,38 +161,49 @@ class AdminController extends Controller {
 	    	
 	    }else {
 	    	
-		    $data[0]['agentId']=$result['rows'][0]['Num'];
-		    $data[0]['agentName']=$result['rows'][0]['Name'];
+
+
+	    foreach ($result['rows'] as $key=>$value)
+	    	{
+			
+		    $data[$key]['agentId'] = $value['Num'];
+		    $data[$key]['agentName'] = $value['Name'];
+		    $data[$key]['BId'] = $value['BId'];
+		    $data[$key]['Num'] = $value['Num'];
 		    //商户拥有数的条件语句
 		    $MerchantNumjson = array(
 		        "op" => "count",
-		        "where" => "where Role = '普通商家' and AgentId='{$result['rows'][0]['Num']}'",
+		        "where" => "where Role = '普通商家' and AgentId='{$value['BId']}'",
 		    );
 		    $MerchantNumjson = json_encode($MerchantNumjson);
-		    $data[0]['MerchantNum']=$call->AccountHandle($MerchantNumjson);
+		    $data[$key]['MerchantNum'] = $call->AccountHandle($MerchantNumjson);
 		    
 		    //设备拥有数的条件语句
 		    $RouterNumjson = array(
 		        "op" => "count",
-		        "where" => "where AgentId='{$result['rows'][0]['Num']}'",
+		        "where" => "where AgentId='{$value['BId']}'",
 		    );
 		    $RouterNumjson = json_encode($RouterNumjson);
-		    $data[0]['routerNum']=$call->RouterHandle($RouterNumjson);
+		    $data[$key]['routerNum'] = $call->RouterHandle($RouterNumjson);
 		    
 		    //在线设备拥有数
 		    $onlineRouterNumjson = array(
 		        "op" => "count",
-		        "where" => "where State='在线' and AgentId='{$result['rows'][0]['Num']}'",
+		        "where" => "where State='在线' and AgentId='{$value['BId']}'",
 		    );
+		    
 		    $onlineRouterNumjson = json_encode($onlineRouterNumjson);
-		    $data[0]['onlineRouterNum']=$call->RouterHandle($onlineRouterNumjson);
+		    $data[$key]['onlineRouterNum'] = $call->RouterHandle($onlineRouterNumjson);
 
-		    $data[0]['note']='test';
+		    $data[$key]['note']='test';
+
+		}
 
 
 	    
 	    $response['data']['agentsList'] = $data;
-	    $response['data']['totalPage'] = 1;
+	    $response['data']['totalPage'] = ceil($result['total']/$pageSize);
+	    $response['data']['isSearch'] = 1;
 	    $response['status'] = 1;
 	    $response['info'] = '';
 	    $response['type'] = 'JSON';
@@ -205,7 +224,7 @@ class AdminController extends Controller {
 		
 		$json = array(
 			'op' => 'query',
-			'where' => "where {$key} = '{$routerKeyword}'",
+			'where' => "where {$key} like '%{$routerKeyword}%'",
 			'rows' => $pageSize,
 			'page' => $pageNum
 		);
@@ -333,19 +352,24 @@ class AdminController extends Controller {
 	    {
 	    	
 	    	$response['data']['totalPage'] = 1;
+	    	$response['data']['isSearch'] = 0;
 	    	$response['status'] = 0;
 	    	$response['info'] = '';
 	    	$response['type'] = 'JSON';
 	    	
 	    }else {
 	    	
-	    	for($i=0;$i<count($result['rows']);$i++){
-	    		$data[$i]['agentId']=$result['rows'][$i]['Num'];
-	    		$data[$i]['agentName']=$result['rows'][$i]['Name'];
+
+	    	foreach ($result['rows'] as $k=>$v)
+	    	{
+	    		$data[$k]['agentId'] = $v['BId'];
+	    		$data[$k]['agentNum'] = $v['Num'];
+	    	    $data[$k]['agentName'] = $v['Name'];
 	    	}
 	    	 
 	    	$response['data']['AgentList'] = $data;
 	    	$response['data']['totalPage'] = ceil($result['total']/$pageSize);
+	    	$response['data']['isSearch'] = 0;
 	    	$response['status'] = 1;
 	    	$response['info'] = '';
 	    	$response['type'] = 'JSON';
@@ -361,20 +385,25 @@ class AdminController extends Controller {
 	    
 	    $call = A('Publiccode');
 	    $agentKeyword = I('post.agentKeyword');
+	    $pageSize = I('post.PageSize');
+	    $pageNum = I('post.PageNum');
 	    $key = I('post.key');
 	    
 	    $json = array(
 	        "op" => "query",
-	        "where" => "where {$key} = '{$agentKeyword}'",
+	        "where" => "where Role = '代理商' and {$key} like '%{$agentKeyword}%'",
+	        "rows" => $pageSize,
+	        "page" => $pageNum
 	    );
 	    $json = json_encode($json);
 	    $result = $call->AccountHandle($json);
-// 		$result['total'] = 0;
+
 	    
 	    if($result['total'] == 0 || !$result)
 	    {
 	    	
 	    	$response['data']['totalPage'] = 1;
+	    	$response['data']['isSearch'] = 1;
 	    	$response['status'] = 0;
 	    	$response['info'] = '';
 	    	$response['type'] = 'JSON';
@@ -382,10 +411,18 @@ class AdminController extends Controller {
 	    	
 	    }else{
 	    	
-	    	$data[0]['agentId'] = $result['rows'][0]['Num'];
-	    	$data[0]['agentName'] = $result['rows'][0]['Name'];
+	    	foreach ($result['rows'] as $key=>$value)
+	    	{
+	    		$data[$key]['agentId'] = $value['BId'];
+	    		$data[$key]['agentNum'] = $value['Num'];
+	    		$data[$key]['agentName'] = $value['Name'];
+	    		
+	    	}
+	    	
+	    	
 	    	$response['data']['AgentList'] = $data;
-	    	$response['data']['totalPage'] = 1;
+	    	$response['data']['totalPage'] = ceil($result['total']/$pageSize);
+	    	$response['data']['isSearch'] = 1;
 	    	$response['status'] = 1;
 	    	$response['info'] = '';
 	    	$response['type'] = 'JSON';

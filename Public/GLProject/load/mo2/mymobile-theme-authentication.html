@@ -6,6 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link type="text/css" rel="stylesheet" href="__PUBLIC__/dist/css/zui.min.css">
     <script src="__PUBLIC__/dist/js/jquery-1.11.0.min.js"></script>
+    
+    	<load href="__PUBLIC__/AjaxJs/Base.js" />
+		<load href="__PUBLIC__/AjaxJs/prototype.js" />
+		<load href="__PUBLIC__/AjaxJs/mootools.js" />
+		<load href="__PUBLIC__/AjaxJs/Ajax/ThinkAjax.js" />
+		<load href="__PUBLIC__/AjaxJs/Form/CheckForm.js" />
+    
     <style>
 		
  div.mobile-my-authen i{
@@ -133,7 +140,7 @@
           width: 280px;
           height: 300px;
           margin: 10px auto;
-          background:url("/tp/public/images/tieshi2.png") no-repeat;
+          background:url("__PUBLIC__/images/tieshi2.png") no-repeat;
           border-radius: 4px;
           padding-top: 40px;
           padding-left: 30px;
@@ -259,7 +266,7 @@
           width: 500px;
           height: 400px;
           margin: 20px auto;
-          background:url("/tp/public/images/tieshi.png");
+          background:url("__PUBLIC__/images/tieshi.png");
           border-radius: 4px;
           padding-top: 120px;
           padding-left: 40px;
@@ -306,9 +313,18 @@
     <div class="mobile-login">
       <p>请按照以下步骤登录：</p>
       <p>{$phoneguide}</p>
-      <div><i class="icon icon-mobile"></i><input type="text" name="cellphoneNumber"/><button class="mobile-btn ">获取密码</button></div>
-      <div><i class="icon icon-lock"></i><input type="password" name="cellPasword"/></div>
-      <button class="mobile-btn ">登&nbsp;&nbsp;录</button>
+      
+     
+      <div>
+      		<i class="icon icon-mobile"></i>
+      		<input type="text" id="cellphoneNumber" name="cellphoneNumber"/>
+      		
+      		<button class="mobile-btn" onclick="sendMsg()">获取密码</button>	
+      </div>
+     
+     
+      <div><i class="icon icon-lock"></i><input type="text" id="cellPasword" name="cellPasword"/></div>
+      <button class="mobile-btn"  onclick="regMsg()">登&nbsp;&nbsp;录</button>
     </div>
 
     <div class="wechat-login">
@@ -331,9 +347,12 @@
 </body>
 <script>
 	
-	
+	var jq = jQuery.noConflict();
 	var tbtnbgcol = "{$tbtnbgcol}";
 	var tbtntxtcol = "{$tbtntxtcol}";
+	var cc = '{$cc}';
+	var rr = '{$rr}'; 
+	var phoneNumber;
 	
 	function getOs()  
 	{  
@@ -375,18 +394,52 @@
 	
 	
 	
-	$(".mobile-btn").css({"color":tbtntxtcol});
+	jq(".mobile-btn").css({"color":tbtntxtcol});
 	
 	if(Os == 'MSIE') {
-		$(".mobile-btn").css({"background":"-ms-linear-gradient(top,"+RGB2RGBA(tbtnbgcol,0.6)+","+RGB2RGBA(tbtnbgcol,0.8)+","+RGB2RGBA(tbtnbgcol,1)+","+RGB2RGBA(tbtnbgcol,0.8)+","+RGB2RGBA(tbtnbgcol,0.6)+")"});
+		jq(".mobile-btn").css({"background":"-ms-linear-gradient(top,"+RGB2RGBA(tbtnbgcol,0.6)+","+RGB2RGBA(tbtnbgcol,0.8)+","+RGB2RGBA(tbtnbgcol,1)+","+RGB2RGBA(tbtnbgcol,0.8)+","+RGB2RGBA(tbtnbgcol,0.6)+")"});
 	}else if(Os == 'Firefox') {
-		   $(".mobile-btn").css({"background":"-moz-linear-gradient(top,"+RGB2RGBA(tbtnbgcol,0.6)+","+RGB2RGBA(tbtnbgcol,0.8)+","+RGB2RGBA(tbtnbgcol,1)+","+RGB2RGBA(tbtnbgcol,0.8)+","+RGB2RGBA(tbtnbgcol,0.6)+")"});
+		  jq(".mobile-btn").css({"background":"-moz-linear-gradient(top,"+RGB2RGBA(tbtnbgcol,0.6)+","+RGB2RGBA(tbtnbgcol,0.8)+","+RGB2RGBA(tbtnbgcol,1)+","+RGB2RGBA(tbtnbgcol,0.8)+","+RGB2RGBA(tbtnbgcol,0.6)+")"});
 	   }else if(Os == 'Safari') {
-		   $(".mobile-btn").css({"background":"-webkit-linear-gradient(top,"+RGB2RGBA(tbtnbgcol,0.6)+","+RGB2RGBA(tbtnbgcol,0.8)+","+RGB2RGBA(tbtnbgcol,1)+","+RGB2RGBA(tbtnbgcol,0.8)+","+RGB2RGBA(tbtnbgcol,0.6)+")"});
+		   jq(".mobile-btn").css({"background":"-webkit-linear-gradient(top,"+RGB2RGBA(tbtnbgcol,0.6)+","+RGB2RGBA(tbtnbgcol,0.8)+","+RGB2RGBA(tbtnbgcol,1)+","+RGB2RGBA(tbtnbgcol,0.8)+","+RGB2RGBA(tbtnbgcol,0.6)+")"});
 	   }
 	     
 
 	
+		function sendMsg(){
+			
+			 	phoneNumber = jq("#cellphoneNumber").val(); 
+				ThinkAjax.send("{:U('Adset/showad2_sendmsg')}", "ajax=1&cc="+cc+"&rr="+rr+"&pn="+phoneNumber, completesendMsg, '');
+			
+			}
+		
+		function completesendMsg(data, status){
+					
+					if(status == 1)
+					{
+							cc = data['cc'];
+							rr = data['rr'];
+							phoneNumber = data['phoneNumber'];
+				
+							
+						}
+			
+			}
+			
+		function regMsg(){
+			
+				var reg = jq("#cellPasword").val(); 
+				 
+				  ThinkAjax.send("{:U('Adset/showad2_regmsg')}", "ajax=1&cc="+cc+"&rr="+rr+"&pn="+phoneNumber+"&reg="+reg, completeregMsg, '');
+			}
+			
+		function completeregMsg(data, status)
+		{
+			if(status==1)
+				{
+					window.location.href = "../../showad3/aid/{$aid}";
+				}
+			}
 	
 	
 	
@@ -400,38 +453,38 @@
 
 
   //手机页面效果（2016、1、14）
-  $(".mybar").on("click",function(){
-    $(".tabb").slideToggle(500);
+  jq(".mybar").on("click",function(){
+    jq(".tabb").slideToggle(500);
       //alert("hello")
   })
-  $("#mobile-login-my").on("click",function(){
-    $(this).addClass("tabbSelected");
-    $("#wechat-login-my").removeClass("tabbSelected");
-    $("#onclick-login-my").removeClass("tabbSelected")
-    $(".mobile-login").show();
-    $(".wechat-login").hide();
-    $(".mobile-oneclick").hide();
+  jq("#mobile-login-my").on("click",function(){
+    jq(this).addClass("tabbSelected");
+    jq("#wechat-login-my").removeClass("tabbSelected");
+    jq("#onclick-login-my").removeClass("tabbSelected")
+    jq(".mobile-login").show();
+    jq(".wechat-login").hide();
+    jq(".mobile-oneclick").hide();
   })
-  $("#wechat-login-my").on("click",function(){
-    $(this).addClass("tabbSelected");
-    $("#mobile-login-my").removeClass("tabbSelected");
-    $("#onclick-login-my").removeClass("tabbSelected")
-    $(".mobile-login").hide();
-    $(".wechat-login").show();
-    $(".mobile-oneclick").hide();
+  jq("#wechat-login-my").on("click",function(){
+    jq(this).addClass("tabbSelected");
+    jq("#mobile-login-my").removeClass("tabbSelected");
+    jq("#onclick-login-my").removeClass("tabbSelected")
+    jq(".mobile-login").hide();
+    jq(".wechat-login").show();
+    jq(".mobile-oneclick").hide();
   })
-  $("#onclick-login-my").on("click",function(){
-    $(this).addClass("tabbSelected");
-    $("#wechat-login-my").removeClass("tabbSelected");
-    $("#mobile-login-my").removeClass("tabbSelected")
-    $(".mobile-login").hide();
-    $(".wechat-login").hide();
-    $(".mobile-oneclick").show();
+  jq("#onclick-login-my").on("click",function(){
+    jq(this).addClass("tabbSelected");
+    jq("#wechat-login-my").removeClass("tabbSelected");
+    jq("#mobile-login-my").removeClass("tabbSelected")
+    jq(".mobile-login").hide();
+    jq(".wechat-login").hide();
+    jq(".mobile-oneclick").show();
   })
 //  当窗口改变时，判断文档的宽度，如果大于768px，让导航条显示
   window.onresize=function(){
     if(document.body.clientWidth>=768){
-      $(".tabb").show();
+      jq(".tabb").show();
 //      alert(document.body.clientWidth);
     }
   }

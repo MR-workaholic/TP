@@ -125,7 +125,7 @@ class MerchantController extends Controller {
 				$data['count_online'] = $call->RouterHandle($json);
 				*/
 			$data['count_online'] = 0;
-			$data['url'] = 'http://'.$hosts.'/TP/index.php/Admin/Adset/showad/shop/'.$uid.'/aid/0';
+			
 			
 			$json = array(
 					"op" => "query",
@@ -141,6 +141,7 @@ class MerchantController extends Controller {
 				
 				$data['data'][$key]['dname'] = $item['RouterName'];
 				$data['data'][$key]['donlinenum'] = $item['OnlineCount'];
+				$data['data'][$key]['url'] = 'http://'.$hosts.'/TP/index.php/Admin/Adset/showADbyMac/shop/'.$uid.'/mac/'.$item['Mac'];
 				if($result[$key]['State'] == '在线')
 				{
 					$data['count_online']++;

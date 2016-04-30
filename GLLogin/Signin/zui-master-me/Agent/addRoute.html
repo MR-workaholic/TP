@@ -4,28 +4,8 @@
     <meta charset="UTF-8">
     <title>为用户添加路由</title>
     
-    <style>
-      .wireSecurity,.wireSecuritySet{
-        width: 300px;
-        margin: 30px auto;
-        /*border: 1px solid red;*/
-      }
-      .wireSecuritySet{
-        list-style-type: none;
-      }
-      ul.wireSecuritySet li{
-        margin: 10px auto;
-      }
-      div.wireSecurity{
-        text-align: right;
-      }
-      div.wireSecurity input{
-        margin-left: 10px;
-        margin-right: 10px;
-      }
-    </style>
     
-   <script src="__PUBLIC__/dist/js/jquery-1.11.0.min.js"></script>
+  <script src="__PUBLIC__/dist/js/jquery-1.11.0.min.js"></script>
   <script src="__PUBLIC__/dist/js/chart.min.js"></script>
   <script src="__PUBLIC__/dist/js/image-file-visible.js"></script>
   <script src="__PUBLIC__/dist/js/ajaxfileupload.js"></script>
@@ -46,14 +26,14 @@
 
 
 
-    <!-- --> 
+  
 	<load href="__PUBLIC__/AjaxJs/Base.js" />
 	<load href="__PUBLIC__/AjaxJs/prototype.js" />
 	<load href="__PUBLIC__/AjaxJs/mootools.js" />
 	<load href="__PUBLIC__/AjaxJs/Ajax/ThinkAjax.js" />
 	<load href="__PUBLIC__/AjaxJs/Form/CheckForm.js" />
     
-  <script language="JavaScript">
+  <script language="JavaScript">   
   
 //构造分页器
 	function genPaginator(data,status){
@@ -112,7 +92,7 @@
 			for(var i = 0; i < routerList.length; i++)
 			{
 				newtbodies += "<tr><td>"+routerList[i]['Mac']+"</td>";
-				newtbodies += "<td><input type=\"checkbox\" name=\"route[]\"  value='"+routerList[i]['RouterId']+"'></td>";
+				newtbodies += "<td><input type=\"checkbox\"  id='cb_"+routerList[i]['RouterId']+"'  onclick=\"checkboxChanged('"+routerList[i]['RouterId']+"')\"   value='"+routerList[i]['RouterId']+"'></td>";
 				newtbodies += "</tr>";
 				
 			}
@@ -122,6 +102,22 @@
 			
 			
 		}
+		
+		function checkboxChanged(routerId){
+			 
+			if(document.getElementById('cb_'+routerId).checked == true){
+				checkboxList.push(routerId);
+
+			}else{
+			 	for(var i=0;i<checkboxList.length;i++){
+					if(checkboxList[i] == routerId){
+						checkboxList.splice(i,1);
+
+					}
+				} 
+			}
+			alert(checkboxList); 
+		 }
 
   		
 	
@@ -130,7 +126,7 @@
 
 </head>
 <body>
-
+<div class="main">
 	<h3>为商家选择路由</h3>
 	<div>
 	<form id = "addRoute">
@@ -154,10 +150,10 @@
    	</div> 
    	
    	<div class="container" style="float:right">
-	  <div class="row">
-	    <div class="col-lg-offset-10 col-sm-2">
+	  <div class="input-group">
+	   
 	      <button class="btn" type="button" onClick="doJob()">{$action}</button>
-	    </div>
+
 	  </div>
 	</div>
 	
@@ -165,9 +161,13 @@
 
 </div>
 
+</div>
+
 <script type="text/javascript">
 
 	var jq = jQuery.noConflict();
+	
+	var checkboxList = new Array();
 	
 	var action = '{$action}';
 	
@@ -189,14 +189,18 @@
 			}
 	}
 	
+
+	
 	function addRoute()
 	{
-		ThinkAjax.sendForm("addRoute", "{:U('AgentMessage/addRouteforMerchant')}", completeRouteAction, '');
+		//ThinkAjax.sendForm("addRoute", "{:U('AgentMessage/addRouteforMerchant')}", completeRouteAction, '');
+		ThinkAjax.send("{:U('AgentMessage/addRouteforMerchant')}", "ajax=1&checkboxList="+checkboxList+"&businessId={$businessId}", completeRouteAction, '');
 	}
 	
 	function deleteRoute()
 	{
-		ThinkAjax.sendForm("addRoute", "{:U('AgentMessage/deleteRouteforMerchant')}", completeRouteAction, '');
+		//ThinkAjax.sendForm("addRoute", "{:U('AgentMessage/deleteRouteforMerchant')}", completeRouteAction, '');
+		ThinkAjax.send("{:U('AgentMessage/deleteRouteforMerchant')}", "ajax=1&checkboxList="+checkboxList+"&businessId={$businessId}", completeRouteAction, '');
 	}
 	
 	function completeRouteAction(data, status)

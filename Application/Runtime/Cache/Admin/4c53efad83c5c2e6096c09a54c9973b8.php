@@ -89,11 +89,23 @@
 			$('did').value = data['did'];
 			displaySelect(data['channel'], 'channel');
 			displaySelect(data['wlmodel'], 'pattern');
-			displaySelect(data['bandwidth'], 'bandwidth');
+			//displaySelect(data['bandwidth'], 'bandwidth');
 	
 		}
 		
 	
+	}
+	
+	function setRouternamefun()
+	{
+		ThinkAjax.sendForm('routerBasicMes',"<?php echo U('Routeset/routerBasicMesChange');?>",completeRouterBasicMesChange,'');
+	}
+	
+	function completeRouterBasicMesChange(data, status)
+	{
+		$('Routername').value = data['routerName'];
+		$('rMac').value = data['dsid'];
+		
 	}
 	
 </script>
@@ -107,6 +119,18 @@
   
   <!-------路由器设置--------->
   <div class="routeSet">
+  
+  
+  	  <!-- 基本信息设置 -->
+  	  
+  	  <p class="basicRouterSet">
+  	    <form id="routerBasicMes">
+  	  		设备名称:<input type="text" id="Routername" name="Routername"/>
+  	  		<input type="hidden"  name="rMac" id='rMac' value=''>
+  	  		<input type="hidden"  name="ajax" id='ajax' value=1>
+            <input type="button" id="setRoutername" onclick="setRouternamefun()" value="修改[这里以及以下的信息都是20b0这台路由的]">
+  	    </form>
+  	  </p>
       <!-------无线网络使能--------->
       <p class="wifiEnable">
       	
@@ -169,6 +193,7 @@
                </select>
             </td>
           </tr>
+          <!--
           <tr><td>频宽：</td>
             <td>
               <select name="bandwidth" id="bandwidth">
@@ -178,12 +203,14 @@
               </select>
             </td>
           </tr>
+            -->
           <tr>
               <td>无线功率：</td>
               <td><input type="text" id="power" name="power" >  dBm</td></tr>
           <tr>
           	<td><input type="hidden"  name="dsid" id='dsid' value=''></td>
           	<td><input type="hidden"  name="did" id='did' value=''></td>
+          	<td><input type="hidden"  name="ajax" id='ajax' value=1></td>
           </tr>
        
         </table>
@@ -334,13 +361,15 @@ var objTable=jq("div.MACadress table");
 			  security_mod = "../Routeset/SSIDset/mac/"+data['mac']; 
 			  $('dssid').innerHTML = data['dssid'];
 			  $('power').value = data['power'];
+			  $('Routername').value = data['routerName'];
 			  $('dsid').value = data['dsid'];
+			  $('rMac').value = data['dsid'];
 			  $('did').value = data['did'];
 			  $('version').innerHTML = data['version'];
 			  $('newVersion').innerHTML = data['newVersion'];
 			  displaySelect(data['channel'], 'channel');
 			  displaySelect(data['wlmodel'], 'pattern');
-			  displaySelect(data['bandwidth'], 'bandwidth');
+			 // displaySelect(data['bandwidth'], 'bandwidth');
 			  
 			  var boxes = document.getElementsByName('wifiEnable');
 			 
@@ -348,7 +377,7 @@ var objTable=jq("div.MACadress table");
 				  {
 				  	boxes[0].checked = true;
 				  }else{
-					  boxes[0].checked = false; 
+					boxes[0].checked = false; 
 				  }
 			  
 			}

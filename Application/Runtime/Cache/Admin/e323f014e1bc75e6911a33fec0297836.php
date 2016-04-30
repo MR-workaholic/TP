@@ -54,6 +54,8 @@
             
             <input type="text" class="form-control" placeholder="填写关键字" name="agentKeyword">
             <input type="hidden" class="form-control" name="ajax" value="1">
+            <input type="hidden" class="form-control" name="PageSize" value="3">
+            <input type="hidden" class="form-control" name="PageNum" value="1" id="PageNum">
             <span class="input-group-btn">
               <button type="button" class="btn btn-default" onclick="searchTarget()" >搜索</button>
             </span>
@@ -100,9 +102,15 @@
 <!--<script src="../../dist/js/jquery-1.11.0.min.js"></script>-->
 <script>
 
+var checkboxList = new Array();
+var isSearch = 0;
+
 ThinkAjax.send("<?php echo U('Admin/getAgentList4Static');?>",'ajax=1&PageSize=3&PageNum=1', genPaginator,'');
 
 function genPaginator(data,status){
+	
+	isSearch = data['isSearch'];
+	
 	var options = {
 	        size:"small",
 	        bootstrapMajorVersion:3,
@@ -123,8 +131,18 @@ function genPaginator(data,status){
                     return page;
                 }
             },onPageClicked: function (event, originalEvent, type, page) { //异步换页
+            	
+            	if(isSearch == 0)
+        		{
+            		ThinkAjax.send("<?php echo U('Admin/getAgentList4Static');?>",'ajax=1&PageSize=3&PageNum='+page,completeAgentsList4Statistic,'');
+            		
+        		}else
+        			{
+        				$('PageNum').value = page;
+        				ThinkAjax.sendForm("statisticsTarget", "<?php echo U('Admin/searchAgent4Statistic');?>",completeAgentsList4Statistic,'');
+        			}
 
-            	ThinkAjax.send("<?php echo U('Admin/getAgentList4Static');?>",'ajax=1&PageSize=3&PageNum='+page,completeAgentsList4Statistic,'');
+            	
             },
 	    };
 
@@ -151,8 +169,8 @@ function completeAgentsList4Statistic(data,status){
 		var tbodies = table.getElementsByTagName("tbody");
 		var tbodyCotent = data['AgentList'];
 		for(var i=0;i<tbodyCotent.length;i++){
-			newtbodies += "<tr><td>"+tbodyCotent[i]['agentId']+"</td><td>"+tbodyCotent[i]['agentName']+"</td>";
-			newtbodies += "<td><input type=\"checkbox\" value=\""+tbodyCotent[i]['agentId']+"\"></td>";
+			newtbodies += "<tr><td>"+tbodyCotent[i]['agentNum']+"</td><td>"+tbodyCotent[i]['agentName']+"</td>";
+			newtbodies += "<td><input type=\"checkbox\" id='cb_"+tbodyCotent[i]['agentId']+"'  onclick=\"checkboxChanged('"+tbodyCotent[i]['agentId']+"')\"     value=\""+tbodyCotent[i]['agentId']+"\"></td>";
 			newtbodies += "</tr>";
 		}
 		tbodies[0].innerHTML=newtbodies;
@@ -161,6 +179,23 @@ function completeAgentsList4Statistic(data,status){
 	
     
 }
+
+
+function checkboxChanged(agentId){
+	 
+	if(document.getElementById('cb_'+agentId).checked == true){
+		checkboxList.push(agentId);
+
+	}else{
+	 	for(var i=0;i<checkboxList.length;i++){
+			if(checkboxList[i] == agentId){
+				checkboxList.splice(i,1);
+
+			}
+		} 
+	}
+	alert(checkboxList); 
+ }
 
 function searchTarget(){
 	ThinkAjax.sendForm("statisticsTarget", "<?php echo U('Admin/searchAgent4Statistic');?>",genPaginator,'');

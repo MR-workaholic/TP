@@ -87,7 +87,7 @@
                for(var i=0; i<status; i++)
             	   {
             	   adlistcon += "<tr><td>"+data[i]['adname']+"</td><td>"+data[i]['adstatus']+"</td><td>"+data[i]['admodel']+"</td>";
-            	   adlistcon += "<td><a href=\""+data[i]['url']+"\" target=\"_Blank\">预览</a></td><td><a href=\"javascript:void(0)\" onclick=\"adset('"+data[i]['aid']+"')\">设置</a></td><td><a href=\"javascript:\">查看</a></td>";
+            	   adlistcon += "<td><a href=\"http://"+data['host']+data[i]['url']+"\" target=\"_Blank\">预览</a></td><td><a href=\"javascript:void(0)\" onclick=\"adset('"+data[i]['aid']+"')\">设置</a></td><td><a href=\"javascript:\" onclick=\"handleADMac('"+data[i]['aid']+"')\">查看</a></td>";
             	   adlistcon += "<td>"+data[i]['adremark']+"</td><td><a href=\"javascript:\" onclick=\"addel('"+data[i]['aid']+"')\">删除</a></td></tr>";
             	   }
                
@@ -135,6 +135,15 @@
 				{
 				alert('删除失败');
 				}
+	}
+	
+	function handleADMac(aid)
+	{
+		var top = document.body.clientHeight / 4;
+		var left = document.body.clientWidth / 4; 
+		
+		window.open("../Adset/handleADMac/aid/"+aid, "", "width=800,height=400,top="+top+",left="+left+",resizable=no");
+		
 	}
 	
 </script>

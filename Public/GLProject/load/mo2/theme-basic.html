@@ -89,7 +89,8 @@
     	var adname = jq('#adname').val();
     	var adremark = jq('#adremark').val();
     	var adstatus = jq("input[name='adstatus']:checked").val();
-    	ThinkAjax.send("{:U('Adset/updatathemebasic')}",'ajax=1&aid={$aid}&adname='+adname+'&adstatus='+adstatus+'&adremark='+adremark, completeupdatathemebasic,'');
+    	var addefault = jq("input[name='defaultTheme']:checked").val();
+    	ThinkAjax.send("{:U('Adset/updatathemebasic')}",'ajax=1&aid={$aid}&adname='+adname+'&adstatus='+adstatus+'&adremark='+adremark+'&addefault='+addefault, completeupdatathemebasic,'');
     }
     
     function completeupdatathemebasic(data, status)
@@ -146,7 +147,7 @@
     </li>
     
     <li><span>默认主题：</span><input id="tip1" type="button" class="mytip" value="提示"/><br/>
-      <input type="checkbox" name="defaultTheme"/><label>设为默认主题</label>
+      <input type="radio" name="defaultTheme"/><label>设为默认主题</label>
     </li>
     <li><span>二次访问：</span><input type="button" id="tip2" class="mytip" value="提示"/><br/>
       <select name="themeName">
@@ -159,13 +160,14 @@
   <div>
  
   <input type="button" class="btn" name="cancelTheme-basic" onclick="updatathemebasic()" value="保存"></div>
-  <p class="tip" id="1">当新设备接入时，使用该主题作为新设备的主题。</p>
+  <p class="tip" id="1">当新设备接入时，使用该主题作为新设备的主题。默认主题的状态永远都是开启的！</p>
   <p class="tip" id="2">若指定，则用户第一次认证时使用当前主题，后续的访问都将使用指定的二次主题。
     此功能可实现新老用户区别对待，二次主题的认证方式与当前主题一致。</p>
 </div>
 <script>
 
 	var adstatus = "{$adstatus}";
+	var addefault = "{$addefault}";
 
 	function radioSelectforad(aValue,radio_oj)
 	{
@@ -180,6 +182,11 @@
 		}
 	
 	radioSelectforad(adstatus,document.adstatus.adstatus);
+	
+	if(addefault == 'Y')
+	{
+		 jq("[name = defaultTheme]:radio").attr("checked", true);
+	}
 	
 	
 	

@@ -67,14 +67,14 @@
 			var devlistcon =
 			 "<table class=\"table table-bordered basic\"><thead><tr><th>设备名称</th>"+
 				 "<th>设备型号</th><th>SSID</th><th>是否在线</th><th>在线人数</th><th>运行统计</th>"+
-				 "<th>使用广告主题</th><th>预览页面</th></tr></thead>";
+				 "<th>预览页面</th></tr></thead>";
 				 
 				 devlistcon += "<tbody>";
 	               for(var i=0; i<status; i++)
 	            	   {
 	            	   devlistcon += "<tr><td>"+data[i]['dname']+"</td><td>"+data[i]['dtype']+"</td><td>"+data[i]['dssid']+"</td>";
 	            	   devlistcon += "<td>"+data[i]['dstate']+"</td><td>"+data[i]['donlinenum']+"</td><td><a href=\"javascript:\">查看</a></td>";
-	            	   devlistcon += "<td><a href=\"javascript:\">查看</a></td><td><a href=\"javascript:\">预览</a></td></tr>";
+	            	   devlistcon += "<td><a href=\""+data[i]['url']+"\" target=\"_Blank\">预览</a></td></tr>";
 	            	   }
 	               
 	               devlistcon += "</tbody></table>" ; 

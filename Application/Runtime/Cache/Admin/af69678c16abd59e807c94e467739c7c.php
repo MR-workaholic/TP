@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="/TP/Public/dist/js/jquery-1.11.0.min.js"></script>
+    <script src="/Project001/TP/Public/dist/js/jquery-1.11.0.min.js"></script>
     <title></title>
     <style>
       /*------------------------移动端（2016/1/12）适用于手机---------------------------------------------*/

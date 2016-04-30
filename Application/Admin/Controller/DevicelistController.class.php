@@ -20,6 +20,7 @@ class DevicelistController extends Controller {
 		
 		$call = A('Publiccode');
 		$uid = $call->check_valid_user();
+		$hosts = C('Hosts');
 		
 		$database = C('Database');
 		$webservice = C('Webservice');
@@ -90,6 +91,7 @@ class DevicelistController extends Controller {
 					 $devmes[$k]['dplmac'] = $v['PLCMac'];
 					 $devmes[$k]['dplcbandwidth'] = $v['PLCBandwidth'];
 					 $devmes[$k]['dplcnetworkname'] = $v['PLCName'];
+					 $devmes[$k]['url'] = 'http://'.$hosts.'/TP/index.php/Admin/Adset/showADbyMac/shop/'.$uid.'/mac/'.$v['Mac'];
 					 
 					 /*  由于路由器的MAC地址问题，暂时能查阅的路由只有一个
 					  $json1 = array(

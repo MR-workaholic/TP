@@ -4,56 +4,36 @@
     <meta charset="UTF-8">
     <title>为用户添加路由</title>
     
-    <style>
-      .wireSecurity,.wireSecuritySet{
-        width: 300px;
-        margin: 30px auto;
-        /*border: 1px solid red;*/
-      }
-      .wireSecuritySet{
-        list-style-type: none;
-      }
-      ul.wireSecuritySet li{
-        margin: 10px auto;
-      }
-      div.wireSecurity{
-        text-align: right;
-      }
-      div.wireSecurity input{
-        margin-left: 10px;
-        margin-right: 10px;
-      }
-    </style>
     
-   <script src="/TP/Public/dist/js/jquery-1.11.0.min.js"></script>
-  <script src="/TP/Public/dist/js/chart.min.js"></script>
-  <script src="/TP/Public/dist/js/image-file-visible.js"></script>
-  <script src="/TP/Public/dist/js/ajaxfileupload.js"></script>
-  <script src="/TP/Public/dist/js/jquery.minicolors.js"></script>
-  <script src="/TP/Public/dist/js/bootstrap-paginator.js" type="text/javascript"></script>
+   <script src="/Project001/TP/Public/dist/js/jquery-1.11.0.min.js"></script>
+  <script src="/Project001/TP/Public/dist/js/chart.min.js"></script>
+  <script src="/Project001/TP/Public/dist/js/image-file-visible.js"></script>
+  <script src="/Project001/TP/Public/dist/js/ajaxfileupload.js"></script>
+  <script src="/Project001/TP/Public/dist/js/jquery.minicolors.js"></script>
+  <script src="/Project001/TP/Public/dist/js/bootstrap-paginator.js" type="text/javascript"></script>
 
 
 
-  <link href="/TP/Public/dist/css/zui.min.css" rel="stylesheet">
-  <link href="/TP/Public/dist/css/zui-theme.css" rel="stylesheet">
-  <link href="/TP/Public/merchant/css/merchantIndex.css" rel="stylesheet" type="text/css">
-  <link href="/TP/Public/dist/css/jquery.minicolors.css" rel="stylesheet" type="text/css">
+  <link href="/Project001/TP/Public/dist/css/zui.min.css" rel="stylesheet">
+  <link href="/Project001/TP/Public/dist/css/zui-theme.css" rel="stylesheet">
+  <link href="/Project001/TP/Public/merchant/css/merchantIndex.css" rel="stylesheet" type="text/css">
+  <link href="/Project001/TP/Public/dist/css/jquery.minicolors.css" rel="stylesheet" type="text/css">
   
 
-    <link rel="stylesheet" href="/TP/Public/dist/css/qunit-1.11.0.css">
-    <link rel="stylesheet" href="/TP/Public/dist/css/bootstrapv3.css">
+    <link rel="stylesheet" href="/Project001/TP/Public/dist/css/qunit-1.11.0.css">
+    <link rel="stylesheet" href="/Project001/TP/Public/dist/css/bootstrapv3.css">
 
 
 
 
-    <!-- --> 
-	<script type="text/javascript" src="/TP/Public/AjaxJs/Base.js"></script>
-	<script type="text/javascript" src="/TP/Public/AjaxJs/prototype.js"></script>
-	<script type="text/javascript" src="/TP/Public/AjaxJs/mootools.js"></script>
-	<script type="text/javascript" src="/TP/Public/AjaxJs/Ajax/ThinkAjax.js"></script>
-	<script type="text/javascript" src="/TP/Public/AjaxJs/Form/CheckForm.js"></script>
+  
+	<script type="text/javascript" src="/Project001/TP/Public/AjaxJs/Base.js"></script>
+	<script type="text/javascript" src="/Project001/TP/Public/AjaxJs/prototype.js"></script>
+	<script type="text/javascript" src="/Project001/TP/Public/AjaxJs/mootools.js"></script>
+	<script type="text/javascript" src="/Project001/TP/Public/AjaxJs/Ajax/ThinkAjax.js"></script>
+	<script type="text/javascript" src="/Project001/TP/Public/AjaxJs/Form/CheckForm.js"></script>
     
-  <script language="JavaScript">
+  <script language="JavaScript">   
   
 //构造分页器
 	function genPaginator(data,status){
@@ -112,7 +92,7 @@
 			for(var i = 0; i < routerList.length; i++)
 			{
 				newtbodies += "<tr><td>"+routerList[i]['Mac']+"</td>";
-				newtbodies += "<td><input type=\"checkbox\" name=\"route[]\"  value='"+routerList[i]['RouterId']+"'></td>";
+				newtbodies += "<td><input type=\"checkbox\"  id='cb_"+routerList[i]['RouterId']+"'  onclick=\"checkboxChanged('"+routerList[i]['RouterId']+"')\"   value='"+routerList[i]['RouterId']+"'></td>";
 				newtbodies += "</tr>";
 				
 			}
@@ -122,6 +102,22 @@
 			
 			
 		}
+		
+		function checkboxChanged(routerId){
+			 
+			if(document.getElementById('cb_'+routerId).checked == true){
+				checkboxList.push(routerId);
+
+			}else{
+			 	for(var i=0;i<checkboxList.length;i++){
+					if(checkboxList[i] == routerId){
+						checkboxList.splice(i,1);
+
+					}
+				} 
+			}
+			alert(checkboxList); 
+		 }
 
   		
 	
@@ -130,7 +126,7 @@
 
 </head>
 <body>
-
+<div class="main">
 	<h3>为商家选择路由</h3>
 	<div>
 	<form id = "addRoute">
@@ -154,10 +150,10 @@
    	</div> 
    	
    	<div class="container" style="float:right">
-	  <div class="row">
-	    <div class="col-lg-offset-10 col-sm-2">
+	  <div class="input-group">
+	   
 	      <button class="btn" type="button" onClick="doJob()"><?php echo ($action); ?></button>
-	    </div>
+
 	  </div>
 	</div>
 	
@@ -165,9 +161,13 @@
 
 </div>
 
+</div>
+
 <script type="text/javascript">
 
 	var jq = jQuery.noConflict();
+	
+	var checkboxList = new Array();
 	
 	var action = '<?php echo ($action); ?>';
 	
@@ -189,14 +189,18 @@
 			}
 	}
 	
+
+	
 	function addRoute()
 	{
-		ThinkAjax.sendForm("addRoute", "<?php echo U('AgentMessage/addRouteforMerchant');?>", completeRouteAction, '');
+		//ThinkAjax.sendForm("addRoute", "<?php echo U('AgentMessage/addRouteforMerchant');?>", completeRouteAction, '');
+		ThinkAjax.send("<?php echo U('AgentMessage/addRouteforMerchant');?>", "ajax=1&checkboxList="+checkboxList+"&businessId=<?php echo ($businessId); ?>", completeRouteAction, '');
 	}
 	
 	function deleteRoute()
 	{
-		ThinkAjax.sendForm("addRoute", "<?php echo U('AgentMessage/deleteRouteforMerchant');?>", completeRouteAction, '');
+		//ThinkAjax.sendForm("addRoute", "<?php echo U('AgentMessage/deleteRouteforMerchant');?>", completeRouteAction, '');
+		ThinkAjax.send("<?php echo U('AgentMessage/deleteRouteforMerchant');?>", "ajax=1&checkboxList="+checkboxList+"&businessId=<?php echo ($businessId); ?>", completeRouteAction, '');
 	}
 	
 	function completeRouteAction(data, status)

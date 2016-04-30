@@ -156,7 +156,7 @@
       <tr>
         <td ><h4>商 家 图 标： </h4></td>
         <td style="text-align:left">
-        <img src="/TP/Application/Admin/UserFile/<?php echo ($valid_user); ?>/sqbrand.png" >
+        <img src="/Project001/TP/Application/Admin/UserFile/<?php echo ($valid_user); ?>/sqbrand.png" >
         
        
         <input type="hidden" name="MAX_FILE_SIZE" value="1000000">

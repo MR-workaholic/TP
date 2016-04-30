@@ -45,6 +45,8 @@
           margin:0px auto;
           padding:0px;
           }
+          
+ 	
     </style>
     
 </head>
@@ -52,38 +54,7 @@
 
 <div class="example">
     <div class="container">
-    <!-- 
-    <div class="row" style="float:left; border:1px solid red">
-    
-    	<div class="col-sm-3 col-md-3 col-lg-3">
-    	 <label style="width:80px">查询内容： </label>
-    	</div>
-    	
-    	<div class="col-sm-8 col-md-8 col-lg-8">
-	    	 <select class="form-control" name="key" >
-	  			    	<option value="Num">代理商ID</option>
-	  			    	<option value="Name">代理商名称</option>
-	  		 </select>
-  		 </div>
-    
-    </div>
-    
-    
-      <div class="row" style="float:left; border:1px solid blue; margin:10px">
-        <div class="col-sm-2 col-md-2 col-lg-2">
-          <label style="width:80px" >关键字： </label>
-        </div>
-        <div class="col-sm-5 col-md-5 col-lg-5">
-          <input id="agentKeyword" class="form-control" type="text"  placeholder="搜索代理商ID或者名称"/>
-        </div>
-        <div class="col-sm-1 col-md-1 col-lg-1">
-          <input type="button" class="btn btn-toolbar else" value="搜索" onclick="searchAgent()"/>
-        </div>
-       
-      </div>
-      
-     <div style="clear: both"></div>
-       -->
+   
       <form id='searchAgent'> 
        <div class="input-group">
        	
@@ -97,8 +68,11 @@
             <span class="input-group-addon">查询关键字：</span>
             <span class="input-group-addon fix-border fix-padding"></span>
             
-            <input type="text" class="form-control" placeholder="填写完整的关键字" name="agentKeyword">
+            <input type="text" class="form-control" placeholder="填写查询字段" name="agentKeyword">
             <input type="hidden" class="form-control" name="ajax" value="1">
+            <input type="hidden" class="form-control" name="PageSize" value="5">
+            <input type="hidden" class="form-control" name="PageNum" value="1" id="PageNum">
+            
             <span class="input-group-btn">
               <button type="button" class="btn btn-default" onclick="searchAgent()" >搜索</button>
             </span>
@@ -106,6 +80,8 @@
         </div>
        </form>
     </div>
+    
+  
     
 	<br/>
 
@@ -132,11 +108,16 @@
 	<ul  id='AgentsPaginator' class="pagination-sm"></ul>
 </div> 
   </div>
+  
+
 
 
 
 
 <script>
+
+	
+
 	function enterAgentAccount(agentId){
 		var url="../Admin/showAgentIndex?proxyId="+agentId
 		window.open(url);
@@ -144,7 +125,13 @@
 
 	ThinkAjax.send("{:U('Admin/getAgentsInfo')}",'ajax=1&PageSize=10&PageNum=1',genPaginator,'');
 	
+	var isSearch = 0;
+	
+	
 	function genPaginator(data,status){
+		
+		isSearch = data['isSearch'];
+		
 		var options = {
 		        size:"small",
 		        bootstrapMajorVersion:3,
@@ -165,8 +152,20 @@
 	                    return page;
 	                }
 	            },onPageClicked: function (event, originalEvent, type, page) { //异步换页
+	            	
+	            	if(isSearch == 0)
+            		{
+	            		ThinkAjax.send("{:U('Admin/getAgentsInfo')}",'ajax=1&PageSize=10&PageNum='+page,completeAgentInfo,'');
+            		}else
+            			{
+            				$('PageNum').value = page;
+            				ThinkAjax.sendForm("searchAgent", "{:U('Admin/searchAgentList')}",completeAgentInfo,'');
+            				
+            			}
+	            	
+	            	
 
-	            	ThinkAjax.send("{:U('Admin/getAgentsInfo')}",'ajax=1&PageSize=10&PageNum='+page,completeAgentInfo,'');
+	            	
 	            },
 		    };
 
@@ -206,12 +205,45 @@
 	     
 	}
 	
+	var open_q=false, win_q, t_q;
+	
 	function addRoute(uid){
 		
 		var top = document.body.clientHeight / 4;
 		var left = document.body.clientWidth / 4; 
 		
-		window.open("../AgentMessage/addRoute/uid/"+uid, "", "width=700,height=400,top="+top+",left="+left+",resizable=no");
+		win_q = window.open("../AgentMessage/addRoute/uid/"+uid, "", "width=700,height=400,top="+top+",left="+left+",resizable=no");
+		
+		//关闭窗口后更新页面
+		open_q = true;
+		
+		 t_q = setInterval(function()
+			        //单击之后就开始计时
+			        {
+			            if(open_q)
+			            // 如果新窗口打开为真
+			            {
+			                if(win_q && win_q.closed)
+			                // 如果这个新窗口存在并且已经被关闭
+			                {
+			                    open_q=false;
+			                    t_q=null;
+			                    clearInterval(t_q);
+			                    ThinkAjax.send("{:U('Admin/getAgentsInfo')}",'ajax=1&PageSize=10&PageNum=1',genPaginator,'');
+			                }
+			            }
+			        },200);
+		
+		
+		/*
+		jq("#handlerouter").load("../AgentMessage/addRoute/uid/"+uid,function(a,status,c){
+	        console.log(status);
+	        if(status=="error"){
+	          jq("#handlerouter").text("判断加载失败");
+	        }
+	      });
+		
+		jq(".newview").show();*/
 		
 	}
 	
@@ -220,8 +252,37 @@
 		var top = document.body.clientHeight / 4;
 		var left = document.body.clientWidth / 4; 
 		
-		window.open("../AgentMessage/deleteRoute/uid/"+uid, "", "width=700,height=400,top="+top+",left="+left+",resizable=no");
+		win_q = window.open("../AgentMessage/deleteRoute/uid/"+uid, "", "width=700,height=400,top="+top+",left="+left+",resizable=no");
 		
+		//关闭窗口后更新页面
+		open_q = true;
+		
+		 t_q = setInterval(function()
+			        //单击之后就开始计时
+			        {
+			            if(open_q)
+			            // 如果新窗口打开为真
+			            {
+			                if(win_q && win_q.closed)
+			                // 如果这个新窗口存在并且已经被关闭
+			                {
+			                    open_q=false;
+			                    t_q=null;
+			                    clearInterval(t_q);
+			                    ThinkAjax.send("{:U('Admin/getAgentsInfo')}",'ajax=1&PageSize=10&PageNum=1',genPaginator,'');
+			                }
+			            }
+			        },200);
+		 
+		/*
+		jq("#handlerouter").load("../AgentMessage/deleteRoute/uid/"+uid,function(a,status,c){
+	        console.log(status);
+	        if(status=="error"){
+	          jq("#handlerouter").text("判断加载失败");
+	        }
+	      });
+		
+		jq(".newview").show();*/
 		
 	}
 	

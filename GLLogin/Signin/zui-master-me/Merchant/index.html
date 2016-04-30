@@ -238,7 +238,7 @@ var options2 = {
 			for (var i=0; i<status; i++)
 				{
 				devtablecon += "<tr><td>"+data['data'][i]['dname']+"</td><td>"+data['data'][i]['donlinenum']+"</td>"+
-								"<td>"+data['data'][i]['dssid']+"</td><td><a href=\""+data['url']+"\" target=\"_Blank\">预览</a></td></tr>";
+								"<td>"+data['data'][i]['dssid']+"</td><td><a href=\""+data['data'][i]['url']+"\" target=\"_Blank\">预览</a></td></tr>";
 				
 								
 				 

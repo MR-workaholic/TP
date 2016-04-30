@@ -206,7 +206,7 @@ class AgentMessageController extends Controller {
     
     	$json = array(
     			'op' => 'query',
-    			'where' => "where {$key} = '{$routerKeyword}'",
+    			'where' => "where {$key} like '%{$routerKeyword}%'",
     			'rows' => $pageSize,
     			'page' => $pageNum
     	);
@@ -314,7 +314,7 @@ class AgentMessageController extends Controller {
     	
     	$json = array(
     			"op" => "query",
-    			"where" => "where {$key} = '{$merchantKeyword}' and AgentId = {$agentid}",
+    			"where" => "where {$key} like '%{$merchantKeyword}%' and AgentId = {$agentid}",
     			"rows"  => $PageSize,
     			"page"  => $pageNum,
     	);
@@ -568,48 +568,52 @@ class AgentMessageController extends Controller {
     public  function addRouteforMerchant(){
     	
     	$businessId = I('post.businessId');
-    	$route = I('post.route');
+    	$route = I('post.checkboxList');
     	$call = A('Publiccode');
     	$type = I('session.type');
+
+    	
+
+    	
+
     	
     	if (!empty($route))
     	{
     		
-    		for ($i=0; $i<count($route); $i++)
-    		{
+    		$route = "({$route})";
     			$json = array(
     					"op" => "query",
-    					"where" => "where RouterId = {$route[$i]}",
+    					"where" => "where RouterId in {$route}",
     			);
     			
     			$json = json_encode($json);
     			
     			$result = $call->RouterHandle($json);
     			
-    			if ($type == '代理商')
+    			foreach ($result['rows'] as $k=>$v)
     			{
-    				$result['rows'][0]['BusinessId'] = $businessId;
-    			}else{
-    				$result['rows'][0]['AgentId'] = $businessId;
+    				if ($type == '代理商')
+    				{
+    					$v['BusinessId'] = $businessId;
+    				}else{
+    					$v['AgentId'] = $businessId;
+    				}
+    				 
+    				
+    				$json1 = array(
+    						"op" => "save",
+    						"obj" => $v
+    				);
+    				
+    				$json1 = json_encode($json1);
+    				
+    				$response['data'][$k] = $call->RouterHandle($json1);
+    					
+    				
     			}
     			
-
-    			$json1 = array(
-    					"op" => "save",
-    					"obj" => $result['rows'][0]
-    			);
-    				
-    			$json1 = json_encode($json1);
-    				
-    			$call->RouterHandle($json1);
-    			
-    			
-    			
-    		}
-    		
-    		
-    		
-    		$response['status'] = 1;
+			$response['data'] = $businessId;
+    		$response['status'] = $result['total'];
     		$response['info'] = '';
     		$response['type'] = 'JSON';
     		$this->ajaxReturn($response,'JSON');
@@ -631,51 +635,52 @@ class AgentMessageController extends Controller {
     {
     	
     	$businessId = I('post.businessId');
-    	$route = I('post.route');
+    	$route = I('post.checkboxList');
     	$call = A('Publiccode');
     	$type = I('session.type');
+    	
+    	
     	 
     	if (!empty($route))
     	{
     	
-    		for ($i=0; $i<count($route); $i++)
-    		{
+    		$route = "({$route})";
     		$json = array(
     				"op" => "query",
-    				"where" => "where RouterId = {$route[$i]}",
+    				"where" => "where RouterId in {$route}",
     		);
-    				 
+    		 
     		$json = json_encode($json);
     		 
     		$result = $call->RouterHandle($json);
-    		 
-    		if ($type == '代理商')
-    		{
-    			unset($result['rows'][0]['BusinessName']);
-    			unset($result['rows'][0]['BusinessId']);
-    			
-    		}else{
-    			unset($result['rows'][0]['AgentName']);
-    			unset($result['rows'][0]['AgentId']);
-    		}
     		
-    	
-    		$json1 = array(
-    		"op" => "save",
-    		"obj" => $result['rows'][0]
-    		);
-    	
-    		$json1 = json_encode($json1);
-    	
-    		$call->RouterHandle($json1);
-    		 
-    		 
-    		 
+    		foreach ($result['rows'] as $v)
+    		{
+    			
+    			if ($type == '代理商')
+    			{
+    				unset($v['BusinessName']);
+    				unset($v['BusinessId']);
+    				 
+    			}else{
+    				unset($v['AgentName']);
+    				unset($v['AgentId']);
+    			}
+    			
+    			 
+    			$json1 = array(
+    					"op" => "save",
+    					"obj" => $v
+    			);
+    			 
+    			$json1 = json_encode($json1);
+    			 
+    			$call->RouterHandle($json1);	
+    			
     		}
-    	
-    	
-    	
-    		$response['status'] = 1;
+    
+
+    		$response['status'] = $result['total'];
     		$response['info'] = '';
     		$response['type'] = 'JSON';
     		$this->ajaxReturn($response,'JSON');

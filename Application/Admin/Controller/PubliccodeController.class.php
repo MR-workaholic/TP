@@ -159,6 +159,7 @@ class PubliccodeController extends Controller {
 		$database = C('Database');
 		$webservice = C('Webservice');
 		$msgsource = C('MsgSource');
+		$hosts = C('Hosts');
 		
 		if ($msgsource == $database)
 		{
@@ -212,6 +213,7 @@ class PubliccodeController extends Controller {
 			$newRole['Remark'] = '暂无备注信息';
 			$newRole['Longitude'] = 113.336899;
 			$newRole['Latitude']  = 23.14892;	
+			$newRole['IndexPage']  = "http://{$hosts}/TP/index.php/Admin/Adset/showADbyMac/shop/{$resultForForm1['uid']}";	
 			if ($type == '普通商家')
 			{
 				$newRole['AgentId'] = $this->getBId($agent);

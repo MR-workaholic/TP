@@ -6,32 +6,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>云管理平台－管理员</title>
 
-  <script src="/TP/Public/dist/js/jquery-1.11.0.min.js"></script>
-  <script src="/TP/Public/dist/js/chart.min.js"></script>
-  <script src="/TP/Public/dist/js/image-file-visible.js"></script>
-  <script src="/TP/Public/dist/js/ajaxfileupload.js"></script>
-  <script src="/TP/Public/dist/js/jquery.minicolors.js"></script>
+  <script src="/Project001/TP/Public/dist/js/jquery-1.11.0.min.js"></script>
+  <script src="/Project001/TP/Public/dist/js/chart.min.js"></script>
+  <script src="/Project001/TP/Public/dist/js/image-file-visible.js"></script>
+  <script src="/Project001/TP/Public/dist/js/ajaxfileupload.js"></script>
+  <script src="/Project001/TP/Public/dist/js/jquery.minicolors.js"></script>
 
 
 
-  <link href="/TP/Public/dist/css/zui.min.css" rel="stylesheet">
-  <link href="/TP/Public/dist/css/zui-theme.css" rel="stylesheet">
-  <link href="/TP/Public/merchant/css/merchantIndex.css" rel="stylesheet" type="text/css">
-  <link href="/TP/Public/dist/css/jquery.minicolors.css" rel="stylesheet" type="text/css">
+  <link href="/Project001/TP/Public/dist/css/zui.min.css" rel="stylesheet">
+  <link href="/Project001/TP/Public/dist/css/zui-theme.css" rel="stylesheet">
+  <link href="/Project001/TP/Public/merchant/css/merchantIndex.css" rel="stylesheet" type="text/css">
+  <link href="/Project001/TP/Public/dist/css/jquery.minicolors.css" rel="stylesheet" type="text/css">
   
-<script src="/TP/Public/dist/js/bootstrap-paginator.js" type="text/javascript"></script>
-     <link rel="stylesheet" href="/TP/Public/dist/css/qunit-1.11.0.css">
-    <link rel="stylesheet" href="/TP/Public/dist/css/bootstrapv3.css">
+<script src="/Project001/TP/Public/dist/js/bootstrap-paginator.js" type="text/javascript"></script>
+     <link rel="stylesheet" href="/Project001/TP/Public/dist/css/qunit-1.11.0.css">
+    <link rel="stylesheet" href="/Project001/TP/Public/dist/css/bootstrapv3.css">
 
 
 
 
     <!-- --> 
-	<script type="text/javascript" src="/TP/Public/AjaxJs/Base.js"></script>
-	<script type="text/javascript" src="/TP/Public/AjaxJs/prototype.js"></script>
-	<script type="text/javascript" src="/TP/Public/AjaxJs/mootools.js"></script>
-	<script type="text/javascript" src="/TP/Public/AjaxJs/Ajax/ThinkAjax.js"></script>
-	<script type="text/javascript" src="/TP/Public/AjaxJs/Form/CheckForm.js"></script>
+	<script type="text/javascript" src="/Project001/TP/Public/AjaxJs/Base.js"></script>
+	<script type="text/javascript" src="/Project001/TP/Public/AjaxJs/prototype.js"></script>
+	<script type="text/javascript" src="/Project001/TP/Public/AjaxJs/mootools.js"></script>
+	<script type="text/javascript" src="/Project001/TP/Public/AjaxJs/Ajax/ThinkAjax.js"></script>
+	<script type="text/javascript" src="/Project001/TP/Public/AjaxJs/Form/CheckForm.js"></script>
 
 </head>
 <body >
@@ -93,7 +93,7 @@
    var hat="hatshow";
    var head="headshow";
    var middletitle="middletitleshow";
-  // var middletitle="/TP/Public/frame/middletitle.html";
+  // var middletitle="/Project001/TP/Public/frame/middletitle.html";
    var mycontent="../Admin/showAgentList";
    
    function GetRandomNum(Min,Max)

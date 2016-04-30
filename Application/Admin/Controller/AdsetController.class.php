@@ -37,6 +37,7 @@ class AdsetController extends Controller {
 	public function admescalling()
 	{
 		$call = A('Publiccode');
+		$host = C('Hosts');
 		
 		$uid = $call->check_valid_user();
 		
@@ -65,13 +66,11 @@ class AdsetController extends Controller {
 			}
 			
 			$response['data'] = $result;
+			$response['data']['host'] = $host;
 		}
 			
 	
-		//$num = count($result,0);
-	
-		
-		//$response['adnum'] = $num;
+
 		$response['info'] = '';
 		$response['type'] = 'JSON';
 		$this->ajaxReturn($response,'JSON');
@@ -116,42 +115,47 @@ class AdsetController extends Controller {
 					break;
 				}
 			}
+			
+			$new = 0;
 		}else{
+			
+		
+			$new = 1;
 			$num = 0;
 		}
 		
 		
 		//上面添加广告完成，下面将是根据广告模板选择复制文件到相应文件夹上
 		
-// 		copy('./Public/GLProject/load/'.$admodel.'/upload.html', './Application/Admin/UserFile/'.$uid.'/'.$num.'upload.html');
-//  	copy('./Public/GLProject/load/'.$admodel.'/showpic.html', './Application/Admin/UserFile/'.$uid.'/'.$num.'showpic.html');
  		
 		$call->cp_files('./Public/GLProject/load/'.$admodel.'/', './Application/Admin/UserFile/'.$uid.'/', $num);
 		$call->cp_files('./Public/GLProject/load/'.$admodel.'/upload_file/', './Application/Admin/UserFile/'.$uid."/{$num}upload_file/", '');
 		
 		
-//  		if (mkdir('./Application/Admin/UserFile/'.$uid.'/'.$num.'upload_file'))
-//  		{
-//  			copy('./Public/GLProject/load/'.$admodel.'/upload_files/F0.jpg', './Application/Admin/UserFile/'.$uid.'/'.$num.'upload_file/F0.jpg');
-//  			copy('./Public/GLProject/load/'.$admodel.'/upload_files/F1.jpg', './Application/Admin/UserFile/'.$uid.'/'.$num.'upload_file/F1.jpg');
-//  			copy('./Public/GLProject/load/'.$admodel.'/upload_files/F2.jpg', './Application/Admin/UserFile/'.$uid.'/'.$num.'upload_file/F2.jpg');
-//  		}
- 		
+
  		$data = array(
  				'uid' => $uid,
  				'order' => $num,
  				'adname' => $adname,
  				'admodel' => $admodel,
  				'adremark' => $adremark,
- 				'url' => 'http://'.$hosts.'/TP/index.php/Admin/Adset/showad/shop/'.$uid,
+ 				'url' => '/TP/index.php/Admin/Adset/showad/shop/'.$uid,
  				'uploadfile' => $num.'themeSet',
  		);
  			
  		$handle = M('adlist');
  		$aid = $handle->add($data);
  		
+ 		if ($new == 1)   //增添默认广告
+ 		{
+ 			$handle2 = M('addefault');
+ 			$condition2['uid'] = $uid;
+ 			$condition['aid'] = $aid;
+ 			$handle2->add($condition2);
+ 		}
+ 		
  		$save['aid'] = $aid;
- 		$save['url'] = 'http://'.$hosts.'/TP/index.php/Admin/Adset/showad/shop/'.$uid.'/aid/'.$aid;
+ 		$save['url'] = '/TP/index.php/Admin/Adset/showad/shop/'.$uid.'/aid/'.$aid;
  		$handle->save($save);
  		
  		$data1 = array(
@@ -246,124 +250,297 @@ class AdsetController extends Controller {
   		
   	} 
   	 
-	/*
-	 * 广告上传图片action
-	 */
+	
   	/*
-	public  function upload_model1(){
-		
-	
-// 		$validname = $_SESSION['valid_user'];
-		$call = A('Publiccode');
-		$uid = $call->check_valid_user();
-		
-		$a = $_POST['num'];
-		
-		$count = count($_FILES,0);
-		
-		//检测上传了多少张图片的检测数组$count_arr定义
-		for($i = 0; $i<$count; $i++)
-		{
-			$str = 'userfile'.$i;
-			if ($_FILES[$str]['name'] == '')
-			{
-				$count_arr[$i] = 0;
-			}
-			else {
-				$count_arr[$i] = 1;
-			}
-		
-		}
-		
-		for ($i = 0; $i<$count; $i++)
-		{
-			$str = 'userfile'.$i;
-		
-			if ($count_arr[$i] == 1 && $_FILES[$str]['error'] > 0 )
-			{
-			echo 'Problem: ';
-			switch ($_FILES[$str]['error'])
-			{
-				case 1:	echo 'File exceeded upload_max_filesize';
-	  			break;
-      			case 2:	echo 'File exceeded max_file_size';
-		      	break;
-      			case 3:	echo 'File only partially uploaded';
-		      	break;
-      			case 4:	echo 'No file uploaded';
-		     	 break;
-		     	case 6: echo 'Cannot upload file: No temp directory specified.';
-	  			break;
-	  			case 7: echo 'Upload failed: Cannot write to disk.';
-	  			break;
-    		}
-    		exit;
-		}
-		
-		}
-		
-		$j =0 ;
-		for ($i = 0; $i<$count; $i++)
-		{
-		
-		  $str = 'userfile'.$i;
-		
-		  if($count_arr[$i] == 1)
-		 {
-		
-		// Does the file have the right MIME type?
-			if ($_FILES[$str]['type'] != 'text/plain' && $_FILES[$str]['type'] != 'image/jpeg')
-  	         {
-					echo 'Problem: file is not plain text or JPEG file';
-    	            exit;
-			 }
-		
-					// put the file where we'd like it
-			//$upfile = './upload_files/'.'F'.$j.'.jpg';
-			$upfile = './Application/Admin/UserFile/'.$uid.'/'.$a.'upload_file/F'.$j.'.jpg';
-			$j++;
-		
-			if (is_uploaded_file($_FILES[$str]['tmp_name']))
-  		       {
-				 if (!move_uploaded_file($_FILES[$str]['tmp_name'], $upfile))
-				 {
-					echo 'Problem: Could not move file to destination directory';
-       		        exit;
-				 }
-				}
-				else
-				{
-				 echo 'Problem: Possible file upload attack. Filename: ';
-    	         echo $_FILES[$str]['name'];
-		    	 exit;
-				}
-							 
-				// echo 'File uploaded successfully<br><br>';
-		
-	      }
-		 }
-		 
-// 		 $response['data'] = 'success '.$count;
-// 		 $response['status'] = 1;
-// 		 $response['info'] = '';
-// 		 $response['type'] = 'JSON';
-		 
-// 		 $this->ajaxReturn($response, 'JSON');
+  	 * 广告展示action--根据路由器MAC选择路由
+  	 * 
+  	 * $shop: 用户的id（$uid）
+  	 */
+  	
+  	public function showADbyMac($shop, $mac=0)
+  	{
+  		$c = I('get.c'); // 终端MAC
+  		$c = '1232243543546';
+  		$r = I('get.r'); // 路由MAC
+  		$r = '14324343213';
+  		$a = I('get.a'); // 是否认证
+  	
+  		
+  		if (!$mac)
+  		{
+  			$mac = $r;
+  		}
+  		
+  		$handle = M('admac');
+  		$condition['mac'] = $mac;
+  		$result = $handle->where($condition)->getField('aid');
+  		
+  		if($result)
+  		{
+  			if($a==1)
+  			{
+  				$this->showad3($result);
+  			}else{
+  				$this->showad($shop, $result, $c, $r);
+  			}
+  			
+  		}else {
+  			
+  			$handle1 = M('addefault');
+  			$condition1['uid'] = $shop;
+  			$result1 = $handle1->where($condition1)->getField('aid');
+  			
+  			if ($result1)
+  			{
+  				if ($a == 1)
+  				{
+  					$this->showad3($result1);
+  				}else{
+  					$this->showad($shop, $result1, $c, $r);
+  				}
+  				
+  			}else {
+  				$this->error('商家没有设置任何的广告');
+  			}
+  			
+  		}
+  		
+  		
+  		
+  		
+  		
+  	}
+  	
+  	/*
+  	 * 处理路由与广告
+  	 */
+  	
+  	public function handleADMac($aid)
+  	{
+  		$handle = M('adlist');
+  		$condition['aid'] = $aid;
+  		$adname = $handle->where($condition)->getField('adname');
 
-		 $this->success('success');
-		
-		
-	}
-	*/
+  		$this->assign('aid', $aid);
+  		$this->assign('adname', $adname);
+  		$this->display('./GLLogin/Signin/zui-master-me/Merchant/handleADMac.html');
+  	}
 	
+  	public function showHandleADMac()
+  	{
+  		$aid = I('post.aid');
+  		$call = A('Publiccode');
+  		$uid = $call->check_valid_user();
+  		
+  		$handle = M('admac');
+  		$condition['aid'] = $aid;
+  		$result = $handle->where($condition)->select();
+  		
+  		$string4NotIn = "(";
+  		
+  		if($result)
+  		{
+  			$response['data']['haveflag'] = 1;
+	  		foreach ($result as $key=>$value)
+	  		{
+	  			$response['data']['have'][$key]['mac'] = $value['mac'];
+	  			
+	  			$json = array(
+	  					"op" => "query",
+	  					"where" => "where Mac = '{$value['mac']}'",
+	  			);
+	  			
+	  			$string4NotIn = $string4NotIn."'{$value['mac']}',";
+	  			
+	  			$json = json_encode($json);
+	  			
+	  			$result_json = $call->RouterHandle($json);
+	  			
+	  			$response['data']['have'][$key]['RouterName'] = $result_json['rows'][0]['RouterName'];
+	  			$response['data']['have'][$key]['RouterModel'] = $result_json['rows'][0]['RouterModel'];	
+	  		}
+	  		
+	  		$string4NotIn = substr_replace($string4NotIn, ")", -1);
+	  		
+  		}else{
+  			
+  			$string4NotIn = $string4NotIn.")";
+  			$response['data']['haveflag'] = 0;
+  		}
+  		
+  		$response['data']['string'] = $string4NotIn;
+  		
+  		
+  		//需要添加的设备
+  		
+  		if ($string4NotIn == "()")
+  		{
+  			
+  			$json = array(
+  					"op" => "query",
+  					"where" => "where BusinessNum = '{$uid}'",
+  			);
+  			
+  		}else {
+  			
+  			$json = array(
+  					"op" => "query",
+  					"where" => "where BusinessNum = '{$uid}' and Mac NOT IN {$string4NotIn}",
+  			);
+  			
+  		}
+  		
+
+  		
+  		$json = json_encode($json);
+  		
+  		$result_json = $call->RouterHandle($json);
+  		
+  		if (!$result_json && $result_json['total'] == 0)
+  		{
+  			$response['data']['nothaveflag'] = 0;
+  			
+  		}else 
+  		{
+  			$response['data']['nothaveflag'] = 1;
+  			
+  			foreach($result_json['rows'] as $key=>$value)
+  			{
+  					
+  				$response['data']['nothave'][$key]['RouterName'] = $value['RouterName'];
+  				$response['data']['nothave'][$key]['Mac'] = $value['Mac'];
+  					
+  				$condition1['mac'] = $value['Mac'];
+  				$result1 = $handle->where($condition1)->find();
+  					
+  				if ($result1)
+  				{
+  					$handle1 = M('adlist');
+  					$condition2['aid'] = $result1['aid'];
+  					$response['data']['nothave'][$key]['adname'] = $handle1->where($condition2)->getField('adname');
+  			
+  				}else{
+  					
+  					$handle2 = M('addefault');
+  					$condition3['uid'] = $uid;
+  					$result2 = $handle2->where($condition3)->getField('aid');
+  					
+  					if ($result2)
+  					{
+  						$handle1 = M('adlist');
+  						$condition2['aid'] = $result2;
+  						$response['data']['nothave'][$key]['adname'] = '使用默认广告主题【'.$handle1->where($condition2)->getField('adname').'】';
+  						
+  					}else{
+  						$response['data']['nothave'][$key]['adname'] = '没有任何广告主题';
+  					}
+  					
+  					
+  					
+  					
+  				}
+  							
+  			}
+  			
+  		}
+  		
+  	
+  			
+  		
+  		
+  		$response['status'] = 1;
+  		$response['info'] = '';
+  		$response['type'] = 'JSON';
+  		$this->ajaxReturn($response, 'JSON');
+  		
+  		
+  		
+  	}
 	
+  	/*
+  	 * 将AD与路由器绑定一起
+  	 */
+  	public function handleADandMac()
+  	{
+  		$aid = I('post.aid');
+  		$chooseMac = I('post.chooseMac');
+  		
+  		if (empty($chooseMac))
+  		{
+  			$response['status'] = 0;
+  		}else{
+  			
+  			$handle = M('admac');
+  			
+  			foreach ($chooseMac as $v)
+  			{
+  				$condition['mac'] = $v;
+  				$result = $handle->where($condition)->find();
+  				
+  				if($result)
+  				{
+  					$handle->where($condition)->setField('aid', $aid);
+  				}else {
+  					$condition['aid'] = $aid;
+  					$handle->add($condition);
+  				}
+  				
+  			}
+  			
+  			$response['status'] = 1;
+  		}
+  		
+  		$response['info'] = '';
+  		$response['type'] = 'JSON';
+  		$this->ajaxReturn($response, 'JSON');
+  		
+
+  		
+  		
+  		
+  	}
+  	
+  	
+  	/*
+  	 * 将路由与AD解除绑定
+  	 */
+  	
+  	public function deleteADandMac()
+  	{
+  		
+  		$deleteMac = I('post.deleteMac');
+  		
+  		if (empty($deleteMac))
+  		{
+  			$response['status'] = 0;
+  		}else{
+  			$response['status'] = 1;
+  			
+  			$handle = M('admac');
+  			
+  			foreach ($deleteMac as $v)
+  			{
+  				$condition['mac'] = $v;
+  				$handle->where($condition)->delete();
+  			}
+  			
+  		}
+  		
+  		$response['info'] = '';
+  		$response['type'] = 'JSON';
+  		$this->ajaxReturn($response, 'JSON');
+  		
+  		
+  	}
+  	
+  	
 	/*
 	 * 广告展示action--欢迎页
 	 * 
 	 * $shop:用户的id（uid）
 	 * $aid: 广告的id,为0的时候是展现当前设置的默认广告，否则是展现相应的广告
 	 */
-	public function showad($shop, $aid)
+	public function showad($shop, $aid, $c=0, $r=0)
 	{
 		
 		$imgPath = C('IMG_PATH');
@@ -427,6 +604,8 @@ class AdsetController extends Controller {
 		$this->assign('fbtntext', $result['fbtntext']);
 		$this->assign('vermes', $vermes);
 		$this->assign('aid', $aid);
+		$this->assign('cc', $c);
+		$this->assign('rr', $r);
 		
 		$this->display($str);
 	}
@@ -442,6 +621,10 @@ class AdsetController extends Controller {
 	{
 		
 		$imgPath = C('IMG_PATH');
+		$cc = I('post.cc');
+		$rr = I('post.rr');
+		
+		
 		$handle = M('adlist');
 		$condition['aid'] = $aid;
 		$result = $handle->where($condition)->find();
@@ -490,12 +673,88 @@ class AdsetController extends Controller {
 		$this->assign('tbtnbgcol', $result1['tbtnbgcol']);
 		$this->assign('tbtntxtcol', $result1['tbtntxtcol']);
 		$this->assign('aid', $aid);
+		$this->assign('cc', $cc);
+		$this->assign('rr', $rr);
 		
 		
 		$str = './Application/Admin/UserFile/'.$result['uid'].'/'.$result['order'].'mymobile-theme-authentication.html';
 		$this->display($str);
 		
 
+	}
+	
+	public function showad2_sendmsg()
+	{
+		
+		$phoneNumber = I('post.pn');
+		$cc = I('post.cc');
+		$rr = I('post.rr');
+// 		$call = A('Publiccode');
+
+// 		$json = array(
+// 			"op" => "sendSms",
+// 			"obj" => array(
+// 					"ClientName" => $phoneNumber,
+// 					"ClientMac"  => $cc,
+// 					"RouterMac"  => $rr
+// 					)	
+			
+// 		);
+		
+// 		$json = json_encode($json);
+// 		$call->ClientHandle($json);
+
+		$response['data']['cc'] = $cc;
+		$response['data']['rr'] = $rr;
+		$response['data']['phoneNumber'] = $phoneNumber;
+	
+		$response['status'] = 1;
+		$response['info'] = '';
+		$response['type'] = 'JSON';
+		$this->ajaxReturn($response,'JSON');
+		 
+		
+		
+	}
+	
+	public function showad2_regmsg()
+	{
+		
+		$phoneNumber = I('post.pn');
+		$cc = I('post.cc');
+		$rr = I('post.rr');
+		$reg = I('post.reg');
+		$hosts = C('Hosts');
+		
+// 	    $call = A('Publiccode');
+		
+// 		$json = array(
+// 			"op" => "reg",
+// 			"obj" => array(
+// 					"ClientName" => $phoneNumber,
+// 					"ClientMac"  => $cc,
+// 					"RouterMac"  => $rr,
+// 					"SmsVerify"  => $reg
+// 					)
+			
+// 		);
+		
+// 		$json = json_encode($json);
+// 		$call->ClientHandle($json);
+
+		$response['data']['cc'] = $cc;
+		$response['data']['rr'] = $rr;
+		$response['data']['phoneNumber'] = $phoneNumber;
+		$response['data']['reg'] = $reg;
+
+		
+		$response['status'] = 1;
+		$response['info'] = '';
+		$response['type'] = 'JSON';
+		$this->ajaxReturn($response,'JSON');
+		
+		
+		
 	}
 	
 	/*
@@ -698,6 +957,15 @@ class AdsetController extends Controller {
 			$this->assign('adstatus', 'N');
 		}
 		
+		$handle2 = M('addefault');
+		$result2 = $handle2->where($condition1)->getField('aid');
+		if ($result2 && $result2==$aid)
+		{
+			$this->assign('addefault', 'Y');
+		}else{
+			$this->assign('addefault', 'N');
+		}
+		
 		
 		
 		
@@ -715,6 +983,7 @@ class AdsetController extends Controller {
 		$adname = I('post.adname');
 		$adremark = I('post.adremark');
 		$adstatus = I('post.adstatus');
+		$addefault = I('post.addefault');
 		$call = A('Publiccode');
 		$uid = $call->check_valid_user();
 		
@@ -723,10 +992,36 @@ class AdsetController extends Controller {
 		$handle->where($condition)->setField('adname', $adname);
 		$handle->where($condition)->setField('adremark', $adremark);
 		
+		$handle2 = M('addefault');
+		$condition2['uid'] = $uid;
+		$result2 = $handle2->where($condition2)->find();
+		
+		if ($addefault == 'on')
+		{
+			if (!$result2)
+			{
+				$condition2['aid'] = $aid;
+				$handle2->add($condition2);
+			}else {
+				$handle2->where($condition2)->setField('aid', $aid);
+			}
+			
+		}else {
+			
+// 			if ($result2)
+// 			{
+// 				$response['data']['addefault'] = 0;
+// 				//$handle2->where($condition2)->delete();
+// 			}
+		}
+		
 		
 		$handle1 = M('adstatus');
 		$condition1['uid'] = $uid;
 		$result1 = $handle1->where($condition1)->getField('aid');
+		
+		
+		
 		
 		if (!$result1)
 		{

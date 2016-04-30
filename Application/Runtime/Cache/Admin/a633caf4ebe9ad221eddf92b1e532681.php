@@ -38,6 +38,8 @@
   
   <script>
   
+  var checkboxList = new Array();
+  
 //构造分页器
 	function genPaginator(data,status){
 	
@@ -110,7 +112,7 @@
 						for(var i = 0; i < merchantList.length; i++)
 						{
 							newtbodies += "<tr><td>"+merchantList[i]['Name']+"</td><td>"+merchantList[i]['Contact']+"</td><td>"+merchantList[i]['Address']+"</td><td>"+merchantList[i]['Role']+"</td>";
-							newtbodies += "<td><input type=\"checkbox\" name='"+merchantList[i]['BId']+"'></td>";
+							newtbodies += "<td><input type=\"checkbox\" id='cb_"+merchantList[i]['BId']+"'  onclick=\"checkboxChanged('"+merchantList[i]['BId']+"')\" name='"+merchantList[i]['BId']+"'></td>";
 							newtbodies += "</tr>";
 							
 						}
@@ -123,6 +125,25 @@
 				
 				
 			}
+			
+			function checkboxChanged(BId){
+				 
+				if(document.getElementById('cb_'+BId).checked == true){
+					
+					checkboxList.push(BId);
+
+				}else{
+					
+				 	for(var i=0;i<checkboxList.length;i++){
+				 		
+						if(checkboxList[i] == BId){
+							checkboxList.splice(i,1);
+
+						}
+					} 
+				}
+				alert(checkboxList); 
+			 }
 		
  
   
