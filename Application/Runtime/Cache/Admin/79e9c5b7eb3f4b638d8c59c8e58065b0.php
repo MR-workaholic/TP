@@ -5,7 +5,7 @@
     <title>为用户添加路由</title>
     
     
-   <script src="/Project001/TP/Public/dist/js/jquery-1.11.0.min.js"></script>
+  <script src="/Project001/TP/Public/dist/js/jquery-1.11.0.min.js"></script>
   <script src="/Project001/TP/Public/dist/js/chart.min.js"></script>
   <script src="/Project001/TP/Public/dist/js/image-file-visible.js"></script>
   <script src="/Project001/TP/Public/dist/js/ajaxfileupload.js"></script>

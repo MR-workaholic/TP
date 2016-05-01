@@ -206,12 +206,30 @@
             -->
           <tr>
               <td>无线功率：</td>
-              <td><input type="text" id="power" name="power" >  dBm</td></tr>
+              <td><input type="text" id="power" name="power" >  dBm</td>
+          </tr>
+          
           <tr>
           	<td><input type="hidden"  name="dsid" id='dsid' value=''></td>
           	<td><input type="hidden"  name="did" id='did' value=''></td>
           	<td><input type="hidden"  name="ajax" id='ajax' value=1></td>
           </tr>
+          
+          <tr><td>WAN参数：</td></tr>
+          
+          <tr><td>上网模式：</td><td><strong id="mode"></strong></td></tr>
+          
+         
+          <tr id="usr"></tr>
+          <tr id="pwd"></tr>
+          <tr id="ip"></tr>
+          <tr id="nm"></tr>
+          <tr id="gw"></tr>
+          <tr id="dns1"></tr>
+          <tr id="dns2"></tr>
+          		
+          
+         
        
         </table>
       
@@ -370,6 +388,33 @@ var objTable=jq("div.MACadress table");
 			  displaySelect(data['channel'], 'channel');
 			  displaySelect(data['wlmodel'], 'pattern');
 			 // displaySelect(data['bandwidth'], 'bandwidth');
+			 
+			  $('mode').innerHTML = data['mode'];
+
+			  if(data['mode'] == 'pppoe')
+				  {
+				  	$('usr').innerHTML = "<td>拨号用户名：</td><td><strong>"+data['ppoe_usr']+"</strong></td>";
+				  	$('pwd').innerHTML = "<td>拨号密码：   </td><td><strong>"+data['ppoe_pwd']+"</strong></td>";	
+				  	jq("#ip").hide();
+				  	jq("#nm").hide();
+				  	jq("#gw").hide();
+				  	jq("#dns1").hide();
+				  	jq("#dns2").hide();
+				  }else if(data['mode'] == 'static')
+					  {
+					  	jq("#usr").hide();
+					  	jq("#pwd").hide();
+					  	$('ip').innerHTML = "<td>静态IP地址：</td><td><strong>"+data['static_ip']+"</strong></td>";
+					  	$('nm').innerHTML = "<td>子网掩码：</td><td><strong>"+data['static_nm']+"</strong></td>";
+					  	$('gw').innerHTML = "<td>默认网关：</td><td><strong>"+data['static_gw']+"</strong></td>";
+					  	$('dns1').innerHTML = "<td>首选DNS：</td><td><strong>"+data['static_dns1']+"</strong></td>";
+					  	$('dhs2').innerHTML = "<td>备用DNS：</td><td><strong>"+data['static_dns2']+"</strong></td>";
+					  
+					  }
+			  
+			  
+			  
+			  
 			  
 			  var boxes = document.getElementsByName('wifiEnable');
 			 

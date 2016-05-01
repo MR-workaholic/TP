@@ -122,13 +122,34 @@
 		
 	}
 	
+	var open_q=false, win_q, t_q;
+	
 	function addRoute(uid){
 		
 		var top = document.body.clientHeight / 4;
 		var left = document.body.clientWidth / 4; 
 		
-		window.open("../AgentMessage/addRoute/uid/"+uid, "", "width=700,height=400,top="+top+",left="+left+",resizable=no");
+		win_q = window.open("../AgentMessage/addRoute/uid/"+uid, "", "width=700,height=400,top="+top+",left="+left+",resizable=no");
 		
+		//关闭窗口后更新页面
+		open_q = true;
+		
+		t_q = setInterval(function()
+			        //单击之后就开始计时
+			        {
+			            if(open_q)
+			            // 如果新窗口打开为真
+			            {
+			                if(win_q && win_q.closed)
+			                // 如果这个新窗口存在并且已经被关闭
+			                {
+			                    open_q = false;
+			                    t_q    = null;
+			                    clearInterval(t_q);
+			                   // ThinkAjax.send("<?php echo U('AgentMessage/getMerchantList');?>",'ajax=1&PageNum=1&PageSize=2', genPaginator,'');
+			                }
+			            }
+			        },200);
 	}
 	
 	function deleteRoute(uid){
@@ -136,8 +157,26 @@
 		var top = document.body.clientHeight / 4;
 		var left = document.body.clientWidth / 4; 
 		
-		window.open("../AgentMessage/deleteRoute/uid/"+uid, "", "width=700,height=400,top="+top+",left="+left+",resizable=no");
+		win_q = window.open("../AgentMessage/deleteRoute/uid/"+uid, "", "width=700,height=400,top="+top+",left="+left+",resizable=no");
+		//关闭窗口后更新页面
+		open_q = true;
 		
+		t_q = setInterval(function()
+			        //单击之后就开始计时
+			        {
+			            if(open_q)
+			            // 如果新窗口打开为真
+			            {
+			                if(win_q && win_q.closed)
+			                // 如果这个新窗口存在并且已经被关闭
+			                {
+			                    open_q = false;
+			                    t_q    = null;
+			                    clearInterval(t_q);
+			                  //  ThinkAjax.send("<?php echo U('AgentMessage/getMerchantList');?>",'ajax=1&PageNum=1&PageSize=2', genPaginator,'');
+			                }
+			            }
+			        },200);
 		
 	}
 	

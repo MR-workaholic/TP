@@ -230,6 +230,16 @@ class RoutesetController extends Controller {
 			$result['dsid'] = $RouterMac; 
 			$result['routerName'] = $jsonResule4BasicMes['rows'][0]['RouterName'];
 			
+			$result['mode'] = $jsonResult['Wan']['mode'];
+// 			$result['mode'] = 'static';
+			$result['static_ip'] = $jsonResult['Wan']['static_ip'];
+			$result['static_nm'] = $jsonResult['Wan']['static_nm'];
+			$result['static_gw'] = $jsonResult['Wan']['static_gw'];
+			$result['static_dns1'] = $jsonResult['Wan']['static_dns1'];
+			$result['static_dns2'] = $jsonResult['Wan']['static_dns2'];
+			$result['ppoe_usr'] = $jsonResult['Wan']['ppoe_usr'];
+			$result['ppoe_pwd'] = $jsonResult['Wan']['ppoe_pwd'];
+			
 //  			$result['looklook'] = $jsonResule4BasicMes;
 // 			$result['mac'] = $jsonResult['RouterMac'];
 // 			$result['mac'] = $jsonResult['RouterMac'];

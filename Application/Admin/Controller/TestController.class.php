@@ -437,15 +437,15 @@ class TestController extends Controller {
 		$call = A('Publiccode');
 		
 		$RouterMac = '00:03:7F:11:20:B0';
-// 		$json = array(
-// 				"op" => "getSetting",
-// 				"RouterMac" => $RouterMac
-// 		);
-
 		$json = array(
 				"op" => "getSetting",
-				"RSid" => 12,
+				"RouterMac" => $RouterMac
 		);
+
+// 		$json = array(
+// 				"op" => "getSetting",
+// 				"RSid" => 12,
+// 		);
 		
 		$json = json_encode($json);
 		
