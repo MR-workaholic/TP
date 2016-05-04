@@ -166,8 +166,7 @@
 
 <script type="text/javascript">
 
-  console.log('hello');
-  
+
   ThinkAjax.send("<?php echo U('Authentication/phonesigninmescalling');?>",'ajax=1&uid='+'<?php echo ($uid); ?>',completephonesigninmescalling,'')
 
   function completephonesigninmescalling(data, status)

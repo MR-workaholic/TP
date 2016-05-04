@@ -665,6 +665,34 @@ class AdsetController extends Controller {
 		$wechatguide = str_replace('&lt;', '<', $result1['wechatguide']);
 		$wechatguide = str_replace('&gt;', '>', $wechatguide);
 		
+		$handle2 = M('authentication');
+		$condition2['uid'] = $result['uid'];
+		$authentication = $handle2->where($condition2)->getField('authentication');
+		if ($authentication == 2)
+		{
+			$signinstyle = $handle2->where($condition2)->getField('signinstyle');
+			$a = 1 << 0;
+			$b = 1 << 1;
+			$c = 1 << 2;
+			
+			if (($signinstyle | $a) == $signinstyle)
+			{
+				$this->assign('phone', 1);
+			}
+			
+			if (($signinstyle | $b) == $signinstyle)
+			{
+				$this->assign('wechat', 1);
+			}
+			
+			if (($signinstyle | $c) == $signinstyle)
+			{
+				$this->assign('wechat', 1);
+			}
+			
+		}
+		
+		
 		
 		
 		$this->assign('vermes', $vermes);
@@ -675,6 +703,7 @@ class AdsetController extends Controller {
 		$this->assign('aid', $aid);
 		$this->assign('cc', $cc);
 		$this->assign('rr', $rr);
+		$this->assign('authentication', $authentication);
 		
 		
 		$str = './Application/Admin/UserFile/'.$result['uid'].'/'.$result['order'].'mymobile-theme-authentication.html';

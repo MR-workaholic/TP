@@ -54,6 +54,7 @@ class AuthenticationController extends Controller {
 	
 	public function wechatLogin()
 	{
+
 		$this->display('./GLLogin/Signin/zui-master-me/Merchant/wechatLogin.html');
 		
 	}
@@ -100,18 +101,69 @@ class AuthenticationController extends Controller {
 	 */
 	public function updataauthentication(){
 		
-		$authentication = $_POST['authen'];
+		$authentication = I('post.authen');
 		
 		$call = A('Publiccode');
 		$uid = $call->check_valid_user();
 		
 		$handle = M('authentication');
 		$condition['uid'] = $uid;
-		$data['authentication'] = $authentication;
 		
+		$oldAuthentication = $handle->where($condition)->getField('authentication');
+		
+		$data['authentication'] = $authentication;
 		$handle->where($condition)->save($data);
 		
-		$response['data'] = $authentication;
+		if(!($oldAuthentication*$authentication))
+		{
+			
+			$json = array(
+					"op" => "query",
+					"where" => "where BusinessNum = '{$uid}'",
+			);
+			
+			$json = json_encode($json);
+			
+			$result = $call->RouterHandle($json);
+			
+			if($result && $result['total'] != 0)   //寻找有没有路由器，没有即可退出
+			{
+				foreach ($result['rows'] as $k=>$v)
+				{
+					$response['data']['mac'][$k] = $v['Mac'];
+					
+					$json1 = array(
+							"op" => "getSetting",
+							"RouterMac" => "{$v['Mac']}"
+					);
+					$json1 = json_encode($json1);
+					$result1 = $call->RouterHandle($json1);
+					
+					if ($authentication == 0)
+					{
+						$result1['Portal']['enable'] = 0;
+					}else{
+						$result1['Portal']['enable'] = 1;
+					}
+					
+					$json2 = array(
+						"op" => "setSetting",
+						"obj" => $result1
+					);
+					
+					$json2 = json_encode($json2);
+					$call->RouterHandle($json2);
+					
+				}
+			}
+			
+			
+// 			$response['data']['mes'] = "gai";
+		}
+		
+		
+		$response['data']['new'] = $authentication;
+		$response['data']['old'] = $oldAuthentication;
 		$response['status'] = 1;
 		$response['info'] = '';
 		$response['type'] = 'JSON';
@@ -187,7 +239,7 @@ class AuthenticationController extends Controller {
 	 */
 	public function phonesigninmescalling(){
 		
-		$uid = $_POST['uid'];
+		$uid = I('post.uid');
 		
 		$handle = M('phoneauth');
 		$condition['uid'] = $uid;
@@ -222,15 +274,46 @@ class AuthenticationController extends Controller {
 		
 	}
 	
+	public function wechatsigninmescalling(){
+		
+		$call = A('Publiccode');
+		$uid = $call->check_valid_user();
+
+		$handle = M('authentication');
+		$condition['uid'] = $uid;
+		$signinstyle = $handle->where($condition)->getField('signinstyle');
+		
+		$a = 1 << 1;
+		$b = 1 << 2;
+		
+		if (($signinstyle | $a) == $signinstyle)
+		{
+			$signinstyle = 1;
+		}elseif (($signinstyle | $b) == $signinstyle)
+		{
+			$signinstyle = 2;
+		}else {
+			$signinstyle = 0;
+		}
+		
+		$response['data']['signinstyle'] = $signinstyle;
+		$response['status'] = 1;
+		$response['info'] = '';
+		$response['type'] = 'JSON';
+		
+		$this->ajaxReturn($response,'JSON');
+		
+	}
+	
 	/*
 	 * 更新手机登陆所设置的信息
 	 */
 	public function updatamobileopen(){
 		
-		$data['paid'] = $_POST['paid'];
-		$data['status'] = $_POST['mobileLogin'];
-		$data['content'] = $_POST['mobileMessage'];
-		$data['uid'] = $_POST['uid'];
+		$data['paid'] = I('post.paid');
+		$data['status'] = I('post.mobileLogin');
+		$data['content'] = I('post.mobileMessage');
+		$data['uid'] = I('post.uid');
 		
 		$handle = M('phoneauth');
 		$condition['paid'] = $data['paid'];
@@ -241,12 +324,17 @@ class AuthenticationController extends Controller {
 		{
 			$handle1 = M('authentication');
 			$condition1['uid'] = $data['uid'];
+			$signinsnstyle = $handle1->where($condition1)->getField('signinstyle');
+			$a = 1 << 0;
 			if ($data['status'] == 1)
 			{
-				$handle1->where($condition)->setInc('signinstyle');
+				$signinsnstyle =  $signinsnstyle | $a;  //加上2的0次方
+				//$handle1->where($condition1)->setInc('signinstyle');
 			}else{
-				$handle1->where($condition)->setDec('signinstyle');
+				$signinsnstyle = $signinsnstyle ^ $a;   //减去2的0次方
+				//$handle1->where($condition1)->setDec('signinstyle');
 			}
+			$handle1->where($condition1)->setField('signinstyle', $signinsnstyle);
 		}
 		
 		$response['data'] = $data;
@@ -256,6 +344,69 @@ class AuthenticationController extends Controller {
 		
 		$this->ajaxReturn($response, 'JSON');
 		
+		
+		
+	}
+	
+	public function updatawechatLogin(){
+		
+		$wechatLogin = I('post.wechatLogin');
+		
+		$call = A('Publiccode');
+		$uid = $call->check_valid_user();
+		
+		$handle = M('authentication');
+		$condition['uid'] = $uid;
+		$signinsnstyle = $handle->where($condition)->getField('signinstyle');
+		$a = 1<<1;
+		$b = 1<<2;
+		
+		if (($signinsnstyle | $a) == $signinsnstyle)  //原本第二位为1
+		{
+			if ($wechatLogin != 1)
+			{
+				$signinsnstyle = $signinsnstyle ^ $a;
+			}
+			
+			if ($wechatLogin == 2)
+			{
+				$signinsnstyle = $signinsnstyle | $b;
+			}
+			
+		} elseif(($signinsnstyle | $b) == $signinsnstyle){		//原本第三位为1
+			
+			if($wechatLogin != 2)
+			{
+				$signinsnstyle = $signinsnstyle ^ $b;
+			}
+			if ($wechatLogin == 1)
+			{
+				$signinsnstyle = $signinsnstyle | $a;
+			}
+			
+		}else{     //第二第三位为0
+			
+			if($wechatLogin == 1)
+			{
+				$signinsnstyle = $signinsnstyle | $a;
+			}elseif($wechatLogin == 2)
+			{
+				$signinsnstyle = $signinsnstyle | $b;
+			}
+			
+		}
+		
+		$handle->where($condition)->setField('signinstyle', $signinsnstyle);
+		
+		
+		
+		
+		
+		$response['data'] = $wechatLogin;
+		$response['status'] = 1;
+		$response['info'] = '';
+		$response['type'] = 'JSON';
+		$this->ajaxReturn($response, 'JSON');
 		
 		
 	}

@@ -140,7 +140,7 @@
           width: 280px;
           height: 300px;
           margin: 10px auto;
-          background:url("/tp/public/images/tieshi2.png") no-repeat;
+          background:url("/Project001/TP/Public/images/tieshi2.png") no-repeat;
           border-radius: 4px;
           padding-top: 40px;
           padding-left: 30px;
@@ -266,7 +266,7 @@
           width: 500px;
           height: 400px;
           margin: 20px auto;
-          background:url("/tp/public/images/tieshi.png");
+          background:url("/Project001/TP/Public/images/tieshi.png");
           border-radius: 4px;
           padding-top: 120px;
           padding-left: 40px;
@@ -298,15 +298,21 @@
   <div class="mobile-my-authen">
     <div class="logoStyle">
     	
-     <?php if(is_array($Lpicarr)): foreach($Lpicarr as $key=>$vo): ?><img  src="<?php echo ($vo); ?>" width="150" height="40"></br><?php endforeach; endif; ?>
+    <?php if(is_array($Lpicarr)): foreach($Lpicarr as $key=>$vo): ?><img  src="<?php echo ($vo); ?>" width="150" height="40"></br><?php endforeach; endif; ?>
 		 
       <div class="mybar visible-xs"><i class="icon icon-bars"></i></div>
     </div>
     
     
-    <div id="mobile-login-my" class="tabb">手机登录</div>
-    <div id="wechat-login-my" class="tabb">微信登录</div>
-    <div id="onclick-login-my" class="tabb">一键登录</div>
+    
+    
+    <?php if(($authentication) == "1"): ?><div id="onclick-login-my" class="tabb">一键登录</div>
+	
+    	<?php else: ?>
+    		<?php if(($phone) == "1"): ?><div id="mobile-login-my" class="tabb">手机登录</div><?php endif; ?>
+    		
+    		<?php if(($wechat) == "1"): ?><div id="wechat-login-my" class="tabb">微信登录</div><?php endif; endif; ?>
+    
 
     <div class="mobile-login">
       <p>请按照以下步骤登录：</p>
@@ -351,6 +357,30 @@
 	var cc = '<?php echo ($cc); ?>';
 	var rr = '<?php echo ($rr); ?>'; 
 	var phoneNumber;
+	var auth = '<?php echo ($authentication); ?>';
+	
+	if(auth == 1)
+		{
+			oneclickLogin();
+		}else if(auth == 2)
+			{
+				var phone = '<?php echo ($phone); ?>';
+				var wechat = '<?php echo ($wechat); ?>';
+				
+				if(phone == 1)
+					{
+						mobileLogin();
+					}else if(wechat == 1)
+						{
+							wechatLogin();
+						}else{
+							oneclickLogin();
+						}
+				
+			}
+	
+	
+	
 	
 	function getOs()  
 	{  
@@ -375,10 +405,6 @@
 	var Os = getOs();  
 
 
-   
-
-    
-
 	
 	function RGB2RGBA(rgb_color,alp){
 		//注：rgb_color的格式为#FFFFFF
@@ -402,6 +428,7 @@
 		   jq(".mobile-btn").css({"background":"-webkit-linear-gradient(top,"+RGB2RGBA(tbtnbgcol,0.6)+","+RGB2RGBA(tbtnbgcol,0.8)+","+RGB2RGBA(tbtnbgcol,1)+","+RGB2RGBA(tbtnbgcol,0.8)+","+RGB2RGBA(tbtnbgcol,0.6)+")"});
 	   }
 	     
+
 	
 		function sendMsg(){
 			
@@ -436,7 +463,6 @@
 				{
 					window.location.href = "../../showad3/aid/<?php echo ($aid); ?>";
 				}
-			
 			}
 	
 	
@@ -449,36 +475,49 @@
    // background: -ms-linear-gradient(top,rgba(15,90,229,0.6),rgba(15,90,229,.8),rgba(15,90,229,1),rgba(15,90,229,.8),rgba(15,90,229,0.6));
   
 
+	function mobileLogin(){
+		
+			    jq('#mobile-login-my').addClass("tabbSelected");
+			    jq("#wechat-login-my").removeClass("tabbSelected");
+			    jq("#onclick-login-my").removeClass("tabbSelected");
+			    jq(".mobile-login").show();
+			    jq(".wechat-login").hide();
+			    jq(".mobile-oneclick").hide();
+			  }
+	
+	function wechatLogin(){
+		
+		jq("#wechat-login-my").addClass("tabbSelected");
+	    jq("#mobile-login-my").removeClass("tabbSelected");
+	    jq("#onclick-login-my").removeClass("tabbSelected")
+	    jq(".mobile-login").hide();
+	    jq(".wechat-login").show();
+	    jq(".mobile-oneclick").hide();
+		
+	}
+	
+	function oneclickLogin(){
+		
+		 	jq("#onclick-login-my").addClass("tabbSelected");
+		    jq("#wechat-login-my").removeClass("tabbSelected");
+		    jq("#mobile-login-my").removeClass("tabbSelected")
+		    jq(".mobile-login").hide();
+		    jq(".wechat-login").hide();
+		    jq(".mobile-oneclick").show();
+		
+	}
 
   //手机页面效果（2016、1、14）
   jq(".mybar").on("click",function(){
     jq(".tabb").slideToggle(500);
       //alert("hello")
-  })
-  jq("#mobile-login-my").on("click",function(){
-    jq(this).addClass("tabbSelected");
-    jq("#wechat-login-my").removeClass("tabbSelected");
-    jq("#onclick-login-my").removeClass("tabbSelected")
-    jq(".mobile-login").show();
-    jq(".wechat-login").hide();
-    jq(".mobile-oneclick").hide();
-  })
-  jq("#wechat-login-my").on("click",function(){
-    jq(this).addClass("tabbSelected");
-    jq("#mobile-login-my").removeClass("tabbSelected");
-    jq("#onclick-login-my").removeClass("tabbSelected")
-    jq(".mobile-login").hide();
-    jq(".wechat-login").show();
-    jq(".mobile-oneclick").hide();
-  })
-  jq("#onclick-login-my").on("click",function(){
-    jq(this).addClass("tabbSelected");
-    jq("#wechat-login-my").removeClass("tabbSelected");
-    jq("#mobile-login-my").removeClass("tabbSelected")
-    jq(".mobile-login").hide();
-    jq(".wechat-login").hide();
-    jq(".mobile-oneclick").show();
-  })
+  });
+  
+  jq("#mobile-login-my").on("click", mobileLogin);
+  
+  jq("#wechat-login-my").on("click", wechatLogin);
+  
+  jq("#onclick-login-my").on("click", oneclickLogin);
 //  当窗口改变时，判断文档的宽度，如果大于768px，让导航条显示
   window.onresize=function(){
     if(document.body.clientWidth>=768){

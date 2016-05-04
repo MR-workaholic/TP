@@ -129,15 +129,27 @@
         border-bottom-color: #fff;
       }
     </style>
+    
+    <script type="text/javascript">
+    
+     function updatawechatLogin(){
+    	 var wechatLogin = jq('input[name="wechatLogin"]:checked').val();
+    	 ThinkAjax.send("<?php echo U('Authentication/updatawechatLogin');?>","ajax=1&wechatLogin="+wechatLogin,'',''); 
+     }
+     
+     
+     </script>
+    
+    
 </head>
 <body>
 <div class="wechatLogin my-popover my-bottom">
   <div class="my-arrow my-arrow-center"></div>
   <div>
     <span>状态：</span>
-    <span><input type="radio" checked="checked" id="weChatAuthen" name="wechatLogin"/><label> 微信认证</label></span>
-    <span><input type="radio" id="wechatLianWifi" name="wechatLogin"/><label> 微信连Wi-Fi</label></span>
-    <span><input type="radio" id="wechatOff" name="wechatLogin"/><label> 关闭</label></span>
+    <span><input type="radio" checked="checked" id="weChatAuthen" name="wechatLogin" value="1"/><label> 微信认证</label></span>
+    <span><input type="radio" id="wechatLianWifi" name="wechatLogin" value="2"/><label> 微信连Wi-Fi</label></span>
+    <span><input type="radio" id="wechatOff" name="wechatLogin" value="0"/><label> 关闭</label></span>
   </div>
 
   <!--微信认证 -->
@@ -174,9 +186,34 @@
     </ul>
   </div>
 
-  <div><input type="button" class="btn" id="wechat-confirm" value="确定"/><input type="button" class="btn" id="wechat-cancel" value="取消"/></div>
+  <div><input type="button" class="btn" id="wechat-confirm" onClick='updatawechatLogin()' value="确定"/>
+  <input type="button" class="btn" id="wechat-cancel" value="取消"/></div>
 </div>
 <script>
+
+
+	
+	
+  ThinkAjax.send("<?php echo U('Authentication/wechatsigninmescalling');?>",'ajax=1',completewechatsigninmescalling,'')
+
+  function completewechatsigninmescalling(data, status){
+	  
+	  jq("input[name=wechatLogin][value='"+data['signinstyle']+"']").attr("checked",'checked'); 
+	  
+	  if(data['signinstyle'] == 1)
+		  {
+		    jq(".weChatAuthen").show();
+		    jq(".wechatLianWifi").hide();
+		  }else if(data['signinstyle'] == 2)
+			  {
+			  	jq(".wechatLianWifi").show();
+			    jq(".weChatAuthen").hide();
+			  }else{	  
+				  	jq(".wechatLianWifi").hide();
+				    jq(".weChatAuthen").hide();  
+			  }
+	  
+  }
 
   var jq=jQuery.noConflict();
   //点击“微信认证”

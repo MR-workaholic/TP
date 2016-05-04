@@ -128,8 +128,8 @@ function login(objdiv,url){
   })
 }
 
-login(jq(".oneclickLogin"),"../Authentication/oneClickLoginshow");
-login(jq(".signin1"),"../Authentication/signinshow");
+login(jq(".oneclickLogin"),"../Authentication/oneClickLoginshow");  //一键登录基本信息
+login(jq(".signin1"),"../Authentication/signinshow");				//账号登录其他信息
 
 //  点击“一键登录”
   jq("#oneclickLogin").on("click",function(){
