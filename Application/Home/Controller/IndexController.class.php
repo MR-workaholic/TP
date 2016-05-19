@@ -8,7 +8,7 @@ class IndexController extends Controller {
 //     }
 
 	public function index(){
-		$Data = M('Data');// 实例化Data数据模型(model),自动知道操作的数据库是think_data了
+		$Data = M('Dataa');// 实例化Data数据模型(model),自动知道操作的数据库是think_data了
 		$result = $Data->find(1);
 		$this->assign('result',$result);
 		$this->display();

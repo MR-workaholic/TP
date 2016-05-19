@@ -115,7 +115,7 @@ class TestController extends Controller {
 		 */
 		$json = array(
 				"op" => "query",
-				"where" => "where Num = '44'",
+				"where" => "where Num = '37'",
 		);
 		
 		$json = json_encode($json);
@@ -149,7 +149,7 @@ class TestController extends Controller {
 // 		$name = '商家1';
 		$json = array(
 				"op" => "query",
-				"where" => "where Num = '44'",
+				"where" => "where Num = '37'",
 		);
 		$json = json_encode($json);
 		var_dump($json);
@@ -165,8 +165,8 @@ class TestController extends Controller {
 
 // 		$jsonResult['rows'][0]['Num'] = '30';
 // 		$jsonResult['rows'][0]['Role'] = '普通商家';
-		$jsonResult['rows'][0]['ContactInfo'] = '020-38216222';
-// 		$jsonResult['rows'][0]['IndexPage'] = "https:\/\/www.baidu.com\/";
+// 		$jsonResult['rows'][0]['ContactInfo'] = '020-38216222';
+		$jsonResult['rows'][0]['IndexPage'] = "http://120.25.204.14:10002/project001/tp/index.php/admin/adset/showADbyMac/shop/37";
 
 		
 		$json1 = array(

@@ -38,6 +38,7 @@ class AdsetController extends Controller {
 	{
 		$call = A('Publiccode');
 		$host = C('Hosts');
+		$type = I('session.type');
 		
 		$uid = $call->check_valid_user();
 		
@@ -67,9 +68,19 @@ class AdsetController extends Controller {
 			
 			$response['data'] = $result;
 			$response['data']['host'] = $host;
+			
+			if ($type == '代理商')
+			{
+				$response['data']['type'] = 1;
+			}else{
+				$response['data']['type'] = 0;
+			}
+			
+			
 		}
 			
 	
+		
 
 		$response['info'] = '';
 		$response['type'] = 'JSON';
@@ -150,7 +161,7 @@ class AdsetController extends Controller {
  		{
  			$handle2 = M('addefault');
  			$condition2['uid'] = $uid;
- 			$condition['aid'] = $aid;
+ 			$condition2['aid'] = $aid;
  			$handle2->add($condition2);
  		}
  		
@@ -223,6 +234,23 @@ class AdsetController extends Controller {
   		{
   			$result3 = $handle3->where($condition)->delete();
   		}
+  		
+  		$condition2['uid'] = $condition1['uid'];
+  		$handle4 = M('addefault');
+  		$result4 = $handle4->where($condition2)->getField('aid');
+  		if ($result4 == $aid)
+  		{
+  			$result5 = $handle->where($condition2)->getField('aid');
+  			if($result5)
+  			{
+  				$handle4->where($condition2)->setField('aid', $result5);
+  			}else{
+  				$handle4->where($condition2)->delete();
+  			}
+  		}
+  		
+  		$handle5 = M('admac');
+  		$handle5->where($condition)->delete();
   		 
   		//文件删除操作
 
@@ -281,6 +309,10 @@ class AdsetController extends Controller {
   			{
   				$this->showad3($result);
   			}else{
+  				
+  				$handle2 = M('adlist');
+  				$condition2['aid'] =  $result;
+  				$shop = $handle2->where($condition2)->getField('uid');
   				$this->showad($shop, $result, $c, $r);
   			}
   			
@@ -665,6 +697,8 @@ class AdsetController extends Controller {
 		$wechatguide = str_replace('&lt;', '<', $result1['wechatguide']);
 		$wechatguide = str_replace('&gt;', '>', $wechatguide);
 		
+		
+		
 		$handle2 = M('authentication');
 		$condition2['uid'] = $result['uid'];
 		$authentication = $handle2->where($condition2)->getField('authentication');
@@ -692,6 +726,8 @@ class AdsetController extends Controller {
 			
 		}
 		
+	
+		
 		
 		
 		
@@ -704,6 +740,18 @@ class AdsetController extends Controller {
 		$this->assign('cc', $cc);
 		$this->assign('rr', $rr);
 		$this->assign('authentication', $authentication);
+		
+		$auid = $handle2->where($condition2)->getField('auid');
+		if(!$auid)
+		{
+			$this->assign('phone', 1);
+			$this->assign('wechat', 1);
+			$this->assign('authentication', 1);
+				
+		}
+		
+			
+		
 		
 		
 		$str = './Application/Admin/UserFile/'.$result['uid'].'/'.$result['order'].'mymobile-theme-authentication.html';

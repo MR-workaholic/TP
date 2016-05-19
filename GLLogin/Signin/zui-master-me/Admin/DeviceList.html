@@ -71,7 +71,7 @@
 	            	
 	            	if(isSearch == 0)
 	            		{
-	            			ThinkAjax.send("{:U('Admin/getRouterList')}",'ajax=1&PageSize=10&PageNum='+page,completeRouterList,'');
+	            			ThinkAjax.send("{:U('Admin/getRouterList')}",'ajax=1&PageSize='+mPageSize+'&PageNum='+page,completeRouterList,'');
 	            		}else
 	            			{
 	            				$('PageNum').value = page;
@@ -133,7 +133,9 @@
 	//查看路由的详细信息
 	function getRouterDetail(routerId)
 	{
-		 window.open("../AgentMessage/showDeviceDetail/routerId/"+routerId, "", "width=1000,height=500,top=350,left=700,resizable=no");
+		 var top = document.body.clientHeight / 4;
+		 var left = document.body.clientWidth / 8; 
+		 window.open("../AgentMessage/showDeviceDetail/routerId/"+routerId, "", "width=1000,height=200,top="+top+",left="+left+",resizable=no");
 	} 
 	
 	function completeDelRouter(data,status){
@@ -169,7 +171,7 @@
             
             <input type="text" class="form-control" placeholder="填写查询字段" name="routerKeyword">
             <input type="hidden" class="form-control" name="ajax" value="1">
-            <input type="hidden" class="form-control" name="PageSize" value="10">
+            <input type="hidden" class="form-control" name="PageSize" value="" id="PageSize">
             <input type="hidden" class="form-control" name="PageNum" value="1" id="PageNum">
             <span class="input-group-btn">
               <button type="button" class="btn btn-default" onclick="searchRouter()" >搜索</button>
@@ -212,9 +214,13 @@
 
 
 <script  language="JavaScript">
+
+	var mPageSize = parseInt(document.body.clientHeight / 100);
+	
+	$('PageSize').value = mPageSize;
       
 	//开始构造分页插件
-	ThinkAjax.send("{:U('Admin/getRouterList')}",'ajax=1&PageSize=10&PageNum=1',genPaginator,'');
+	ThinkAjax.send("{:U('Admin/getRouterList')}",'ajax=1&PageSize='+mPageSize+'&PageNum=1',genPaginator,'');
 	
 	
 	function searchRouter()

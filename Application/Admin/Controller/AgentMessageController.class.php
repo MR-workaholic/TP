@@ -353,6 +353,7 @@ class AgentMessageController extends Controller {
     
   //删除路由
     public function deleteRouter(){
+    	
         $call = A('Publiccode');
         $routerId = I('post.routerId');
         $rowId =  I('post.rowId');
@@ -380,6 +381,8 @@ class AgentMessageController extends Controller {
     //查看某一个路由器的详细信息
     public function devmescalling($routerId){
         $call = A('Publiccode');
+        $hosts = C('Hosts');
+        
         //获取路由信息
         $routerjson = array(
             "op" => "query",
@@ -399,13 +402,54 @@ class AgentMessageController extends Controller {
 		$data['RouterId']      = $routerInfoResult['rows'][0]['RouterId'];
 		$data['SN']            = $routerInfoResult['rows'][0]['SN'];
 		$data['RouterName']    = $routerInfoResult['rows'][0]['RouterName'];
-		$data['FirmwareVer']   = $routerInfoResult['rows'][0]['FirmwareVer'];
+		$data['RouterModel']   = $routerInfoResult['rows'][0]['RouterModel'];
 		$data['State']         = $routerInfoResult['rows'][0]['State'];
 		$data['MAC']           = $routerInfoResult['rows'][0]['Mac'];
 		$data['PLCmac']        = $routerInfoResult['rows'][0]['PLCMac'];
 		$data['PLCwidth']      = $routerInfoResult['rows'][0]['PLCBandwidth'];	
 		$data['PLCName']       = $routerInfoResult['rows'][0]['PLCName'];
 		$data['onlineUserNum'] = $onlineUserCount;
+		
+		//检测路由器是否已经分配给商家并且有广告了
+		if ($routerInfoResult['rows'][0]['BusinessNum'])
+		{
+			$handle = M('addefault');
+			$condition['uid'] =  $routerInfoResult['rows'][0]['BusinessNum'];
+			$result = $handle->where($condition)->getField('aid');
+			
+			//检测该商家是否有设置广告，有默认广告=有广告
+			if ($result)
+			{
+				//找出广告的模板以及地址
+				$handle1 = M('admac');
+				$condition1['mac'] = $routerInfoResult['rows'][0]['Mac'];
+				$result1 = $handle1->where($condition1)->getField('aid');
+				
+				if ($result1)   //该路由有设置专属广告
+				{
+					$data['haveAD'] = $result1;
+					
+				}else{  //该路由没有设置专属广告，启用默认广告
+					
+					$data['haveAD'] = $result;
+					
+				}
+				
+				$handle2 = M('adlist');
+				$condition2['aid'] = $data['haveAD'];
+				$data['admodel'] = $handle2->where($condition2)->getField('admodel');
+				
+				$data['adurl'] = "http://{$hosts}/tp/index.php/Admin/Adset/showADbyMac/shop/{$routerInfoResult['rows'][0]['BusinessNum']}/mac/{$routerInfoResult['rows'][0]['Mac']}";
+	
+			}else{
+				$data['haveAD'] = 0;
+			}
+			
+			
+		}else{
+			$data['haveAD'] = 0;
+		}
+		
 		
 		//获取SSID
 // 		$ssidJson = array(
@@ -693,6 +737,70 @@ class AgentMessageController extends Controller {
     	}
     	
     } 
+    
+    public function showChangeAD($mac)
+    {
+    	$this->assign('mac', $mac);
+    	$this->display('./GLLogin/Signin/zui-master-me/Agent/changeAD.html');
+    }
+    
+    public function showMyAD()
+    {
+    	$hosts = C('Hosts');
+    	$call = A('Publiccode');
+    	$uid = $call->check_valid_user();
+    	
+    	$handle = M('adlist');
+    	$condition['uid'] = $uid;
+    	$result = $handle->where($condition)->select();
+    	
+    	foreach ($result as $k=>$v)
+    	{
+    		$response['data'][$k]['admodel'] = $v['admodel'];
+    		$response['data'][$k]['adname']  = $v['adname'];
+    		$response['data'][$k]['aid']     = $v['aid'];
+    		$response['data'][$k]['adurl']   = "http://{$hosts}/tp/index.php/admin/adset/showad/shop/{$uid}/aid/{$v['aid']}";
+    
+    	}
+    	
+    	$response['status'] = 1;
+    	$response['info'] = '';
+    	$response['type'] = 'JSON';
+    	$this->ajaxReturn($response, 'JSON');
+    	
+    }
+    
+    public function changeAD4dev()
+    {
+    	$aid = I('post.aid');
+    	$mac = I('post.mac');
+    	
+    	if ($aid != 0)
+    	{
+    		$handle = M('admac');
+    		$condition['mac'] = $mac;
+    		$result = $handle->where($condition)->find();
+    		
+    		if($result)
+    		{
+    			$handle->where($condition)->setField('aid', $aid);
+    		}else{
+    			$condition['aid'] = $aid;
+    			$handle->add($condition);
+    		}
+    		
+    		$response['status'] = 1;
+    		
+    	}else{
+    		$response['status'] = 0;
+    	}
+    	
+    	$response['info'] = '';
+    	$response['type'] = 'JSON';
+    	$this->ajaxReturn($response, 'JSON');
+    	
+    	
+    }
     
     
 }

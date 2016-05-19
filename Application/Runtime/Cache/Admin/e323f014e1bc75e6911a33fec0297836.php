@@ -54,7 +54,7 @@
             
             <input type="text" class="form-control" placeholder="填写关键字" name="agentKeyword">
             <input type="hidden" class="form-control" name="ajax" value="1">
-            <input type="hidden" class="form-control" name="PageSize" value="3">
+            <input type="hidden" class="form-control" name="PageSize" value="" id="PageSize">
             <input type="hidden" class="form-control" name="PageNum" value="1" id="PageNum">
             <span class="input-group-btn">
               <button type="button" class="btn btn-default" onclick="searchTarget()" >搜索</button>
@@ -105,7 +105,10 @@
 var checkboxList = new Array();
 var isSearch = 0;
 
-ThinkAjax.send("<?php echo U('Admin/getAgentList4Static');?>",'ajax=1&PageSize=3&PageNum=1', genPaginator,'');
+var mPageSize = parseInt(document.body.clientHeight / 100) - 1;
+$('PageSize').value = mPageSize;
+
+ThinkAjax.send("<?php echo U('Admin/getAgentList4Static');?>",'ajax=1&PageSize='+mPageSize+'&PageNum=1', genPaginator,'');
 
 function genPaginator(data,status){
 	
@@ -134,7 +137,7 @@ function genPaginator(data,status){
             	
             	if(isSearch == 0)
         		{
-            		ThinkAjax.send("<?php echo U('Admin/getAgentList4Static');?>",'ajax=1&PageSize=3&PageNum='+page,completeAgentsList4Statistic,'');
+            		ThinkAjax.send("<?php echo U('Admin/getAgentList4Static');?>",'ajax=1&PageSize='+mPageSize+'&PageNum='+page,completeAgentsList4Statistic,'');
             		
         		}else
         			{
@@ -184,10 +187,13 @@ function completeAgentsList4Statistic(data,status){
 function checkboxChanged(agentId){
 	 
 	if(document.getElementById('cb_'+agentId).checked == true){
+		
 		checkboxList.push(agentId);
 
 	}else{
+		
 	 	for(var i=0;i<checkboxList.length;i++){
+	 		
 			if(checkboxList[i] == agentId){
 				checkboxList.splice(i,1);
 

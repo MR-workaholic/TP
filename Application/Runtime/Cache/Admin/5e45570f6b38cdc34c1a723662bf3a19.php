@@ -70,7 +70,7 @@
             
             <input type="text" class="form-control" placeholder="填写查询字段" name="agentKeyword">
             <input type="hidden" class="form-control" name="ajax" value="1">
-            <input type="hidden" class="form-control" name="PageSize" value="5">
+            <input type="hidden" class="form-control" name="PageSize" id="PageSize" value="">
             <input type="hidden" class="form-control" name="PageNum" value="1" id="PageNum">
             
             <span class="input-group-btn">
@@ -116,6 +116,12 @@
 
 <script>
 
+	var mPageSize = parseInt(document.body.clientHeight / 100);
+	alert(mPageSize);
+	$('PageSize').value = mPageSize;
+	
+	
+
 	
 
 	function enterAgentAccount(agentId){
@@ -123,7 +129,7 @@
 		window.open(url);
 	}
 
-	ThinkAjax.send("<?php echo U('Admin/getAgentsInfo');?>",'ajax=1&PageSize=10&PageNum=1',genPaginator,'');
+	ThinkAjax.send("<?php echo U('Admin/getAgentsInfo');?>",'ajax=1&PageSize='+mPageSize+'&PageNum=1',genPaginator,'');
 	
 	var isSearch = 0;
 	
@@ -155,7 +161,7 @@
 	            	
 	            	if(isSearch == 0)
             		{
-	            		ThinkAjax.send("<?php echo U('Admin/getAgentsInfo');?>",'ajax=1&PageSize=10&PageNum='+page,completeAgentInfo,'');
+	            		ThinkAjax.send("<?php echo U('Admin/getAgentsInfo');?>",'ajax=1&PageSize='+mPageSize+'&PageNum='+page,completeAgentInfo,'');
             		}else
             			{
             				$('PageNum').value = page;

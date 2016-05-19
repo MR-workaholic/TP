@@ -80,15 +80,27 @@
 		if(status!=0)
 		{
 		var adlistcon = "<table class=\"table table-bordered\"><thead><tr>"+
-                                          "<th>名称</th><th>启用状态</th><th>应用模板</th><th>预览</th><th>设置</th>"+
-                                          "<th>应用路由</th><th>备注</th><th>删除</th></tr></thead>";
+                        "<th>名称</th><th>启用状态</th><th>应用模板</th><th>预览</th><th>设置</th>";
+                        
+            if(data['type'] == 0)
+                 {
+                       adlistcon += "<th>应用路由</th>";
+                   }
+                        
+            adlistcon += "<th>备注</th><th>删除</th></tr></thead>";
+                        	
+                        
   
               adlistcon += "<tbody>";
                for(var i=0; i<status; i++)
             	   {
-            	   adlistcon += "<tr><td>"+data[i]['adname']+"</td><td>"+data[i]['adstatus']+"</td><td>"+data[i]['admodel']+"</td>";
-            	   adlistcon += "<td><a href=\"http://"+data['host']+data[i]['url']+"\" target=\"_Blank\">预览</a></td><td><a href=\"javascript:void(0)\" onclick=\"adset('"+data[i]['aid']+"')\">设置</a></td><td><a href=\"javascript:\" onclick=\"handleADMac('"+data[i]['aid']+"')\">查看</a></td>";
-            	   adlistcon += "<td>"+data[i]['adremark']+"</td><td><a href=\"javascript:\" onclick=\"addel('"+data[i]['aid']+"')\">删除</a></td></tr>";
+	            	   adlistcon += "<tr><td>"+data[i]['adname']+"</td><td>"+data[i]['adstatus']+"</td><td>"+data[i]['admodel']+"</td>";
+	            	   adlistcon += "<td><a href=\"http://"+data['host']+data[i]['url']+"\" target=\"_Blank\">预览</a></td><td><a href=\"javascript:void(0)\" onclick=\"adset('"+data[i]['aid']+"')\">设置</a></td>";
+	            	   if(data['type'] == 0)
+	            		   {
+	            		   		adlistcon += "<td><a href=\"javascript:\" onclick=\"handleADMac('"+data[i]['aid']+"')\">查看</a></td>";
+	            		   }
+	            	   adlistcon += "<td>"+data[i]['adremark']+"</td><td><a href=\"javascript:\" onclick=\"addel('"+data[i]['aid']+"')\">删除</a></td></tr>";
             	   }
                
               adlistcon += "</tbody></table>" ; 

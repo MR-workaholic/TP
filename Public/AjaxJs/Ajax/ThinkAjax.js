@@ -102,7 +102,7 @@ var ThinkAjax = {
 	ajaxResponse:function(request,target,response){
 		// 获取ThinkPHP后台返回Ajax信息和数据
 		// 此格式为ThinkPHP专用格式
-    	alert(request.responseText);
+    	//alert(request.responseText);
 		var str	=	request.responseText;
 
 //		console.log(request.responseText);

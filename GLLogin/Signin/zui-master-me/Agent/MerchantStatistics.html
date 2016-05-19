@@ -68,7 +68,7 @@
 	            	
 	            	if(data['isSearch'] == 0)
 	            		{
-	            			ThinkAjax.send("{:U('AgentMessage/getMerchantList')}",'ajax=1&PageSize=6&PageNum='+page, completeMerchantList, '');
+	            			ThinkAjax.send("{:U('AgentMessage/getMerchantList')}",'ajax=1&PageSize='+mPageSize+'&PageNum='+page, completeMerchantList, '');
 	            		}else{
 	            			$('PageNum').value = page;
 	            			ThinkAjax.sendForm("searchMerchant4Statistics", "{:U('AgentMessage/searchMerchantList')}", completeMerchantList, '');
@@ -158,7 +158,7 @@
        	
             <span class="input-group-addon">查询内容：</span>
             <select class="form-control" name="key">
-              <option value="Contact">负责人</option>
+              <option value="Contact">联系人</option>
               <option value="Name">商家名称</option>
             </select>
             <span class="input-group-addon fix-border fix-padding"></span>
@@ -168,7 +168,7 @@
             
             <input type="text" class="form-control" placeholder="填写完整的关键字" name="merchantKeyword">
             <input type="hidden" class="form-control" name="ajax" value="1">
-            <input type="hidden" class="form-control" name="PageSize" value="2">
+            <input type="hidden" class="form-control" name="PageSize" value="" id="PageSize">
             <input type="hidden" class="form-control" name="PageNum" value="1" id="PageNum">
             <span class="input-group-btn">
               <button type="button" class="btn btn-default" onclick="searchMerchant4Statistics()" >搜索</button>
@@ -210,8 +210,13 @@
 </div>
 
 <script>
+		
+		var mPageSize = parseInt(document.body.clientHeight / 100);
+		$('PageSize').value = mPageSize;
+		
+		
 		//开始构造分页插件
-		ThinkAjax.send("{:U('AgentMessage/getMerchantList')}",'ajax=1&PageNum=1&PageSize=6', genPaginator,'');
+		ThinkAjax.send("{:U('AgentMessage/getMerchantList')}",'ajax=1&PageNum=1&PageSize='+mPageSize, genPaginator,'');
 		
 		function searchMerchant4Statistics(){
 			ThinkAjax.sendForm("searchMerchant4Statistics", "{:U('AgentMessage/searchMerchantList')}", genPaginator, '');

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+ 
+    <style>
+      *{
+        padding: 0;
+        margin: 0;
+      }
+      .themeSet{
+        width: 800px;
+        border: 1px solid #CCCCCC;
+        margin: 0 auto;
+      }
+      .transverse{
+        display: inline-block;
+        /*border-right: 1px solid #CCCCCC;*/
+        height: 40px;
+        width: 100px;
+        margin-left: -4px;
+        text-align: center;
+        line-height: 40px;
+        cursor: pointer;
+        font-size: 14px;
+      }
+      .transverseUL{
+        border: 1px solid #CCCCCC;
+        margin-top: 20px;
+        /*width: 550px;*/
+      }
+      div.themeSet>ul li:nth-child(1){
+        margin-left: -20px;
+        width: 120px;
+      }
+      .selectLi{
+        border-bottom: 3px solid #4d90fe;
+      }
+     
+      
+     
+    </style>
+</head>
+<body>
+<div class="themeSet">
+  <h2>广告主题设置【<span id='adnameshow'>{$adname}</span>】</h2>
+    <ul class="transverseUL">
+      <li class="transverse selectLi" id="themeBasic">基本信息设置</li>
+      <li class="transverse" id="themeWhole">整站设置</li>
+      <li class="transverse" id="themeWelcome">欢迎页设置</li>
+      <li class="transverse" id="themeAuthen">认证页设置</li>
+      <li class="transverse" id="themeAfter">认证后页设置</li>
+    </ul>
+  <div class="themeContent">
+  </div>
+</div>
+<script>
+  //初始状态
+  var content=jq(".themeContent");
+  var item1=jq("#themeBasic");
+  var item2=jq("#themeWhole");
+  var item3=jq("#themeWelcome");
+  var item4=jq("#themeAuthen");
+  var item5=jq("#themeAfter");
+
+  var objSrc1="../Adset/adset_basic/aid/"+{$aid};
+  var objSrc2="../Adset/adset_whole/aid/"+{$aid};
+  var objSrc3="../Adset/adset_welcome/aid/"+{$aid};
+  var objSrc4="../Adset/adset_authentication/aid/"+{$aid};
+  var objSrc5="../Adset/adset_after/aid/"+{$aid};
+  var navbar=jq("li.transverse");
+
+  var init=function(){
+    themeLoad(objSrc1);
+  };
+  //加载相关内容
+  function themeLoad(url){
+    content.load(url,function(a,status,c){
+      console.log(status);
+      if(status=='error')
+        content.text("OMG，加载失败T_T");
+    })
+  }
+  //点击导航条上的每一项
+  function navClick(item,url){
+    item.on("click",function(){
+      themeLoad(url);
+      jq(this).addClass("selectLi");
+      jq(this).siblings().removeClass("selectLi");
+    });
+  }
+  init();
+  navClick(item1,objSrc1);
+  navClick(item2,objSrc2);
+  navClick(item3,objSrc3);
+  navClick(item4,objSrc4);
+  navClick(item5,objSrc5);
+</script>
+</body>
+</html>

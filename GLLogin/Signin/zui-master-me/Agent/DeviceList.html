@@ -67,7 +67,7 @@
 	            	
 	            	if(data['isSearch'] == 0)
 	            		{
-	            			ThinkAjax.send("{:U('AgentMessage/getRouterList')}",'ajax=1&PageSize=6&PageNum='+page,completeRouterList,'');
+	            			ThinkAjax.send("{:U('AgentMessage/getRouterList')}",'ajax=1&PageSize='+mPageSize+'&PageNum='+page,completeRouterList,'');
 	            		}else{
 	            			$('PageNum').value = page;
             				ThinkAjax.sendForm('searchRouter', "{:U('AgentMessage/searchRouterList')}", completeRouterList, '');
@@ -113,7 +113,7 @@
 					newtbodies +="<td>"+routerList[i]['FirmwareVer']+"</td><td>"+""+"</td>";
 					newtbodies +="<td><a href=\"javascript:\" onclick=\"getRouterDetail('"+routerList[i]['RouterId']+"')\">查看</a></td>";
 					newtbodies += "<td><a href=\"javascript:\" onclick=\"upgradeConfirm('"+routerList[i]['RouterId']+"')\">升级</a>&nbsp;&nbsp;<a href=\"javascript:\" onclick=\"deleteConfirm('"+routerList[i]['RouterId']+"','"+i+"')\">删除</a></td>";
-					newtbodies += "</tr>";
+					newtbodies += "<td><a href=\"javascript:\" onclick=\"changeAD('"+routerList[i]['Mac']+"')\">更换</a></td></tr>";
 				}
 				tbodies[0].innerHTML=newtbodies;
 				
@@ -137,8 +137,10 @@
 	}
 	//查看路由的详细信息
 	function getRouterDetail(routerId){
+		var top = document.body.clientHeight / 4;
+		var left = document.body.clientWidth / 8; 
 		var url="../AgentMessage/showDeviceDetail?routerId="+routerId;
-		 window.open(url,"","width=1000,height=500,top=350,left=700,resizable=no");
+		window.open(url,"","width=1000,height=200,top="+top+",left="+left+",resizable=no");
 	} 
 	
 	function completeDelRouter(data,status){
@@ -148,6 +150,16 @@
 			alert("删除设备操作失败！");
 		}
 	}
+	
+	
+	function changeAD(mac)
+	{
+		alert(mac);
+		var top = document.body.clientHeight / 4;
+		var left = document.body.clientWidth / 4; 
+		window.open("../AgentMessage/showChangeAD/mac/"+mac, "", "width=700,height=400,top="+top+",left="+left+",resizable=no");
+	}
+	
   </script>
 </head>
 <body>
@@ -173,7 +185,7 @@
             
             <input type="text" class="form-control" placeholder="填写完整关键字" name="routerKeyword">
             <input type="hidden" class="form-control" name="ajax" value="1">
-            <input type="hidden" class="form-control" name="PageSize" value="10">
+            <input type="hidden" class="form-control" name="PageSize" value="" id="PageSize">
             <input type="hidden" class="form-control" name="PageNum" value="1" id="PageNum">
             <span class="input-group-btn">
               <button type="button" class="btn btn-default" onclick="searchRouter()" >搜索</button>
@@ -194,6 +206,7 @@
         <th>最新版本</th>
         <th>详细信息</th>
         <th>操作</th>
+        <th>广告更换</th>
       </tr>
       </thead>
       <tbody>
@@ -212,9 +225,12 @@
 
 
 <script  language="JavaScript">
+
+var mPageSize = parseInt(document.body.clientHeight / 100) - 2;
+$('PageSize').value = mPageSize;
       
 //开始构造分页插件
- ThinkAjax.send("{:U('AgentMessage/getRouterList')}",'ajax=1&PageNum=1&PageSize=6',genPaginator,'');
+ ThinkAjax.send("{:U('AgentMessage/getRouterList')}",'ajax=1&PageNum=1&PageSize='+mPageSize, genPaginator,'');
 
  function searchRouter()
  {
