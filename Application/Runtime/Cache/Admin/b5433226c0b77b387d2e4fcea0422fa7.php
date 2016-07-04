@@ -26,9 +26,7 @@
 	<script type="text/javascript" src="/Project001/TP/Public/AjaxJs/mootools.js"></script>
 	<script type="text/javascript" src="/Project001/TP/Public/AjaxJs/Ajax/ThinkAjax.js"></script>
 	<script type="text/javascript" src="/Project001/TP/Public/AjaxJs/Form/CheckForm.js"></script>
-
-
-   
+	
    
 </head>
 <body >

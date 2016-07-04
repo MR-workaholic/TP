@@ -115,7 +115,7 @@ class TestController extends Controller {
 		 */
 		$json = array(
 				"op" => "query",
-				"where" => "where Num = '37'",
+				"where" => "where Num = '44'",
 		);
 		
 		$json = json_encode($json);

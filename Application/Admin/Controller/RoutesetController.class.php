@@ -52,8 +52,7 @@ class RoutesetController extends Controller {
 				$this->ajaxReturn($response,'JSON');
 			
 		}else {
-			
-				
+							
 			//构造设备查询语句
 			$json1 = array(
 					"op" => "query",
@@ -225,8 +224,7 @@ class RoutesetController extends Controller {
 			$result['newVersion'] = 'hello';
 			$result['channel'] = $jsonResult['Wlan']['channel'];
 			$result['wlmodel'] = $jsonResult['Wlan']['hwmode'];
-			$result['bandwidth'] = 1;
-			$result['enable'] = 1;  
+// 			$result['enable'] = 1;  
 			$result['dsid'] = $RouterMac; 
 			$result['routerName'] = $jsonResule4BasicMes['rows'][0]['RouterName'];
 			
@@ -355,7 +353,7 @@ class RoutesetController extends Controller {
 		$channel = I('post.channel');
 		$bandwidth = I('post.bandwidth');
 		$power = I('post.power');
-		$dsid = I('post.dsid');  //网络接口的话，是路由的MAC地址
+		$dsid = I('post.dsid');  //使用网络接口的话，是路由的MAC地址
 		$did = I('post.did');
 		
 		$database = C('Database');
@@ -399,6 +397,7 @@ class RoutesetController extends Controller {
 			//执行账户查询,返回数组
 			$jsonResult = $call->RouterHandle($json);
 				
+			//先阶段接口仅仅是修改信道与模式
 			$jsonResult['Wlan']['hwmode'] = $wlmodel;
 			$jsonResult['Wlan']['channel'] = $channel;
 // 			$jsonResult['Wlan']['password'] = $devpassword;

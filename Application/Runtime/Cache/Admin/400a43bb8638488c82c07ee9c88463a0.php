@@ -25,6 +25,7 @@
 
 
 
+
   
 	<script type="text/javascript" src="/Project001/TP/Public/AjaxJs/Base.js"></script>
 	<script type="text/javascript" src="/Project001/TP/Public/AjaxJs/prototype.js"></script>
@@ -32,8 +33,22 @@
 	<script type="text/javascript" src="/Project001/TP/Public/AjaxJs/Ajax/ThinkAjax.js"></script>
 	<script type="text/javascript" src="/Project001/TP/Public/AjaxJs/Form/CheckForm.js"></script>
 	
+	<style type="text/css">
+
+		*{ 
+			scrollbar-3dlight-color:#D4D0C8; /*- 最外左 -*/ 
+			scrollbar-highlight-color:#fff; /*- 左二 -*/ 
+			scrollbar-face-color:#E4E4E4; /*- 面子 -*/ 
+			scrollbar-arrow-color:#666; /*- 箭头 -*/ 
+			scrollbar-shadow-color:#808080; /*- 右二 -*/ 
+			scrollbar-darkshadow-color:#D7DCE0; /*- 右一 -*/ 
+			scrollbar-base-color:#D7DCE0; /*- 基色 -*/ 
+			scrollbar-track-color:#;/*- 滑道 -*/ 
+			} 
+	</style>
+	
 </head>
-<body>
+<body style="overflow-x:hidden;overflow-y:scroll">
 
 <h3>正使用主题<strong>【<?php echo ($adname); ?>】</strong>的路由器</h3>
   <form id = "deleteADMac">

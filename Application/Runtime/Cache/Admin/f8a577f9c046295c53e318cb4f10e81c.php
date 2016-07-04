@@ -48,7 +48,7 @@
 		<div class="myhead1">
 		  <?php if(($imgPath) == "0"): ?><img src="/tp/public/merchant/img/brand.png" alt="商标" title="连WIFI">
 		  <?php else: ?>
-		    <img src="/project001/tp/public/merchant/img/brand.png" alt="商标" title="连WIFI"><?php endif; ?>	
+		    <img src="/<?php echo ($host); ?>/tp/public/merchant/img/brand.png" alt="商标" title="连WIFI"><?php endif; ?>	
 		</div>
 		<div class="myhead2">
 			<p >帮助中心</p>

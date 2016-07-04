@@ -153,8 +153,7 @@
 	{
 		var top = document.body.clientHeight / 4;
 		var left = document.body.clientWidth / 4; 
-		
-		window.open("../Adset/handleADMac/aid/"+aid, "", "width=800,height=400,top="+top+",left="+left+",resizable=no");
+		window.open("../Adset/handleADMac/aid/"+aid, "", "width=800,height=400,top="+top+",left="+left+",scrollbars=yes,resizable=no");
 		
 	}
 	

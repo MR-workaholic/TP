@@ -48,7 +48,7 @@
     <div class="panel">
     <?php if(($imgPath) == "0"): ?><img src="/tp/public/merchant/img/phone.png"/>
       <?php else: ?>
-      	<img src="/project001/tp/public/merchant/img/phone.png"/><?php endif; ?>
+      	<img src="/<?php echo ($host); ?>/tp/public/merchant/img/phone.png"/><?php endif; ?>
       <p>手机登录</p>
       <p>已开启</p>
       <button id="mobileSet" class="btn" href="javascript:">设置</button>
@@ -56,7 +56,7 @@
     <div class="panel">
       <?php if(($imgPath) == "0"): ?><img src="/tp/public/merchant/img/weixin.png"/>
       <?php else: ?>
-      	<img src="/project001/tp/public/merchant/img/weixin.png"/><?php endif; ?>
+      	<img src="/<?php echo ($host); ?>/tp/public/merchant/img/weixin.png"/><?php endif; ?>
       
       <p>微信登录</p>
       <p>已开启</p>
@@ -65,7 +65,7 @@
     <div class="panel">
        <?php if(($imgPath) == "0"): ?><img src="/tp/public/merchant/img/qq.png"/>
       <?php else: ?>
-      	<img src="/project001/tp/public/merchant/img/qq.png"/><?php endif; ?>
+      	<img src="/<?php echo ($host); ?>/tp/public/merchant/img/qq.png"/><?php endif; ?>
       <p>QQ登录</p>
       <p>已开启</p>
       <button id="qqSet" class="btn" href="javascript:">设置</button>

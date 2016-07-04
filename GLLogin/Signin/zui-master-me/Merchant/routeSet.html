@@ -131,13 +131,11 @@
             <input type="button" id="setRoutername" onclick="setRouternamefun()" value="修改[这里以及以下的信息都是20b0这台路由的]">
   	    </form>
   	  </p>
-      <!-------无线网络使能--------->
-      <p class="wifiEnable">
-      	
+      <!-------无线网络使能----
+      <p class="wifiEnable">      	
        	   	 无线网络使能：<input id="wifiEnable" type="checkbox" name="wifiEnable"/>
-       	
       </p>
-
+----->
       <!-------增加SSID--------->
       <p class="SSIDadd">
         SSID:<input type="text" id="SSIDname" name="SSIDname"/>
@@ -193,17 +191,7 @@
                </select>
             </td>
           </tr>
-          <!--
-          <tr><td>频宽：</td>
-            <td>
-              <select name="bandwidth" id="bandwidth">
-                <option value="1">20/40MHz</option>
-                <option value="2">20MHz</option>
-                <option value="3">40MHz</option>
-              </select>
-            </td>
-          </tr>
-            -->
+         
           <tr>
               <td>无线功率：</td>
               <td><input type="text" id="power" name="power" >  dBm</td>
@@ -351,15 +339,15 @@ var objTable=jq("div.MACadress table");
 		{
 		 var routesetlist = "<h3 class=\"choose\">请选择您的路由器设备：<select name=\"equipment\" onchange=\"showrousetmes(this.value);\" >";
 			                               
-			 for(var i=0; i<status; i++)
-      	   {
-				 routesetlist += "<option value="+data[i]['dname']+">"+data[i]['dname']+"</option>";
-      	   }
+		 for(var i=0; i<status; i++)
+      	 {
+			routesetlist += "<option value="+data[i]['dname']+">"+data[i]['dname']+"</option>";
+      	 }
 			 
-			 routesetlist += "</select></h3>";   
+		 routesetlist += "</select></h3>";   
 			
-			  $('equipmentlist').innerHTML = routesetlist;
-			  showrousetmes(data[0]['dname']);
+		 $('equipmentlist').innerHTML = routesetlist;
+		 showrousetmes(data[0]['dname']);
 		}
 		else
 			{
@@ -387,7 +375,7 @@ var objTable=jq("div.MACadress table");
 			  $('newVersion').innerHTML = data['newVersion'];
 			  displaySelect(data['channel'], 'channel');
 			  displaySelect(data['wlmodel'], 'pattern');
-			 // displaySelect(data['bandwidth'], 'bandwidth');
+			 
 			 
 			  $('mode').innerHTML = data['mode'];
 
@@ -412,10 +400,7 @@ var objTable=jq("div.MACadress table");
 					  
 					  }
 			  
-			  
-			  
-			  
-			  
+			  /*
 			  var boxes = document.getElementsByName('wifiEnable');
 			 
 			  if(data['enable'] == 1)
@@ -423,7 +408,7 @@ var objTable=jq("div.MACadress table");
 				  	boxes[0].checked = true;
 				  }else{
 					boxes[0].checked = false; 
-				  }
+				  }*/
 			  
 			}
 		

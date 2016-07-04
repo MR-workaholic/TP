@@ -328,7 +328,10 @@ class MerchantController extends Controller {
 	 */
 	public function  headshow(){
 		$imgPath = C('IMG_PATH');
+		$host = C('Hosts');
+		$var = explode("/", $host);
 		$this->assign('imgPath', $imgPath);
+		$this->assign('host', $var[1]);
 		$this->display('./Public/frame/head.html');
 		
 	}

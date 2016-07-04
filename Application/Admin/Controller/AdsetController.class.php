@@ -26,7 +26,11 @@ class AdsetController extends Controller {
 		$call = A('Publiccode');
 		$call->check_valid_user();
 		$imgPath = C('IMG_PATH');
+		$host = C('Hosts');
+		$var = explode("/", $host);
 		$this->assign('imgPath', $imgPath);
+		$this->assign('host', $var[1]);
+
 		$this->display('./GLLogin/Signin/zui-master-me/Merchant/themeAdd.html');
 		
 	}
@@ -576,6 +580,8 @@ class AdsetController extends Controller {
 	{
 		
 		$imgPath = C('IMG_PATH');
+		$host = C('Hosts');
+		$var = explode("/", $host);
 		
 		if ($aid == 0)
 		{
@@ -609,7 +615,7 @@ class AdsetController extends Controller {
 				{
 					$Spicarr[$countS] = '/tp/application/admin/userfile/'.$shop.'/'.$order.'upload_file/'.$file.'?rank='.time();
 				}else {
-					$Spicarr[$countS] = '/project001/tp/application/admin/userfile/'.$shop.'/'.$order.'upload_file/'.$file.'?rank='.time();
+					$Spicarr[$countS] = '/'.$var[1].'/tp/application/admin/userfile/'.$shop.'/'.$order.'upload_file/'.$file.'?rank='.time();
 				}
 				
 				$countS++;	
@@ -653,6 +659,8 @@ class AdsetController extends Controller {
 	{
 		
 		$imgPath = C('IMG_PATH');
+		$host = C('Hosts');
+		$var = explode("/", $host);
 		$cc = I('post.cc');
 		$rr = I('post.rr');
 		
@@ -673,7 +681,7 @@ class AdsetController extends Controller {
 				{
 					$Lpicarr[$countL] = '/tp/application/admin/userfile/'.$result['uid'].'/'.$result['order'].'upload_file/'.$file.'?rank='.time();
 				}else{
-					$Lpicarr[$countL] = '/project001/tp/application/admin/userfile/'.$result['uid'].'/'.$result['order'].'upload_file/'.$file.'?rank='.time();
+					$Lpicarr[$countL] = '/'.$var[1].'/tp/application/admin/userfile/'.$result['uid'].'/'.$result['order'].'upload_file/'.$file.'?rank='.time();
 				}
 				
 				$countL++;
@@ -843,6 +851,8 @@ class AdsetController extends Controller {
 	public function showad3($aid)
 	{
 		$imgPath = C('IMG_PATH');
+		$host = C('Hosts');
+		$var = explode("/", $host);
 		$handle = M('adlist');
 		$condition['aid'] = $aid;
 		$result = $handle->where($condition)->find();
@@ -871,7 +881,7 @@ class AdsetController extends Controller {
 					{
 						$src = '/tp/application/admin/userfile/'.$result['uid'].'/'.$result['order'].'upload_file/'.$file.'?rank='.time();
 					}else {
-						$src = '/project001/tp/application/admin/userfile/'.$result['uid'].'/'.$result['order'].'upload_file/'.$file.'?rank='.time();
+						$src = '/'.$var[1].'/tp/application/admin/userfile/'.$result['uid'].'/'.$result['order'].'upload_file/'.$file.'?rank='.time();
 					}
 					
 					$Ipicarr[$countI] = array(
@@ -888,7 +898,7 @@ class AdsetController extends Controller {
 					{
 						$Lpicarr[$countL] = '/tp/application/admin/userfile/'.$result['uid'].'/'.$result['order'].'upload_file/'.$file.'?rank='.time();			
 					}else{
-						$Lpicarr[$countL] = '/project001/tp/application/admin/userfile/'.$result['uid'].'/'.$result['order'].'upload_file/'.$file.'?rank='.time();		
+						$Lpicarr[$countL] = '/'.$var[1].'/tp/application/admin/userfile/'.$result['uid'].'/'.$result['order'].'upload_file/'.$file.'?rank='.time();		
 					}
 					$countL++;
 					
@@ -929,6 +939,8 @@ class AdsetController extends Controller {
 	{
 		$aid = I('post.aid');
 		$imgPath = C('IMG_PATH');
+		$host = C('Hosts');
+		$var = explode("/", $host);
 		$handle = M('adlist');
 		$condition['aid'] = $aid;
 		$result = $handle->where($condition)->find();
@@ -950,7 +962,7 @@ class AdsetController extends Controller {
 				{
 					$Fpicarr[$countF] = '/tp/application/admin/userfile/'.$result['uid'].'/'.$result['order'].'upload_file/'.$file.'?rank='.time();
 				}else{
-					$Fpicarr[$countF] = '/project001/tp/application/admin/userfile/'.$result['uid'].'/'.$result['order'].'upload_file/'.$file.'?rank='.time();
+					$Fpicarr[$countF] = '/'.$var[1].'/tp/application/admin/userfile/'.$result['uid'].'/'.$result['order'].'upload_file/'.$file.'?rank='.time();
 				}
 					
 					$condition1['picname'] = $file;
@@ -1175,6 +1187,8 @@ class AdsetController extends Controller {
 	{
 	
 		$imgPath = C('IMG_PATH');
+		$host = C('Hosts');
+		$var = explode("/", $host);
 		$handle = M('adlist');
 		$hosts = C('Hosts');
 		
@@ -1186,7 +1200,7 @@ class AdsetController extends Controller {
 		{
 			$imgsrc = "/tp/application/admin/userfile/{$result['uid']}/{$result['order']}upload_file/L0.jpg?rank=".$call->getrandstr();
 		}else{
-			$imgsrc = "/project001/tp/application/admin/userfile/{$result['uid']}/{$result['order']}upload_file/L0.jpg?rank=".$call->getrandstr();
+			$imgsrc = "/{$var[1]}/tp/application/admin/userfile/{$result['uid']}/{$result['order']}upload_file/L0.jpg?rank=".$call->getrandstr();
 		}
 		
 		$url_upload = "http://{$hosts}/tp/application/admin/userfile/{$result['uid']}/{$result['order']}do_file_upload.php";
@@ -1243,12 +1257,14 @@ class AdsetController extends Controller {
 		$result = $handle->where($condition)->find();
 		$call = A('Publiccode');
 		$imgPath = C('IMG_PATH');
+		$host = C('Hosts');
+		$var = explode("/", $host);
 		
 		if ($imgPath == 0)
 		{
 			$Simgsrc = "/tp/application/admin/userfile/{$result['uid']}/{$result['order']}upload_file/S0.jpg?rank=".$call->getrandstr();
 		}else{
-			$Simgsrc = "/project001/tp/application/admin/userfile/{$result['uid']}/{$result['order']}upload_file/S0.jpg?rank=".$call->getrandstr();
+			$Simgsrc = "/{$var[1]}/tp/application/admin/userfile/{$result['uid']}/{$result['order']}upload_file/S0.jpg?rank=".$call->getrandstr();
 		}
 		
 		$url_upload = "http://{$hosts}/tp/application/admin/userfile/{$result['uid']}/{$result['order']}do_file_upload.php";
@@ -1374,6 +1390,8 @@ class AdsetController extends Controller {
 	public function adset_after($aid)
 	{
 		$imgPath = C('IMG_PATH');
+		$host = C('Hosts');
+		$var = explode("/", $host);
 		$handle = M('adlist');
 		$condition['aid'] = $aid;
 		$result = $handle->where($condition)->find();
@@ -1399,7 +1417,7 @@ class AdsetController extends Controller {
 						{
 							$src = "/tp/application/admin/userfile/{$result['uid']}/{$result['order']}upload_file/{$file}?rank=".$call->getrandstr();
 						}else{
-							$src = "/project001/tp/application/admin/userfile/{$result['uid']}/{$result['order']}upload_file/{$file}?rank=".$call->getrandstr();
+							$src = "/{$var[1]}/tp/application/admin/userfile/{$result['uid']}/{$result['order']}upload_file/{$file}?rank=".$call->getrandstr();
 						}
 						$Fpicarr[$countF] = array(
 							src => $src,
@@ -1415,7 +1433,7 @@ class AdsetController extends Controller {
 						{
 							$src = "/tp/application/admin/userfile/{$result['uid']}/{$result['order']}upload_file/{$file}?rank=".$call->getrandstr();
 						}else{
-							$src = "/project001/tp/application/admin/userfile/{$result['uid']}/{$result['order']}upload_file/{$file}?rank=".$call->getrandstr();
+							$src = "/{$var[1]}/tp/application/admin/userfile/{$result['uid']}/{$result['order']}upload_file/{$file}?rank=".$call->getrandstr();
 						}
 						
 						$Ipicarr[$counti] = array(
@@ -1534,6 +1552,8 @@ class AdsetController extends Controller {
 		$magnetWord = I('post.magnetWord');
 		$magnetURL = I('post.magnetURL');
 		$imgPath = C('IMG_PATH');
+		$host = C('Hosts');
+		$var = explode("/", $host);
 		
 		$call = A('Publiccode');
 		$uid = $call->check_valid_user();
@@ -1566,7 +1586,7 @@ class AdsetController extends Controller {
 					{
 						$src = "/tp/application/admin/userfile/{$uid}/{$head}upload_file/{$after}?rank=".$call->getrandstr();
 					}else{
-						$src = "/Project001/tp/application/admin/userfile/{$uid}/{$head}upload_file/{$after}?rank=".$call->getrandstr();
+						$src = "/{$var[1]}/tp/application/admin/userfile/{$uid}/{$head}upload_file/{$after}?rank=".$call->getrandstr();
 					}
 				
 					$response['data'] = array(
@@ -1648,7 +1668,7 @@ class AdsetController extends Controller {
 				{
 					$src = "/tp/application/admin/userfile/{$uid}/{$head}upload_file/{$after}?rank=".$call->getrandstr();
 				}else{
-					$src = "/project001/tp/application/admin/userfile/{$uid}/{$head}upload_file/{$after}?rank=".$call->getrandstr();
+					$src = "/{$var[1]}/tp/application/admin/userfile/{$uid}/{$head}upload_file/{$after}?rank=".$call->getrandstr();
 				}
 				
 				$response['data'] = array(
