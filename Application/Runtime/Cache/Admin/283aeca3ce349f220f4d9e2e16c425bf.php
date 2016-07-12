@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="/Project001/TP/Public/dist/js/jquery-1.11.0.min.js"></script>
+    <script src="/project001/tp/Public/dist/js/jquery-1.11.0.min.js"></script>
     <title></title>
     <style>
       /*------------------------移动端（2016/1/12）适用于手机---------------------------------------------*/
@@ -104,6 +104,7 @@
   <form action="../../../../showad2/aid/<?php echo ($aid); ?>" method="post">
   	<input type='hidden' name='rr' value='<?php echo ($rr); ?>'/>
   	<input type='hidden' name='cc' value='<?php echo ($cc); ?>'/>
+  	<input type='hidden' name='aa' value='<?php echo ($aa); ?>' />
   	<input type='submit' id="welButton" class="welButton" value="<?php echo ($fbtntext); ?>"/>
   </form>
   	

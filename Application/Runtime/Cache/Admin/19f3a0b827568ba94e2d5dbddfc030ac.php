@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link type="text/css" rel="stylesheet" href="/Project001/TP/Public/dist/css/zui.min.css">
-    <script src="/Project001/TP/Public/dist/js/jquery-1.11.0.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="/project001/tp/Public/dist/css/zui.min.css">
+    <script src="/project001/tp/Public/dist/js/jquery-1.11.0.min.js"></script>
     
-    	<script type="text/javascript" src="/Project001/TP/Public/AjaxJs/Base.js"></script>
-		<script type="text/javascript" src="/Project001/TP/Public/AjaxJs/prototype.js"></script>
-		<script type="text/javascript" src="/Project001/TP/Public/AjaxJs/mootools.js"></script>
-		<script type="text/javascript" src="/Project001/TP/Public/AjaxJs/Ajax/ThinkAjax.js"></script>
-		<script type="text/javascript" src="/Project001/TP/Public/AjaxJs/Form/CheckForm.js"></script>
+    	<script type="text/javascript" src="/project001/tp/Public/AjaxJs/Base.js"></script>
+		<script type="text/javascript" src="/project001/tp/Public/AjaxJs/prototype.js"></script>
+		<script type="text/javascript" src="/project001/tp/Public/AjaxJs/mootools.js"></script>
+		<script type="text/javascript" src="/project001/tp/Public/AjaxJs/Ajax/ThinkAjax.js"></script>
+		<script type="text/javascript" src="/project001/tp/Public/AjaxJs/Form/CheckForm.js"></script>
     
     <style>
 		
@@ -140,7 +140,7 @@
           width: 280px;
           height: 300px;
           margin: 10px auto;
-          background:url("/Project001/TP/Public/images/tieshi2.png") no-repeat;
+          background:url("/project001/tp/Public/images/tieshi2.png") no-repeat;
           border-radius: 4px;
           padding-top: 40px;
           padding-left: 30px;
@@ -266,7 +266,7 @@
           width: 500px;
           height: 400px;
           margin: 20px auto;
-          background:url("/Project001/TP/Public/images/tieshi.png");
+          background:url("/project001/tp/Public/images/tieshi.png");
           border-radius: 4px;
           padding-top: 120px;
           padding-left: 40px;
@@ -462,6 +462,8 @@
 			if(status==1)
 				{
 					window.location.href = "../../showad3/aid/<?php echo ($aid); ?>";
+				}else{
+					alert("验证失败");
 				}
 			}
 	

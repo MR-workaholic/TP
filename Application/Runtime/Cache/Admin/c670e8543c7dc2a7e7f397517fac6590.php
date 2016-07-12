@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link type="text/css" rel="stylesheet" href="/Project001/tp/Public/dist/css/zui.min.css">
-    <script src="/Project001/tp/Public/dist/js/jquery-1.11.0.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="/project001/tp/Public/dist/css/zui.min.css">
+    <script src="/project001/tp/Public/dist/js/jquery-1.11.0.min.js"></script>
     
-    <script type="text/javascript" src="/Project001/tp/Public/AjaxJs/Base.js"></script>
-	<script type="text/javascript" src="/Project001/tp/Public/AjaxJs/prototype.js"></script>
-	<script type="text/javascript" src="/Project001/tp/Public/AjaxJs/mootools.js"></script>
-	<script type="text/javascript" src="/Project001/tp/Public/AjaxJs/Ajax/ThinkAjax.js"></script>
-	<script type="text/javascript" src="/Project001/tp/Public/AjaxJs/Form/CheckForm.js"></script>
+    <script type="text/javascript" src="/project001/tp/Public/AjaxJs/Base.js"></script>
+	<script type="text/javascript" src="/project001/tp/Public/AjaxJs/prototype.js"></script>
+	<script type="text/javascript" src="/project001/tp/Public/AjaxJs/mootools.js"></script>
+	<script type="text/javascript" src="/project001/tp/Public/AjaxJs/Ajax/ThinkAjax.js"></script>
+	<script type="text/javascript" src="/project001/tp/Public/AjaxJs/Form/CheckForm.js"></script>
 	
     <style>
       body{

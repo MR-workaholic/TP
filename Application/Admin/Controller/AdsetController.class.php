@@ -289,13 +289,17 @@ class AdsetController extends Controller {
   	 * $shop: 用户的id（$uid）
   	 */
   	
-  	public function showADbyMac($shop, $mac=0)
+  	public function showADbyMac($shop, $mac)
   	{
-  		$c = I('get.c'); // 终端MAC
-  		$c = '1232243543546';
-  		$r = I('get.r'); // 路由MAC
-  		$r = '14324343213';
-  		$a = I('get.a'); // 是否认证
+  		
+  		
+  		$r = I('get.rr'); // 路由MAC
+  		$c = I('get.cc'); // 终端MAC
+  		$a = I('get.aa'); // 是否认证
+
+  		
+//   		var_dump($_GET);
+
   	
   		
   		if (!$mac)
@@ -317,7 +321,7 @@ class AdsetController extends Controller {
   				$handle2 = M('adlist');
   				$condition2['aid'] =  $result;
   				$shop = $handle2->where($condition2)->getField('uid');
-  				$this->showad($shop, $result, $c, $r);
+  				$this->showad($shop, $result, $c, $mac, $a);
   			}
   			
   		}else {
@@ -332,7 +336,7 @@ class AdsetController extends Controller {
   				{
   					$this->showad3($result1);
   				}else{
-  					$this->showad($shop, $result1, $c, $r);
+  					$this->showad($shop, $result1, $c, $mac, $a);
   				}
   				
   			}else {
@@ -576,7 +580,7 @@ class AdsetController extends Controller {
 	 * $shop:用户的id（uid）
 	 * $aid: 广告的id,为0的时候是展现当前设置的默认广告，否则是展现相应的广告
 	 */
-	public function showad($shop, $aid, $c=0, $r=0)
+	public function showad($shop, $aid, $c=0, $r=0, $a=3)
 	{
 		
 		$imgPath = C('IMG_PATH');
@@ -644,6 +648,7 @@ class AdsetController extends Controller {
 		$this->assign('aid', $aid);
 		$this->assign('cc', $c);
 		$this->assign('rr', $r);
+		$this->assign('aa',$a);
 		
 		$this->display($str);
 	}
@@ -774,24 +779,26 @@ class AdsetController extends Controller {
 		$phoneNumber = I('post.pn');
 		$cc = I('post.cc');
 		$rr = I('post.rr');
-// 		$call = A('Publiccode');
+		$call = A('Publiccode');
 
-// 		$json = array(
-// 			"op" => "sendSms",
-// 			"obj" => array(
-// 					"ClientName" => $phoneNumber,
-// 					"ClientMac"  => $cc,
-// 					"RouterMac"  => $rr
-// 					)	
+		$json = array(
+			"op" => "sendSms",
+			"obj" => array(
+					"ClientName" => $phoneNumber,
+					"ClientMac"  => $cc,
+					"RouterMac"  => $rr
+					)	
 			
-// 		);
+		);
 		
-// 		$json = json_encode($json);
-// 		$call->ClientHandle($json);
+		$json = json_encode($json);
+		
+		$res = $call->ClientHandle($json);
 
 		$response['data']['cc'] = $cc;
 		$response['data']['rr'] = $rr;
 		$response['data']['phoneNumber'] = $phoneNumber;
+		$response['data']['res'] = $res;
 	
 		$response['status'] = 1;
 		$response['info'] = '';
@@ -811,34 +818,37 @@ class AdsetController extends Controller {
 		$reg = I('post.reg');
 		$hosts = C('Hosts');
 		
-// 	    $call = A('Publiccode');
+	    $call = A('Publiccode');
 		
-// 		$json = array(
-// 			"op" => "reg",
-// 			"obj" => array(
-// 					"ClientName" => $phoneNumber,
-// 					"ClientMac"  => $cc,
-// 					"RouterMac"  => $rr,
-// 					"SmsVerify"  => $reg
-// 					)
+		$json = array(
+			"op" => "reg",
+			"obj" => array(
+					"ClientName" => $phoneNumber,
+					"ClientMac"  => $cc,
+					"RouterMac"  => $rr,
+					"SmsVerify"  => $reg
+					)
 			
-// 		);
+		);
 		
-// 		$json = json_encode($json);
-// 		$call->ClientHandle($json);
+		$json = json_encode($json);
+		$res = $call->ClientHandle($json);
 
 		$response['data']['cc'] = $cc;
 		$response['data']['rr'] = $rr;
 		$response['data']['phoneNumber'] = $phoneNumber;
 		$response['data']['reg'] = $reg;
 
+		if($res)
+		{
+			$response['status'] = 1;
+		}else{
+			$response['status'] = 1;
+		}
 		
-		$response['status'] = 1;
 		$response['info'] = '';
 		$response['type'] = 'JSON';
-		$this->ajaxReturn($response,'JSON');
-		
-		
+		$this->ajaxReturn($response,'JSON');		
 		
 	}
 	
